@@ -4,10 +4,10 @@ class FlowField {
     // needs a static background to see the traces - needs creategraphics()
     constructor(custom_width, custom_height) {
         this.inc = 0.1;
-        this.scl = 10;
+        this.scl = 100;
         this.numberParticles = 300
 
-        this.buffer = createGraphics(custom_width, custom_height);
+        // this.buffer = createGraphics(custom_width, custom_height);
 
         this.particles = [];
         this.create_grid();
@@ -15,15 +15,15 @@ class FlowField {
     }
 
     create_grid() {
-        this.cols = floor(this.buffer.width / this.scl);
-        this.rows = floor(this.buffer.height / this.scl);
+        this.cols = floor(exportPaper.width / this.scl);
+        this.rows = floor(exportPaper.height / this.scl);
 
         this.flowfield = new Array(this.cols * this.rows);
     }
 
     create_particles() {
         for (var i = 0; i < this.numberParticles; i++) {
-            this.particles[i] = new FlowFieldParticle(this.buffer, this.scl, this.cols);
+            this.particles[i] = new FlowFieldParticle(this.scl, this.cols);
         }
     }
 
@@ -63,18 +63,17 @@ class FlowField {
         }
 
         this.update_particles();
-        return this.buffer
     }
 }
 
 
 class FlowFieldParticle {
-    constructor(buffer, scl, cols) {
-        this.buffer = buffer;
+    constructor(scl, cols) {
+        // this.buffer = buffer;
         this.scl = scl;
         this.cols = cols;
 
-        this.pos = createVector(getRandomFromInterval(0, this.buffer.width), getRandomFromInterval(0, this.buffer.height));
+        this.pos = createVector(getRandomFromInterval(0, exportPaper.width), getRandomFromInterval(0, exportPaper.height));
         this.vel = createVector(0, 0);
         this.acc = createVector(0, 0);
         this.maxspeed = 4;
@@ -101,12 +100,13 @@ class FlowFieldParticle {
     }
 
     show() {
-        this.buffer.push();
-        this.buffer.stroke(255, 5);  // 255, 10
-        this.buffer.strokeWeight(1);  // 1
-        // this.buffer.point(this.pos.x, this.pos.y);
-        this.buffer.line(this.pos.x, this.pos.y, this.prevPos.x, this.prevPos.y);
-        this.buffer.pop();
+        buffer.push();
+        buffer.stroke(30);  // 255, 10
+        // buffer.stroke(255, 5);  // 255, 10
+        buffer.strokeWeight(10 / exportRatio);
+        // buffer.point(this.pos.x, this.pos.y);
+        buffer.line(this.pos.x / exportRatio, this.pos.y / exportRatio, this.prevPos.x / exportRatio, this.prevPos.y / exportRatio);
+        buffer.pop();
         this.updatePrev();
     }
 
@@ -116,20 +116,20 @@ class FlowFieldParticle {
     }
 
     edges() {
-        if (this.pos.x > this.buffer.width) {
+        if (this.pos.x > exportPaper.width) {
             this.pos.x = 0;
             this.updatePrev();
         }
         if (this.pos.x < 0) {
-            this.pos.x = this.buffer.width;
+            this.pos.x = exportPaper.width;
             this.updatePrev();
         }
-        if (this.pos.y > this.buffer.height) {
+        if (this.pos.y > exportPaper.height) {
             this.pos.y = 0;
             this.updatePrev();
         }
         if (this.pos.y < 0) {
-            this.pos.y = this.buffer.height;
+            this.pos.y = exportPaper.height;
             this.updatePrev();
         }
 
