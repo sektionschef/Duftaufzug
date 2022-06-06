@@ -89,8 +89,9 @@ function get_dirty(
     let opacityValue = 255;
 
     let scl = 100;
-    let cols = floor(exportPaper.width / scl);
-    let rows = floor(exportPaper.height / scl);
+    let cols = exportPaper.width / scl;
+    console.log(cols);
+    let rows = exportPaper.height / scl;
 
 
     let zoff = 0;
@@ -98,24 +99,23 @@ function get_dirty(
     for (var y = 0; y < rows; y++) {
         var xoff = 0;
         for (var x = 0; x < cols; x++) {
-            var index = x + y * cols;
-
-            // let yoff = 0;
-            // for (let y = 0; y < exportPaper.height; y++) {
-            //     let xoff = 0;
-            //     for (let x = 0; x < exportPaper.width; x++) {
-            //         let index = (x + y * exportPaper.width) * 4;
 
             // mix colors
             let r = noise(xoff, yoff, zoff);
 
+            // dummy
+            // buffer.push();
+            // buffer.translate(0, 0);
+            // buffer.rect(0, 0, 200, 200);
+            // buffer.pop();
+
             buffer.push();
-            buffer.translate(x * cols / exportRatio, y * rows / exportRatio);
-            // buffer.noFill();
-            buffer.fill(133, r * 255);
-            buffer.stroke(100, 10);
+            buffer.translate(x * scl / exportRatio, y * scl / exportRatio);
+            buffer.noFill();
+            // buffer.fill(133, r * 255);
+            buffer.stroke(10, 255);
             // buffer.noStroke();
-            buffer.rect(0, 0, 10, 10);
+            buffer.rect(0, 0, scl / exportRatio, scl / exportRatio);
             buffer.pop();
 
             xoff += inc;

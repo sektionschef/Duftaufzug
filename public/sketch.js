@@ -70,7 +70,7 @@ function draw() {
   // buffer.rect(0, 0, 60 / exportRatio, 60 / exportRatio);
   // buffer.pop();
 
-  image(buffer, -width / 2, - height / 2);
+  image(buffer, - width / 2, - height / 2);
 
   noLoop();
   // fxpreview()
