@@ -83,40 +83,38 @@ function get_dirty(
     // noiseDetail(noiseDetailLod, noiseDetailFalloff);
     // let buffer = createGraphics(custom_width, custom_height);
 
-    let colorObject1 = color("red");
-    let colorObject2 = color("blue");
-    let inc = 0.1;
-    let opacityValue = 255;
+    let inc = 0.02;
+    let opacityValue = 5;
+    let scl = 20;  // size of the cell
+    let distortion = 5;  // random misplacement
+    let amountMax = 20; // how many rects per cell, max
 
-    let scl = 100;
     let cols = exportPaper.width / scl;
-    console.log(cols);
     let rows = exportPaper.height / scl;
 
-
-    let zoff = 0;
     var yoff = 0;
     for (var y = 0; y < rows; y++) {
         var xoff = 0;
         for (var x = 0; x < cols; x++) {
 
             // mix colors
-            let r = noise(xoff, yoff, zoff);
+            let r = noise(xoff, yoff);
 
-            // dummy
-            // buffer.push();
-            // buffer.translate(0, 0);
-            // buffer.rect(0, 0, 200, 200);
-            // buffer.pop();
+            for (var amount = 0; amount < r * amountMax; amount++) {
+                buffer.push();
+                buffer.translate(x * scl / exportRatio + getRandomFromInterval(0, distortion), y * scl / exportRatio + getRandomFromInterval(0, distortion));
 
-            buffer.push();
-            buffer.translate(x * scl / exportRatio, y * scl / exportRatio);
-            buffer.noFill();
-            // buffer.fill(133, r * 255);
-            buffer.stroke(10, 255);
-            // buffer.noStroke();
-            buffer.rect(0, 0, scl / exportRatio, scl / exportRatio);
-            buffer.pop();
+
+                // buffer.noFill();
+                // buffer.fill(33, r * 255);
+                buffer.fill(10, opacityValue);
+
+                // buffer.strokeWeight(1 / exportRatio);
+                // buffer.stroke(10, 5);
+                buffer.noStroke();
+                buffer.rect(0, 0, scl / exportRatio, scl / exportRatio);
+                buffer.pop();
+            }
 
             xoff += inc;
         }
