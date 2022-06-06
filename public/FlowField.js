@@ -48,14 +48,14 @@ class FlowField {
                 v.setMag(1);
                 this.flowfield[index] = v;
                 xoff += this.inc;
-                // push();
-                // stroke(0, 50);
+                buffer.push();
+                buffer.stroke(0, 50);
 
-                // translate(x * this.scl, y * this.scl);
-                // rotate(v.heading());
-                // strokeWeight(1);
-                // line(0, 0, this.scl, 0);
-                // pop();
+                buffer.translate(x * this.scl / exportRatio, y * this.scl / exportRatio);
+                buffer.rotate(v.heading());
+                buffer.strokeWeight(1);
+                buffer.line(0, 0, this.scl / exportRatio, 0);
+                buffer.pop();
             }
             yoff += this.inc;
 

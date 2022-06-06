@@ -39,7 +39,7 @@ function setup() {
 
   noiseSeed(NOISESEED);
 
-  flowfield = new FlowField(exportPaper.width, exportPaper.height);
+  // flowfield = new FlowField(exportPaper.width, exportPaper.height);
 
 }
 
@@ -55,7 +55,10 @@ function draw() {
 
   buffer.background(150);
 
-  flowfield.update_noise()
+  // flowfield.update_noise()
+
+  // create_noise_fog();
+  get_dirty();
 
   // document
   // absolute value / exportRatio
@@ -69,7 +72,7 @@ function draw() {
 
   image(buffer, -width / 2, - height / 2);
 
-  // noLoop();
+  noLoop();
   // fxpreview()
 
   // console.info("safety check for diff resolutions same hash: " + fxrand());
