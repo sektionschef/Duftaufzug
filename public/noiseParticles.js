@@ -45,7 +45,7 @@ class noiseParticles {
         }
     }
 
-    showAll() {
+    drawAll() {
 
         for (var particle of this.particles) {
             // console.log(this.particles);

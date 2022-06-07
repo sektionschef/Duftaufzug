@@ -1,16 +1,17 @@
 
 class Shape {
 
-    constructor() {
+    constructor(data) {
 
-        this.radio = 450;
-        this.radioDistortion = 200;  // misplacement
-        this.polygonCount = 10;
-        this.opacityValue = 9;
-        this.margin = 500;
-        this.curveTightness = -3;
-        this.solidColorStroke = 130;
-        this.solidColorArea = 200;
+        this.radio = data.radio;
+        this.radioDistortion = data.radioDistortion;
+        this.polygonCount = data.polygonCount;
+        this.opacityValue = data.opacityValue;
+        this.margin = data.margin;
+        this.curveTightness = data.curveTightness;
+        this.noColorStroke = data.noColorStroke;
+        this.solidColorStroke = data.solidColorStroke;
+        this.solidColorArea = data.solidColorArea;
 
         this.polygons = [];
         this.origin = createVector(getRandomFromInterval(0 + this.margin, exportPaper.width - this.margin), getRandomFromInterval(0 + this.margin, exportPaper.height - this.margin));
@@ -36,8 +37,11 @@ class Shape {
         buffer.push();
         buffer.curveTightness(this.curveTightness)
 
-        // buffer.noStroke();
-        buffer.stroke(color(this.solidColorStroke, this.opacityValue));
+        if (this.noColorStroke == true) {
+            buffer.noStroke();
+        } else {
+            buffer.stroke(color(this.solidColorStroke, this.opacityValue));
+        }
 
         // buffer.noFill();
         buffer.fill(color(this.solidColorArea, this.opacityValue));
@@ -75,5 +79,46 @@ class Shape {
             buffer.pop();
         }
 
+    }
+}
+
+class Shapes {
+    constructor(data) {
+        this.shapeCount = data.shapeCount;
+        this.radio = data.radio; // size
+        this.radioDistortion = data.radioDistortion;  // misplacement
+        this.polygonCount = data.polygonCount;  // how many overlapping polygons to draw
+        this.opacityValue = data.opacityValue;
+        this.margin = data.margin;  // distance from edge
+        this.curveTightness = data.curveTightness;
+        this.noColorStroke = data.noColorStroke;
+        this.solidColorStroke = data.solidColorStroke;
+        this.solidColorArea = data.solidColorArea;
+
+        this.shapes = []
+
+        for (var i = 0; i < this.shapeCount; i++) {
+
+            var data = {
+                radio: this.radio,
+                radioDistortion: this.radioDistortion,
+                polygonCount: this.polygonCount,
+                opacityValue: this.opacityValue,
+                margin: this.margin,
+                curveTightness: this.curveTightness,
+                noColorStroke: this.noColorStroke,
+                solidColorStroke: this.solidColorStroke,
+                solidColorArea: this.solidColorArea,
+            }
+
+            this.shapes.push(new Shape(data));
+        }
+
+    }
+
+    drawAll() {
+        for (var shape of this.shapes) {
+            shape.draw();
+        }
     }
 }

@@ -51,9 +51,36 @@ function setup() {
     margin: 200, // distance to the edge
   }
 
+  lightShapeData = {
+    shapeCount: 10, // number of shapes
+    radio: 450, // size
+    radioDistortion: 200,  // misplacement
+    polygonCount: 10,  // how many overlapping polygons to draw
+    opacityValue: 10,
+    margin: 500,  // distance from edge
+    curveTightness: -3,
+    noColorStroke: false,
+    solidColorStroke: 130,
+    solidColorArea: 200,
+  }
+
+  darkShapeData = {
+    shapeCount: 2, // number of shapes
+    radio: 1000, // size
+    radioDistortion: 80,  // misplacement
+    polygonCount: 3,  // how many overlapping polygons to draw
+    opacityValue: 190,
+    margin: 1200,  // distance from edge
+    curveTightness: 1,
+    noColorStroke: true,
+    solidColorStroke: 20,
+    solidColorArea: 50,
+  }
+
   wall = new noiseParticles(noiseParticlesData);
 
-  shape = new Shape();
+  darkShapes = new Shapes(darkShapeData);
+  lightShapes = new Shapes(lightShapeData);
 
 }
 
@@ -70,8 +97,9 @@ function draw() {
   buffer.background(BACKGROUNDCOLOR);
 
 
-  wall.showAll();
-  shape.draw();
+  wall.drawAll();
+  lightShapes.drawAll();
+  darkShapes.drawAll();
 
   // document
   // absolute value / exportRatio
