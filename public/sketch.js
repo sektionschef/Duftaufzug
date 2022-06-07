@@ -53,6 +53,8 @@ function setup() {
 
   wall = new noiseParticles(noiseParticlesData);
 
+  shape = new Shape();
+
 }
 
 
@@ -69,7 +71,7 @@ function draw() {
 
 
   wall.showAll();
-  draw_shape();
+  shape.draw();
 
   // document
   // absolute value / exportRatio
