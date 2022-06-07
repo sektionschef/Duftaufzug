@@ -9,6 +9,8 @@ console.info("fxhash: " + fxhash);
 NOISESEED = hashFnv32a(fxhash);
 logging.debug("Noise seed: " + NOISESEED);
 
+let BACKGROUNDCOLOR = 120;
+
 let scaleRatio;
 let exportRatio;
 let buffer;
@@ -39,6 +41,8 @@ function setup() {
 
   noiseSeed(NOISESEED);
 
+  wall = new noiseParticles();
+
 }
 
 
@@ -51,10 +55,10 @@ function draw() {
   buffer.clear();
   buffer.scale(scaleRatio);
 
-  buffer.background(150);
+  buffer.background(BACKGROUNDCOLOR);
 
 
-  get_dirty();
+  wall.showAll();
   draw_shape();
 
   // document
