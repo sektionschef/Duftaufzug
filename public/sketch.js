@@ -41,7 +41,17 @@ function setup() {
 
   noiseSeed(NOISESEED);
 
-  wall = new noiseParticles();
+  noiseParticlesData = {
+    inc: 0.02,  // noise increase for perlin noise
+    colorSolid: 20,  // color of the boxes
+    opacityValue: 5,  // opacity of boxes
+    scl: 20,  // size of the cell, boxes
+    distortion: 30,  // random misplacement of the boxes
+    amountMax: 10, // how many rects per cell, max
+    margin: 200, // distance to the edge
+  }
+
+  wall = new noiseParticles(noiseParticlesData);
 
 }
 

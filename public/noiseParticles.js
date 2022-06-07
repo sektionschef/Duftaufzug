@@ -1,55 +1,47 @@
 class noiseParticles {
 
-    constructor(
-        // custom_width,
-        // custom_height,
-        // colorObject1,
-        // colorObject2,
-        // inc,
-        // noiseDetailLod,
-        // noiseDetailFalloff,
-        // opacityValue,
-    ) {
+    constructor(data) {
 
         // noiseDetail(noiseDetailLod, noiseDetailFalloff);
 
-        let inc = 0.02;
-        let opacityValue = 5;
-        let scl = 20;  // size of the cell
-        let distortion = 30;  // random misplacement
-        let amountMax = 20; // how many rects per cell, max
-        let margin = 200 // distance to the edge
+        this.inc = data.inc;
+        this.colorSolid = data.colorSolid;
+        this.opacityValue = data.opacityValue;
+        this.scl = data.scl;
+        this.distortion = data.distortion;
+        this.amountMax = data.amountMax;
+        this.margin = data.margin;
 
-        let cols = (exportPaper.width - 2 * margin) / scl;
-        let rows = (exportPaper.height - 2 * margin) / scl;
+        this.cols = (exportPaper.width - 2 * this.margin) / this.scl;
+        this.rows = (exportPaper.height - 2 * this.margin) / this.scl;
 
         this.particles = []
 
         var yoff = 0;
-        for (var y = 0; y < rows; y++) {
+        for (var y = 0; y < this.rows; y++) {
             var xoff = 0;
-            for (var x = 0; x < cols; x++) {
+            for (var x = 0; x < this.cols; x++) {
 
                 // mix colors
                 let r = noise(xoff, yoff);
 
-                for (var amount = 0; amount < r * amountMax; amount++) {
+                for (var amount = 0; amount < r * this.amountMax; amount++) {
 
                     this.particles.push(
                         {
-                            posX: (margin + x * scl) + getRandomFromInterval(0, distortion),
-                            posY: (margin + y * scl) + getRandomFromInterval(0, distortion),
-                            colorObject: color(10, opacityValue),
-                            width: scl,
-                            height: scl
+                            posX: (this.margin + x * this.scl) + getRandomFromInterval(0, this.distortion),
+                            posY: (this.margin + y * this.scl) + getRandomFromInterval(0, this.distortion),
+                            colorObject: color(this.colorSolid, this.opacityValue),
+                            width: this.scl,
+                            height: this.scl
 
                         }
                     )
                 }
 
-                xoff += inc;
+                xoff += this.inc;
             }
-            yoff += inc;
+            yoff += this.inc;
         }
     }
 
