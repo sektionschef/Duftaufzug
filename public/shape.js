@@ -2,6 +2,9 @@
 function draw_shape() {
 
     let radio = 450;
+    let radioDistortion = 200;
+    let polygonCount = 30;
+    let opacityValue = 9;
 
     var origin = createVector(getRandomFromInterval(0, exportPaper.width), getRandomFromInterval(0, exportPaper.height));
     buffer.push();
@@ -25,19 +28,22 @@ function draw_shape() {
 
     buffer.push();
     buffer.curveTightness(-3)
-    buffer.noFill();
-    buffer.beginShape();
-    // buffer.curveVertex(84, 91);
-    // buffer.curveVertex(68, 19);
-    // buffer.curveVertex(21, 17);
-    // buffer.curveVertex(32, 91);
 
-    buffer.curveVertex(rightUp.x / exportRatio, rightUp.y / exportRatio);
-    buffer.curveVertex(rightDown.x / exportRatio, rightDown.y / exportRatio);
-    buffer.curveVertex(leftDown.x / exportRatio, leftDown.y / exportRatio);
-    buffer.curveVertex(leftUp.x / exportRatio, leftUp.y / exportRatio);
-    buffer.endShape(CLOSE);
+    // buffer.noStroke();
+    buffer.stroke(color(130, opacityValue));
+
+    // buffer.noFill();
+    buffer.fill(color(200, opacityValue));
+
+    for (var i = 0; i < polygonCount; i++) {
+        buffer.beginShape();
+        buffer.curveVertex((rightUp.x + getRandomFromInterval(0, radioDistortion)) / exportRatio, (rightUp.y + getRandomFromInterval(0, radioDistortion)) / exportRatio);
+        buffer.curveVertex((rightDown.x + getRandomFromInterval(0, radioDistortion)) / exportRatio, (rightDown.y + getRandomFromInterval(0, radioDistortion)) / exportRatio);
+        buffer.curveVertex((leftDown.x + getRandomFromInterval(0, radioDistortion)) / exportRatio, (leftDown.y + getRandomFromInterval(0, radioDistortion)) / exportRatio);
+        buffer.curveVertex((leftUp.x + getRandomFromInterval(0, radioDistortion)) / exportRatio, (leftUp.y + getRandomFromInterval(0, radioDistortion)) / exportRatio);
+        buffer.endShape(CLOSE);
+    }
     buffer.pop();
 
-    // console.log("aoiasdfaf")
+
 }

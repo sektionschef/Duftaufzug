@@ -88,9 +88,10 @@ function get_dirty(
     let scl = 20;  // size of the cell
     let distortion = 5;  // random misplacement
     let amountMax = 20; // how many rects per cell, max
+    let margin = 200 // distance to the edge
 
-    let cols = exportPaper.width / scl;
-    let rows = exportPaper.height / scl;
+    let cols = (exportPaper.width - 2 * margin) / scl;
+    let rows = (exportPaper.height - 2 * margin) / scl;
 
     var yoff = 0;
     for (var y = 0; y < rows; y++) {
@@ -102,7 +103,7 @@ function get_dirty(
 
             for (var amount = 0; amount < r * amountMax; amount++) {
                 buffer.push();
-                buffer.translate(x * scl / exportRatio + getRandomFromInterval(0, distortion), y * scl / exportRatio + getRandomFromInterval(0, distortion));
+                buffer.translate((margin + x * scl) / exportRatio + getRandomFromInterval(0, distortion), (margin + y * scl) / exportRatio + getRandomFromInterval(0, distortion));
 
 
                 // buffer.noFill();

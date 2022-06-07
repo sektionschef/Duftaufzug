@@ -53,7 +53,9 @@ function draw() {
 
   buffer.background(150);
 
-  // get_dirty();
+
+  get_dirty();
+  draw_shape();
 
   // document
   // absolute value / exportRatio
@@ -64,8 +66,6 @@ function draw() {
   // buffer.translate(getRandomFromInterval(exportPaper.width / 2, exportPaper.width) / exportRatio, 2000 / exportRatio);
   // buffer.rect(0, 0, 60 / exportRatio, 60 / exportRatio);
   // buffer.pop();
-
-  draw_shape();
   image(buffer, - width / 2, - height / 2);
 
 
