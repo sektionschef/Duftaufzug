@@ -63,11 +63,11 @@ function setup() {
   duftShapeData = {
     buffer: duftShapeBuffer,
     shapeCount: 1, // number of shapes
-    radioMin: 500, // size
+    radioMin: 600, // size
     radioMax: 800, // size
-    radioDistortion: 80,  // misplacement
-    polygonCount: 6,  // how many overlapping polygons to draw
-    opacityValue: 80,
+    radioDistortion: 180,  // misplacement
+    polygonCount: 16,  // how many overlapping polygons to draw
+    opacityValue: 30,
     margin: 1200,  // distance from edge
     curveTightness: 1,
     noColorStroke: true,
@@ -81,12 +81,12 @@ function setup() {
   // mask
   duftTextureData = {
     buffer: duftTextureBuffer,
-    inc: 0.3,  // noise increase for perlin noise
+    inc: 0.01,  // noise increase for perlin noise
     colorSolid: 0,  // color of the boxes
-    opacityValue: 5,  // opacity of boxes
-    scl: 50,  // size of the cell, boxes
-    distortion: 30,  // random misplacement of the boxes
-    amountMax: 5, // how many rects per cell, max
+    opacityValue: 10,  // opacity of boxes
+    scl: 10,  // size of the cell, boxes
+    distortion: 60,  // random misplacement of the boxes
+    amountMax: 30, // how many rects per cell, max
     margin: 0, // distance to the edge
   }
 
