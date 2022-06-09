@@ -37,7 +37,10 @@ function setup() {
   buffer = createGraphics(rescaling_width, rescaling_height);
 
   wallBuffer = createGraphics(rescaling_width, rescaling_height);
-  maskBuffer = createGraphics(rescaling_width, rescaling_height);
+  highlightShapeBuffer = createGraphics(rescaling_width, rescaling_height);
+  duftTextureBuffer = createGraphics(rescaling_width, rescaling_height);
+  duftShapeBuffer = createGraphics(rescaling_width, rescaling_height);
+
 
   logging.debug("Pixel density: " + pixelDensity())
   exportRatio /= pixelDensity();  // FOR EACH BUFFER??
@@ -46,10 +49,10 @@ function setup() {
 
   wallData = {
     buffer: wallBuffer,
-    inc: 0.03,  // noise increase for perlin noise
+    inc: 0.009,  // noise increase for perlin noise
     colorSolid: 10,  // color of the boxes
     opacityValue: 5,  // opacity of boxes
-    scl: 20,  // size of the cell, boxes
+    scl: 10,  // size of the cell, boxes
     distortion: 30,  // random misplacement of the boxes
     amountMax: 10, // how many rects per cell, max
     margin: 200, // distance to the edge
@@ -57,7 +60,8 @@ function setup() {
 
   wall = new noiseParticles(wallData);
 
-  lightShapeData = {
+  highlightShapeData = {
+    buffer: highlightShapeBuffer,
     shapeCount: 10, // number of shapes
     radioMin: 50, // size
     radioMax: 450, // size
@@ -70,46 +74,40 @@ function setup() {
     solidColorStroke: 130,
     solidColorArea: 200,
   }
+  highlightShapes = new Shapes(highlightShapeData);
 
-  darkShapeData = {
+  duftShapeData = {
+    buffer: duftShapeBuffer,
     shapeCount: 2, // number of shapes
     radioMin: 500, // size
     radioMax: 800, // size
     radioDistortion: 80,  // misplacement
     polygonCount: 3,  // how many overlapping polygons to draw
-    opacityValue: 130,
+    opacityValue: 80,
     margin: 1200,  // distance from edge
     curveTightness: 1,
     noColorStroke: true,
     solidColorStroke: 20,
-    solidColorArea: 70,
+    solidColorArea: 30,
   }
 
-  darkShapes = new Shapes(darkShapeData);
-  lightShapes = new Shapes(lightShapeData);
+  duftShape = new Shapes(duftShapeData);
 
   // mask
-  maskBufferData = {
-    buffer: maskBuffer,
-    inc: 0.03,  // noise increase for perlin noise
-    colorSolid: 10,  // color of the boxes
-    opacityValue: 255,  // opacity of boxes
-    scl: 20,  // size of the cell, boxes
+  duftTextureData = {
+    buffer: duftTextureBuffer,
+    inc: 0.3,  // noise increase for perlin noise
+    colorSolid: 0,  // color of the boxes
+    opacityValue: 5,  // opacity of boxes
+    scl: 50,  // size of the cell, boxes
     distortion: 30,  // random misplacement of the boxes
-    amountMax: 2, // how many rects per cell, max
-    margin: 200, // distance to the edge
+    amountMax: 5, // how many rects per cell, max
+    margin: 0, // distance to the edge
   }
 
-  noisy = new noiseParticles(maskBufferData);
+  duftTexture = new noiseParticles(duftTextureData);
 
-  recto = createGraphics(this.width, this.height);
-  recto.clear();
-  recto.scale(scaleRatio);
-
-  recto.fill(0, 255);
-  recto.rect(230, 230, 360, 360);
-
-  (noisyMasked = noisy.buffer.get()).mask(recto.get());  // works - das vordere bleibt, das hintere filtert alles raus, wo im zweiten keine transparenz ist
+  (duft = duftTexture.buffer.get()).mask(duftShape.buffer.get());  // works - das vordere bleibt, das hintere filtert alles raus, wo im zweiten keine transparenz ist
 }
 
 
@@ -125,15 +123,17 @@ function draw() {
 
   buffer.background(BACKGROUNDCOLOR);
 
-  // lightShapes.drawAll();
-  // darkShapes.drawAll();
+  buffer.image(wall.buffer, 0, 0);
 
-  // image(wall.pg, - width / 2, - height / 2);
-  // image(noisyMasked, - width / 2, - height / 2);  // nur das was kein alpha hat
+  // DEBUG single buffers
+  // on canvas directly not buffer:
+  // image(wall.buffer, - width / 2, - height / 2);
+  // buffer.image(duftTexture.buffer, 0, 0);
 
-  // buffer.image(wall.buffer, 0, 0);
-  buffer.image(noisyMasked, 0, 0);
+  buffer.image(highlightShapes.buffer, 0, 0);
 
+  buffer.image(duftShape.buffer, 0, 0);
+  buffer.image(duft, 0, 0);
 
   image(buffer, - width / 2, - height / 2);
   noLoop();

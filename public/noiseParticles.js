@@ -4,7 +4,7 @@ class noiseParticles {
 
         // noiseDetail(noiseDetailLod, noiseDetailFalloff);
 
-        this.buffer = wallBuffer;
+        this.buffer = data.buffer;
         this.inc = data.inc;
         this.colorSolid = data.colorSolid;
         this.opacityValue = data.opacityValue;
@@ -26,7 +26,6 @@ class noiseParticles {
             var xoff = 0;
             for (var x = 0; x < this.cols; x++) {
 
-                // mix colors
                 let r = noise(xoff, yoff);
 
                 for (var amount = 0; amount < r * this.amountMax; amount++) {
@@ -73,9 +72,9 @@ class noiseParticles {
         }
 
         // debug buffer size
-        this.buffer.noFill();
+        // this.buffer.noFill();
         // this.buffer.fill(255, 0, 0);
-        this.buffer.strokeWeight(1);
-        this.buffer.rect(0, 0, this.buffer.width, this.buffer.height);
+        // this.buffer.strokeWeight(1);
+        // this.buffer.rect(0, 0, this.buffer.width, this.buffer.height);
     }
 }

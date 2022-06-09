@@ -3,6 +3,7 @@ class Shape {
 
     constructor(data) {
 
+        this.buffer = data.buffer;
         this.radioMin = data.radioMin;
         this.radioMax = data.radioMax;
         this.radioDistortion = data.radioDistortion;
@@ -35,27 +36,30 @@ class Shape {
 
     draw() {
 
-        buffer.push();
-        buffer.curveTightness(this.curveTightness)
+        this.buffer.clear();
+        this.buffer.scale(scaleRatio);
+
+        this.buffer.push();
+        this.buffer.curveTightness(this.curveTightness)
 
         if (this.noColorStroke == true) {
-            buffer.noStroke();
+            this.buffer.noStroke();
         } else {
-            buffer.stroke(color(this.solidColorStroke, this.opacityValue));
+            this.buffer.stroke(color(this.solidColorStroke, this.opacityValue));
         }
 
-        // buffer.noFill();
-        buffer.fill(color(this.solidColorArea, this.opacityValue));
+        // this.buffer.noFill();
+        this.buffer.fill(color(this.solidColorArea, this.opacityValue));
 
         for (var polygon of this.polygons) {
-            buffer.beginShape();
-            buffer.curveVertex(polygon.rightUp.x / exportRatio, polygon.rightUp.y / exportRatio);
-            buffer.curveVertex(polygon.rightDown.x / exportRatio, polygon.rightDown.y / exportRatio);
-            buffer.curveVertex(polygon.leftDown.x / exportRatio, polygon.leftDown.y / exportRatio);
-            buffer.curveVertex(polygon.leftUp.x / exportRatio, polygon.leftUp.y / exportRatio);
-            buffer.endShape(CLOSE);
+            this.buffer.beginShape();
+            this.buffer.curveVertex(polygon.rightUp.x / exportRatio, polygon.rightUp.y / exportRatio);
+            this.buffer.curveVertex(polygon.rightDown.x / exportRatio, polygon.rightDown.y / exportRatio);
+            this.buffer.curveVertex(polygon.leftDown.x / exportRatio, polygon.leftDown.y / exportRatio);
+            this.buffer.curveVertex(polygon.leftUp.x / exportRatio, polygon.leftUp.y / exportRatio);
+            this.buffer.endShape(CLOSE);
         }
-        buffer.pop();
+        this.buffer.pop();
 
         this.draw_debug();
     }
@@ -64,20 +68,20 @@ class Shape {
     draw_debug() {
 
         if (logging.getLevel() <= 1) {
-            buffer.push();
-            buffer.strokeWeight(2);
-            buffer.point(this.rightUp.x / exportRatio, this.rightUp.y / exportRatio);
-            buffer.point(this.rightDown.x / exportRatio, this.rightDown.y / exportRatio);
-            buffer.point(this.leftDown.x / exportRatio, this.leftDown.y / exportRatio);
-            buffer.point(this.leftUp.x / exportRatio, this.leftUp.y / exportRatio);
-            buffer.pop();
+            this.buffer.push();
+            this.buffer.strokeWeight(2);
+            this.buffer.point(this.rightUp.x / exportRatio, this.rightUp.y / exportRatio);
+            this.buffer.point(this.rightDown.x / exportRatio, this.rightDown.y / exportRatio);
+            this.buffer.point(this.leftDown.x / exportRatio, this.leftDown.y / exportRatio);
+            this.buffer.point(this.leftUp.x / exportRatio, this.leftUp.y / exportRatio);
+            this.buffer.pop();
 
 
             // debug
-            buffer.push();
-            buffer.strokeWeight(4);
-            buffer.point(this.origin.x / exportRatio, this.origin.y / exportRatio);
-            buffer.pop();
+            this.buffer.push();
+            this.buffer.strokeWeight(4);
+            this.buffer.point(this.origin.x / exportRatio, this.origin.y / exportRatio);
+            this.buffer.pop();
         }
 
     }
@@ -85,6 +89,7 @@ class Shape {
 
 class Shapes {
     constructor(data) {
+        this.buffer = data.buffer;
         this.shapeCount = data.shapeCount;
         this.radioMin = data.radioMin;
         this.radioMax = data.radioMax;
@@ -102,6 +107,7 @@ class Shapes {
         for (var i = 0; i < this.shapeCount; i++) {
 
             var data = {
+                buffer: this.buffer,
                 radioMin: this.radioMin,
                 radioMax: this.radioMax,
                 radioDistortion: this.radioDistortion,
@@ -116,6 +122,8 @@ class Shapes {
 
             this.shapes.push(new Shape(data));
         }
+
+        this.drawAll();
 
     }
 
