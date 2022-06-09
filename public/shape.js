@@ -15,9 +15,13 @@ class Shape {
         this.solidColorStroke = data.solidColorStroke;
         this.solidColorArea = data.solidColorArea;
 
-        this.polygons = [];
-        this.origin = createVector(getRandomFromInterval(0 + this.margin, exportPaper.width - this.margin), getRandomFromInterval(0 + this.margin, exportPaper.height - this.margin));
+        if (typeof data.origin == "undefined") {
+            this.origin = createVector(getRandomFromInterval(0 + this.margin, exportPaper.width - this.margin), getRandomFromInterval(0 + this.margin, exportPaper.height - this.margin));
+        } else {
+            this.origin = data.origin
+        }
 
+        this.polygons = [];
         this.rightUp = createVector(this.origin.x + getRandomFromInterval(this.radioMin, this.radioMax), this.origin.y + getRandomFromInterval(-this.radioMin, -this.radioMax));
         this.rightDown = createVector(this.origin.x + getRandomFromInterval(this.radioMin, this.radioMax), this.origin.y + getRandomFromInterval(this.radioMin, this.radioMax));
         this.leftDown = createVector(this.origin.x + getRandomFromInterval(-this.radioMin, -this.radioMax), this.origin.y + getRandomFromInterval(this.radioMin, this.radioMax));
@@ -35,9 +39,6 @@ class Shape {
     }
 
     draw() {
-
-        this.buffer.clear();
-        this.buffer.scale(scaleRatio);
 
         this.buffer.push();
         this.buffer.curveTightness(this.curveTightness)
@@ -76,13 +77,21 @@ class Shape {
             this.buffer.point(this.leftUp.x / exportRatio, this.leftUp.y / exportRatio);
             this.buffer.pop();
 
-
-            // debug
+            // margin visible
             this.buffer.push();
-            this.buffer.strokeWeight(4);
+            this.buffer.noFill()
+            this.buffer.strokeWeight(1 / exportRatio);
+            this.buffer.rect(this.margin / exportRatio, this.margin / exportRatio, (exportPaper.width - 2 * this.margin) / exportRatio, (exportPaper.height - 2 * this.margin) / exportRatio);
+            this.buffer.pop();
+
+            // debug origin - orbit
+            this.buffer.push();
+            this.buffer.stroke("red");
+            this.buffer.strokeWeight(50 / exportRatio);
             this.buffer.point(this.origin.x / exportRatio, this.origin.y / exportRatio);
             this.buffer.pop();
         }
+
 
     }
 }
@@ -101,13 +110,31 @@ class Shapes {
         this.noColorStroke = data.noColorStroke;
         this.solidColorStroke = data.solidColorStroke;
         this.solidColorArea = data.solidColorArea;
+        this.duftOrbit = data.duftOrbit
 
         this.shapes = []
 
         for (var i = 0; i < this.shapeCount; i++) {
 
+
+            // place randomly on the orbit
+            if (this.duftOrbit == true) {
+                var orient = getRandomFromList(["x-axis", "y-axis"]);
+
+                if (orient == "x-axis") {
+                    var posX = getRandomFromInterval((duftOrigin.x - duftOrbit), (duftOrigin.x + duftOrbit))
+                    var posY = getRandomFromList([(duftOrigin.y - duftOrbit), (duftOrigin.y + duftOrbit)])
+                } else {
+                    var posX = getRandomFromList([(duftOrigin.x - duftOrbit), (duftOrigin.x + duftOrbit)])
+                    var posY = getRandomFromInterval((duftOrigin.y - duftOrbit), (duftOrigin.y + duftOrbit))
+                }
+
+                var origin = createVector(posX, posY);
+            }
+
             var data = {
                 buffer: this.buffer,
+                origin: origin,
                 radioMin: this.radioMin,
                 radioMax: this.radioMax,
                 radioDistortion: this.radioDistortion,
@@ -128,6 +155,10 @@ class Shapes {
     }
 
     drawAll() {
+
+        this.buffer.clear();
+        this.buffer.scale(scaleRatio);
+
         for (var shape of this.shapes) {
             shape.draw();
         }

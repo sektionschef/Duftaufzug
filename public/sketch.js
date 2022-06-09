@@ -60,35 +60,20 @@ function setup() {
 
   wall = new noiseParticles(wallData);
 
-  highlightShapeData = {
-    buffer: highlightShapeBuffer,
-    shapeCount: 10, // number of shapes
-    radioMin: 50, // size
-    radioMax: 450, // size
-    radioDistortion: 200,  // misplacement
-    polygonCount: 10,  // how many overlapping polygons to draw
-    opacityValue: 10,
-    margin: 500,  // distance from edge
-    curveTightness: -3,
-    noColorStroke: false,
-    solidColorStroke: 130,
-    solidColorArea: 200,
-  }
-  highlightShapes = new Shapes(highlightShapeData);
-
   duftShapeData = {
     buffer: duftShapeBuffer,
-    shapeCount: 2, // number of shapes
+    shapeCount: 1, // number of shapes
     radioMin: 500, // size
     radioMax: 800, // size
     radioDistortion: 80,  // misplacement
-    polygonCount: 3,  // how many overlapping polygons to draw
+    polygonCount: 6,  // how many overlapping polygons to draw
     opacityValue: 80,
     margin: 1200,  // distance from edge
     curveTightness: 1,
     noColorStroke: true,
     solidColorStroke: 20,
     solidColorArea: 30,
+    duftOrbit: false,
   }
 
   duftShape = new Shapes(duftShapeData);
@@ -107,6 +92,27 @@ function setup() {
 
   duftTexture = new noiseParticles(duftTextureData);
 
+  duftOrigin = duftShape.shapes[0].origin;
+  duftOrbit = (duftShape.shapes[0].radioMax - duftShape.shapes[0].radioMin) / 2 + duftShape.shapes[0].radioMin;
+
+  highlightShapeData = {
+    buffer: highlightShapeBuffer,
+    shapeCount: 20, // number of shapes
+    radioMin: 50, // size
+    radioMax: 650, // size
+    radioDistortion: 250,  // misplacement
+    polygonCount: 10,  // how many overlapping polygons to draw
+    opacityValue: 10,
+    margin: 500,  // distance from edge
+    curveTightness: 1,
+    noColorStroke: false,
+    solidColorStroke: 130,
+    solidColorArea: 200,
+    duftOrbit: true,
+  }
+  highlightShapes = new Shapes(highlightShapeData);
+
+  // MASKS
   (duft = duftTexture.buffer.get()).mask(duftShape.buffer.get());  // works - das vordere bleibt, das hintere filtert alles raus, wo im zweiten keine transparenz ist
 }
 
@@ -135,9 +141,22 @@ function draw() {
   buffer.image(duftShape.buffer, 0, 0);
   buffer.image(duft, 0, 0);
 
+  if (logging.getLevel() <= 1) {
+    // debug duftOrbit
+    buffer.push();
+    buffer.rectMode(CENTER);
+    buffer.stroke("red");
+    buffer.strokeWeight(1 / exportRatio);
+    buffer.noFill();
+    buffer.rect(duftOrigin.x / exportRatio, duftOrigin.y / exportRatio, duftOrbit * 2 / exportRatio, duftOrbit * 2 / exportRatio);
+    buffer.pop();
+  }
+
   image(buffer, - width / 2, - height / 2);
+
   noLoop();
   // fxpreview()
+
 
   // console.info("safety check for diff resolutions same hash: " + fxrand());
 
