@@ -3,7 +3,8 @@ class Shape {
 
     constructor(data) {
 
-        this.radio = data.radio;
+        this.radioMin = data.radioMin;
+        this.radioMax = data.radioMax;
         this.radioDistortion = data.radioDistortion;
         this.polygonCount = data.polygonCount;
         this.opacityValue = data.opacityValue;
@@ -16,10 +17,10 @@ class Shape {
         this.polygons = [];
         this.origin = createVector(getRandomFromInterval(0 + this.margin, exportPaper.width - this.margin), getRandomFromInterval(0 + this.margin, exportPaper.height - this.margin));
 
-        this.rightUp = createVector(this.origin.x + getRandomFromInterval(0, this.radio), this.origin.y + getRandomFromInterval(0, -this.radio));
-        this.rightDown = createVector(this.origin.x + getRandomFromInterval(0, this.radio), this.origin.y + getRandomFromInterval(0, this.radio));
-        this.leftDown = createVector(this.origin.x + getRandomFromInterval(0, -this.radio), this.origin.y + getRandomFromInterval(0, this.radio));
-        this.leftUp = createVector(this.origin.x + getRandomFromInterval(0, -this.radio), this.origin.y + getRandomFromInterval(0, -this.radio));
+        this.rightUp = createVector(this.origin.x + getRandomFromInterval(this.radioMin, this.radioMax), this.origin.y + getRandomFromInterval(-this.radioMin, -this.radioMax));
+        this.rightDown = createVector(this.origin.x + getRandomFromInterval(this.radioMin, this.radioMax), this.origin.y + getRandomFromInterval(this.radioMin, this.radioMax));
+        this.leftDown = createVector(this.origin.x + getRandomFromInterval(-this.radioMin, -this.radioMax), this.origin.y + getRandomFromInterval(this.radioMin, this.radioMax));
+        this.leftUp = createVector(this.origin.x + getRandomFromInterval(-this.radioMin, -this.radioMax), this.origin.y + getRandomFromInterval(-this.radioMin, -this.radioMax));
 
         for (var i = 0; i < this.polygonCount; i++) {
             this.polygons.push({
@@ -85,7 +86,8 @@ class Shape {
 class Shapes {
     constructor(data) {
         this.shapeCount = data.shapeCount;
-        this.radio = data.radio; // size
+        this.radioMin = data.radioMin;
+        this.radioMax = data.radioMax;
         this.radioDistortion = data.radioDistortion;  // misplacement
         this.polygonCount = data.polygonCount;  // how many overlapping polygons to draw
         this.opacityValue = data.opacityValue;
@@ -100,7 +102,8 @@ class Shapes {
         for (var i = 0; i < this.shapeCount; i++) {
 
             var data = {
-                radio: this.radio,
+                radioMin: this.radioMin,
+                radioMax: this.radioMax,
                 radioDistortion: this.radioDistortion,
                 polygonCount: this.polygonCount,
                 opacityValue: this.opacityValue,

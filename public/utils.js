@@ -107,6 +107,8 @@ function windowResized() {
     resizeCanvas(rescaling_width, rescaling_height);
     buffer = createGraphics(rescaling_width, rescaling_height);
 
+    wallBuffer = createGraphics(rescaling_width, rescaling_height);
+
     // construct_everything();
     draw();
 }

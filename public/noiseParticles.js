@@ -4,6 +4,7 @@ class noiseParticles {
 
         // noiseDetail(noiseDetailLod, noiseDetailFalloff);
 
+        this.pg = wallBuffer;
         this.inc = data.inc;
         this.colorSolid = data.colorSolid;
         this.opacityValue = data.opacityValue;
@@ -12,8 +13,15 @@ class noiseParticles {
         this.amountMax = data.amountMax;
         this.margin = data.margin;
 
-        this.cols = (exportPaper.width - 2 * this.margin) / this.scl;
-        this.rows = (exportPaper.height - 2 * this.margin) / this.scl;
+        this.width = exportPaper.width - 2 * this.margin;
+        this.height = exportPaper.height - 2 * this.margin;
+
+        // this.pg = createGraphics(this.width, this.height);
+        // this.pg.clear();
+        // this.pg.scale(scaleRatio);
+
+        this.cols = this.width / this.scl;
+        this.rows = this.height / this.scl;
 
         this.particles = []
 
@@ -43,24 +51,32 @@ class noiseParticles {
             }
             yoff += this.inc;
         }
+
+        this.drawAll();
     }
 
     drawAll() {
 
+
         for (var particle of this.particles) {
             // console.log(this.particles);
-            buffer.push();
-            buffer.translate(particle.posX / exportRatio, particle.posY / exportRatio);
+            this.pg.push();
+            this.pg.translate(particle.posX / exportRatio, particle.posY / exportRatio);
 
-            // buffer.noFill();
-            buffer.fill(particle.colorObject);
+            // this.pg.noFill();
+            this.pg.fill(particle.colorObject);
 
-            // buffer.strokeWeight(1 / exportRatio);
-            // buffer.stroke(10, 5);
-            buffer.noStroke();
-            buffer.rect(0, 0, particle.width / exportRatio, particle.height / exportRatio);
-            buffer.pop();
+            // this.pg.strokeWeight(1 / exportRatio);
+            // this.pg.stroke(10, 5);
+            this.pg.noStroke();
+            this.pg.rect(0, 0, particle.width / exportRatio, particle.height / exportRatio);
+            this.pg.pop();
         }
-    }
 
+        // debug buffer size
+        this.pg.noFill();
+        // this.pg.fill(255, 0, 0);
+        this.pg.strokeWeight(1);
+        this.pg.rect(0, 0, this.pg.width, this.pg.height);
+    }
 }
