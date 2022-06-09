@@ -33,16 +33,19 @@ function setup() {
 
   scaleDynamically();
 
-  buffer = createGraphics(rescaling_width, rescaling_height);
-  wallBuffer = createGraphics(rescaling_width, rescaling_height);
   canvas = createCanvas(rescaling_width, rescaling_height, WEBGL);
+  buffer = createGraphics(rescaling_width, rescaling_height);
+
+  wallBuffer = createGraphics(rescaling_width, rescaling_height);
+  maskBuffer = createGraphics(rescaling_width, rescaling_height);
 
   logging.debug("Pixel density: " + pixelDensity())
   exportRatio /= pixelDensity();  // FOR EACH BUFFER??
 
   noiseSeed(NOISESEED);
 
-  noiseParticlesData = {
+  wallData = {
+    buffer: wallBuffer,
     inc: 0.03,  // noise increase for perlin noise
     colorSolid: 10,  // color of the boxes
     opacityValue: 5,  // opacity of boxes
@@ -51,6 +54,8 @@ function setup() {
     amountMax: 10, // how many rects per cell, max
     margin: 200, // distance to the edge
   }
+
+  wall = new noiseParticles(wallData);
 
   lightShapeData = {
     shapeCount: 10, // number of shapes
@@ -80,14 +85,12 @@ function setup() {
     solidColorArea: 70,
   }
 
-  wall = new noiseParticles(noiseParticlesData);
-
   darkShapes = new Shapes(darkShapeData);
   lightShapes = new Shapes(lightShapeData);
 
   // mask
   maskBufferData = {
-    buffer: wallBuffer,
+    buffer: maskBuffer,
     inc: 0.03,  // noise increase for perlin noise
     colorSolid: 10,  // color of the boxes
     opacityValue: 255,  // opacity of boxes
@@ -106,7 +109,7 @@ function setup() {
   recto.fill(0, 255);
   recto.rect(230, 230, 360, 360);
 
-  (noisyMasked = noisy.buffer.get()).mask(recto.get());  // works - das vordere bleibt, das hintere filtert alles raus wo im zweiten keine transparenz ist
+  (noisyMasked = noisy.buffer.get()).mask(recto.get());  // works - das vordere bleibt, das hintere filtert alles raus, wo im zweiten keine transparenz ist
 }
 
 
@@ -120,9 +123,7 @@ function draw() {
   buffer.clear();
   buffer.scale(scaleRatio);
 
-  background(150);
-
-  // buffer.background(BACKGROUNDCOLOR);
+  buffer.background(BACKGROUNDCOLOR);
 
   // lightShapes.drawAll();
   // darkShapes.drawAll();
@@ -130,8 +131,8 @@ function draw() {
   // image(wall.pg, - width / 2, - height / 2);
   // image(noisyMasked, - width / 2, - height / 2);  // nur das was kein alpha hat
 
-
-  buffer.image(noisyMasked, 0, 0);  // nur das was kein alpha hat
+  // buffer.image(wall.buffer, 0, 0);
+  buffer.image(noisyMasked, 0, 0);
 
 
   image(buffer, - width / 2, - height / 2);
