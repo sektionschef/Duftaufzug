@@ -27,7 +27,6 @@ let rescaling_height;
 let fxhash_number;
 
 function preload() {
-  test = loadImage("test.png");
 }
 
 function setup() {
@@ -100,20 +99,6 @@ function setup() {
 
   noisy = new noiseParticles(maskBufferData);
 
-  maskPG = createGraphics(this.width, this.height);
-  maskPG.clear();
-  maskPG.scale(scaleRatio);
-
-  maskPG.fill(255, 0, 0, 255);
-  maskPG.circle(430, 430, 260);
-
-  maskPG2 = createGraphics(this.width, this.height);
-  maskPG2.clear();
-  maskPG2.scale(scaleRatio);
-
-  maskPG2.fill(0, 255);
-  maskPG2.circle(430, 430, 60);
-
   recto = createGraphics(this.width, this.height);
   recto.clear();
   recto.scale(scaleRatio);
@@ -121,18 +106,7 @@ function setup() {
   recto.fill(0, 255);
   recto.rect(230, 230, 360, 360);
 
-
-  // noisy.pg = noisy.pg.get();
-
-  // (imgClone = test.get()).mask(maskPG.get());  // works
-  // (imgClone = maskPG.get()).mask(maskPG2.get());  // works - das vordere bleibt, das hintere filtert alles raus wo im zweiten keine transparenz ist
-  (imgClone = noisy.pg.get()).mask(recto.get());  // works - das vordere bleibt, das hintere filtert alles raus wo im zweiten keine transparenz ist
-
-  // test.mask(noisy.pg);
-  // noisy.pg.mask(maskPG);
-
-  // brush.buffer = brush.buffer.get();
-  // brush.buffer.mask(fog.buffer);
+  (noisyMasked = noisy.buffer.get()).mask(recto.get());  // works - das vordere bleibt, das hintere filtert alles raus wo im zweiten keine transparenz ist
 }
 
 
@@ -142,6 +116,7 @@ function draw() {
   ambientLight(255, 255, 255);
   ambientMaterial(255);
 
+  // IS THIS NEEDED????
   buffer.clear();
   buffer.scale(scaleRatio);
 
@@ -149,33 +124,17 @@ function draw() {
 
   // buffer.background(BACKGROUNDCOLOR);
 
-
   // lightShapes.drawAll();
   // darkShapes.drawAll();
 
-  // document
-  // absolute value / exportRatio
-  // DUMMY POSITIONING
-  // buffer.push();
-  // rectMode(CENTER);
-  // buffer.fill("pink");
-  // buffer.translate(getRandomFromInterval(exportPaper.width / 2, exportPaper.width) / exportRatio, 2000 / exportRatio);
-  // buffer.rect(0, 0, 60 / exportRatio, 60 / exportRatio);
-  // buffer.pop();
-
   // image(wall.pg, - width / 2, - height / 2);
+  // image(noisyMasked, - width / 2, - height / 2);  // nur das was kein alpha hat
 
-  // image(buffer, - width / 2, - height / 2);
 
-  // image(test, - width / 2, - height / 2);
-  // image(noisy.pg, - width / 2, - height / 2);
-  // image(maskPG, - width / 2, - height / 2);
-  // image(maskPG2, - width / 2, - height / 2);
-  // image(recto, - width / 2, - height / 2);
-  // console.log(imgClone);
-  // image(imgClone, - width / 2, - height / 2, imgClone.width / exportRatio, imgClone.height / exportRatio);  // nur das was kein alpha hat
-  image(imgClone, - width / 2, - height / 2, imgClone.width, imgClone.height);  // nur das was kein alpha hat
+  buffer.image(noisyMasked, 0, 0);  // nur das was kein alpha hat
 
+
+  image(buffer, - width / 2, - height / 2);
   noLoop();
   // fxpreview()
 

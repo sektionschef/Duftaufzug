@@ -1,6 +1,4 @@
-# Snorre
-
-Snorre features intersectangles. On two layers rectangles intersect with each other and give birth to new colorful areas. 
+# Duftaufzug
 
 Press **e** for exporting a high-res, 4000x4000px, .png image.
 
@@ -12,3 +10,6 @@ Stefan Schwaha, @sektionschef, https://digitalitility.com/
 
 
 
+## important links
+
+* https://editor.p5js.org/oshoham/sketches/BJo60Nk2Z - mask two buffers

@@ -109,7 +109,6 @@ function windowResized() {
 
     wallBuffer = createGraphics(rescaling_width, rescaling_height);
 
-    // construct_everything();
     draw();
 }
 
