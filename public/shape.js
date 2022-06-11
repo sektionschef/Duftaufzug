@@ -117,7 +117,6 @@ class Shapes {
 
         if (this.duftArea == true) {
             var orient = getRandomFromList(["down", "left", "up", "right"]);
-            console.log(orient);
         }
 
         for (var i = 0; i < this.shapeCount; i++) {
@@ -155,6 +154,8 @@ class Shapes {
                     var posY = getRandomFromInterval(duftOrigin.y - duftOrbit, duftOrigin.y + duftOrbit)
                 }
                 var origin = createVector(posX, posY);
+
+                this.solidColorArea = distortColor(this.solidColorArea, 1);
             }
 
             var data = {

@@ -59,7 +59,7 @@ function setup() {
     margin: 200, // distance to the edge
   }
 
-  // wall = new noiseParticles(wallData);
+  wall = new noiseParticles(wallData);
   // wall = new noisePixel(wallData);
 
   duftShapeData = {
@@ -104,10 +104,29 @@ function setup() {
   }
 
   lightShapeData = {
+    shapeCount: 50, // number of shapes
     buffer: lightShapeBuffer,
-    shapeCount: 60, // number of shapes
+    radioMin: 350, // size
+    radioMax: 750, // size
+    radioDistortion: 250,  // misplacement
+    polygonCount: 10,  // how many overlapping polygons to draw
+    opacityValue: 1,
+    margin: 500,  // distance from edge
+    curveTightness: 1,
+    noColorStroke: false,
+    solidColorStroke: 130,
+    solidColorArea: color(180, 10),
+    duftOrbit: false,
+    duftArea: true,
+  }
+  lightShapes = new Shapes(lightShapeData);
+
+
+  highlightShapeData = {
+    buffer: highlightShapeBuffer,
+    shapeCount: 10, // number of shapes
     radioMin: 50, // size
-    radioMax: 150, // size
+    radioMax: 650, // size
     radioDistortion: 250,  // misplacement
     polygonCount: 10,  // how many overlapping polygons to draw
     opacityValue: 10,
@@ -115,29 +134,10 @@ function setup() {
     curveTightness: 1,
     noColorStroke: false,
     solidColorStroke: 130,
-    solidColorArea: 180,
-    duftOrbit: false,
-    duftArea: true,
+    solidColorArea: 200,
+    duftOrbit: true,
   }
-  lightShapes = new Shapes(lightShapeData);
-
-
-  // highlightShapeData = {
-  //   buffer: highlightShapeBuffer,
-  //   shapeCount: 10, // number of shapes
-  //   radioMin: 50, // size
-  //   radioMax: 650, // size
-  //   radioDistortion: 250,  // misplacement
-  //   polygonCount: 10,  // how many overlapping polygons to draw
-  //   opacityValue: 10,
-  //   margin: 500,  // distance from edge
-  //   curveTightness: 1,
-  //   noColorStroke: false,
-  //   solidColorStroke: 130,
-  //   solidColorArea: 200,
-  //   duftOrbit: true,
-  // }
-  // highlightShapes = new Shapes(highlightShapeData);
+  highlightShapes = new Shapes(highlightShapeData);
 
   // MASKS
   (duft = duftTexture.buffer.get()).mask(duftShape.buffer.get());  // works - das vordere bleibt, das hintere filtert alles raus, wo im zweiten keine transparenz ist
@@ -156,7 +156,7 @@ function draw() {
 
   buffer.background(BACKGROUNDCOLOR);
 
-  // buffer.image(wall.buffer, 0, 0);
+  buffer.image(wall.buffer, 0, 0);
 
   // DEBUG single buffers
   // on canvas directly not buffer:
@@ -165,7 +165,7 @@ function draw() {
 
   buffer.image(lightShapes.buffer, 0, 0);
 
-  // buffer.image(highlightShapes.buffer, 0, 0);
+  buffer.image(highlightShapes.buffer, 0, 0);
 
   buffer.image(duftShape.buffer, 0, 0);
   buffer.image(duft, 0, 0);
