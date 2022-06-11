@@ -49,16 +49,17 @@ function setup() {
 
   wallData = {
     buffer: wallBuffer,
-    inc: 0.009,  // noise increase for perlin noise
+    inc: 0.01,  // noise increase for perlin noise
     colorSolid: 10,  // color of the boxes
     opacityValue: 5,  // opacity of boxes
     scl: 10,  // size of the cell, boxes
     distortion: 30,  // random misplacement of the boxes
-    amountMax: 10, // how many rects per cell, max
+    amountMax: 15, // how many rects per cell, max
     margin: 200, // distance to the edge
   }
 
   wall = new noiseParticles(wallData);
+  // wall = new noisePixel(wallData);
 
   duftShapeData = {
     buffer: duftShapeBuffer,
@@ -86,7 +87,7 @@ function setup() {
     opacityValue: 10,  // opacity of boxes
     scl: 10,  // size of the cell, boxes
     distortion: 60,  // random misplacement of the boxes
-    amountMax: 30, // how many rects per cell, max
+    amountMax: 1, // how many rects per cell, max
     margin: 0, // distance to the edge
   }
 
@@ -97,7 +98,7 @@ function setup() {
 
   highlightShapeData = {
     buffer: highlightShapeBuffer,
-    shapeCount: 20, // number of shapes
+    shapeCount: 10, // number of shapes
     radioMin: 50, // size
     radioMax: 650, // size
     radioDistortion: 250,  // misplacement

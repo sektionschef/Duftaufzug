@@ -64,10 +64,15 @@ class noiseParticles {
             // this.buffer.noFill();
             this.buffer.fill(particle.colorObject);
 
-            // this.buffer.strokeWeight(1 / exportRatio);
-            // this.buffer.stroke(10, 5);
+            // with RECT
             this.buffer.noStroke();
             this.buffer.rect(0, 0, particle.width / exportRatio, particle.height / exportRatio);
+
+            // with Points
+            // this.buffer.stroke(particle.colorObject);
+            // this.buffer.strokeWeight(particle.width / exportRatio);
+            // this.buffer.point(0, 0);
+
             this.buffer.pop();
         }
 
@@ -76,5 +81,68 @@ class noiseParticles {
         // this.buffer.fill(255, 0, 0);
         // this.buffer.strokeWeight(1);
         // this.buffer.rect(0, 0, this.buffer.width, this.buffer.height);
+    }
+}
+
+
+class noisePixel {
+
+    constructor(data) {
+
+        // noiseDetail(noiseDetailLod, noiseDetailFalloff);
+        this.buffer = data.buffer;
+        var inc = data.inc;
+
+        let yoff = 0;
+        this.buffer.loadPixels();
+        for (let y = 0; y < this.buffer.height; y++) {
+            let xoff = 0;
+            for (let x = 0; x < this.buffer.width; x++) {
+                let index = (x + y * this.buffer.width) * 4;
+
+                // let r = noise(xoff, yoff) * 255;
+                // this.buffer.pixels[index + 0] = r;
+                // this.buffer.pixels[index + 1] = r;
+                // this.buffer.pixels[index + 2] = r;
+                // this.buffer.pixels[index + 3] = r;  // 255
+
+                if (fxrand() > 0.75) {
+                    let r = noise(xoff, yoff) * 255;
+                    this.buffer.pixels[index + 0] = r;
+                    this.buffer.pixels[index + 1] = r;
+                    this.buffer.pixels[index + 2] = r;
+                    this.buffer.pixels[index + 3] = r;  // 255
+                }
+
+                // CUSTOM COLOR
+                // let gain = 50;
+                // let r = noise(xoff, yoff);
+                // this.buffer.pixels[index + 0] = colorObject.levels[0] + r * gain;
+                // this.buffer.pixels[index + 1] = colorObject.levels[1] + r * gain;
+                // this.buffer.pixels[index + 2] = colorObject.levels[2] + r * gain;
+                // this.buffer.pixels[index + 3] = opacityValue;
+
+                // mix colors
+                // let r = noise(xoff, yoff);
+                // let mixedColor = lerpColor(colorObject1, colorObject2, r)
+                // this.buffer.pixels[index + 0] = mixedColor.levels[0];
+                // this.buffer.pixels[index + 1] = mixedColor.levels[1];
+                // this.buffer.pixels[index + 2] = mixedColor.levels[2];
+                // this.buffer.pixels[index + 3] = opacityValue;
+
+
+                // let r = noise(xoff, yoff) * getRandomFromInterval(0, 80);
+                // let g = noise(xoff, yoff) * getRandomFromInterval(0, 80);
+                // let b = noise(xoff, yoff) * getRandomFromInterval(0, 80);
+                // this.buffer.pixels[index + 0] = colorObject.levels[0] + r;
+                // this.buffer.pixels[index + 1] = colorObject.levels[1] + g;
+                // this.buffer.pixels[index + 2] = colorObject.levels[2] + b;
+                // this.buffer.pixels[index + 3] = opacityValue;
+
+                xoff += inc;
+            }
+            yoff += inc;
+        }
+        this.buffer.updatePixels();
     }
 }
