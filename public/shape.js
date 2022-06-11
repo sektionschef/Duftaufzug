@@ -111,8 +111,14 @@ class Shapes {
         this.solidColorStroke = data.solidColorStroke;
         this.solidColorArea = data.solidColorArea;
         this.duftOrbit = data.duftOrbit
+        this.duftArea = data.duftArea
 
         this.shapes = []
+
+        if (this.duftArea == true) {
+            var orient = getRandomFromList(["down", "left", "up", "right"]);
+            console.log(orient);
+        }
 
         for (var i = 0; i < this.shapeCount; i++) {
 
@@ -129,6 +135,25 @@ class Shapes {
                     var posY = getRandomFromInterval((duftOrigin.y - duftOrbit), (duftOrigin.y + duftOrbit))
                 }
 
+                var origin = createVector(posX, posY);
+            }
+
+            // place shapes in area between duft and the dge
+            if (this.duftArea == true) {
+
+                if (orient == "down") {
+                    var posX = getRandomFromInterval(duftOrigin.x - duftOrbit, duftOrigin.x + duftOrbit)
+                    var posY = getRandomFromInterval(duftOrigin.y - duftOrbit, exportPaper.height)
+                } else if (orient == "left") {
+                    var posX = getRandomFromInterval(0, duftOrigin.x + duftOrbit)
+                    var posY = getRandomFromInterval(duftOrigin.y - duftOrbit, duftOrigin.y + duftOrbit)
+                } else if (orient == "up") {
+                    var posX = getRandomFromInterval(duftOrigin.x - duftOrbit, duftOrigin.x + duftOrbit)
+                    var posY = getRandomFromInterval(0, duftOrigin.y + duftOrbit)
+                } else if (orient == "right") {
+                    var posX = getRandomFromInterval(duftOrigin.x - duftOrbit, exportPaper.width)
+                    var posY = getRandomFromInterval(duftOrigin.y - duftOrbit, duftOrigin.y + duftOrbit)
+                }
                 var origin = createVector(posX, posY);
             }
 

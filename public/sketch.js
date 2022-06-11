@@ -37,6 +37,7 @@ function setup() {
   buffer = createGraphics(rescaling_width, rescaling_height);
 
   wallBuffer = createGraphics(rescaling_width, rescaling_height);
+  lightShapeBuffer = createGraphics(rescaling_width, rescaling_height);
   highlightShapeBuffer = createGraphics(rescaling_width, rescaling_height);
   duftTextureBuffer = createGraphics(rescaling_width, rescaling_height);
   duftShapeBuffer = createGraphics(rescaling_width, rescaling_height);
@@ -58,7 +59,7 @@ function setup() {
     margin: 200, // distance to the edge
   }
 
-  wall = new noiseParticles(wallData);
+  // wall = new noiseParticles(wallData);
   // wall = new noisePixel(wallData);
 
   duftShapeData = {
@@ -67,8 +68,8 @@ function setup() {
     radioMin: 600, // size
     radioMax: 800, // size
     radioDistortion: 180,  // misplacement
-    polygonCount: 16,  // how many overlapping polygons to draw
-    opacityValue: 30,
+    polygonCount: 100,  // how many overlapping polygons to draw
+    opacityValue: 5,
     margin: 1200,  // distance from edge
     curveTightness: 1,
     noColorStroke: true,
@@ -95,12 +96,18 @@ function setup() {
 
   duftOrigin = duftShape.shapes[0].origin;
   duftOrbit = (duftShape.shapes[0].radioMax - duftShape.shapes[0].radioMin) / 2 + duftShape.shapes[0].radioMin;
+  duftOrient = getRandomFromList(["down", "left", "up", "right"]);
 
-  highlightShapeData = {
-    buffer: highlightShapeBuffer,
-    shapeCount: 10, // number of shapes
+  orientLight = getRandomFromList(['down']);
+  if (orientLight == "down") {
+
+  }
+
+  lightShapeData = {
+    buffer: lightShapeBuffer,
+    shapeCount: 60, // number of shapes
     radioMin: 50, // size
-    radioMax: 650, // size
+    radioMax: 150, // size
     radioDistortion: 250,  // misplacement
     polygonCount: 10,  // how many overlapping polygons to draw
     opacityValue: 10,
@@ -108,10 +115,29 @@ function setup() {
     curveTightness: 1,
     noColorStroke: false,
     solidColorStroke: 130,
-    solidColorArea: 200,
-    duftOrbit: true,
+    solidColorArea: 180,
+    duftOrbit: false,
+    duftArea: true,
   }
-  highlightShapes = new Shapes(highlightShapeData);
+  lightShapes = new Shapes(lightShapeData);
+
+
+  // highlightShapeData = {
+  //   buffer: highlightShapeBuffer,
+  //   shapeCount: 10, // number of shapes
+  //   radioMin: 50, // size
+  //   radioMax: 650, // size
+  //   radioDistortion: 250,  // misplacement
+  //   polygonCount: 10,  // how many overlapping polygons to draw
+  //   opacityValue: 10,
+  //   margin: 500,  // distance from edge
+  //   curveTightness: 1,
+  //   noColorStroke: false,
+  //   solidColorStroke: 130,
+  //   solidColorArea: 200,
+  //   duftOrbit: true,
+  // }
+  // highlightShapes = new Shapes(highlightShapeData);
 
   // MASKS
   (duft = duftTexture.buffer.get()).mask(duftShape.buffer.get());  // works - das vordere bleibt, das hintere filtert alles raus, wo im zweiten keine transparenz ist
@@ -130,14 +156,16 @@ function draw() {
 
   buffer.background(BACKGROUNDCOLOR);
 
-  buffer.image(wall.buffer, 0, 0);
+  // buffer.image(wall.buffer, 0, 0);
 
   // DEBUG single buffers
   // on canvas directly not buffer:
   // image(wall.buffer, - width / 2, - height / 2);
   // buffer.image(duftTexture.buffer, 0, 0);
 
-  buffer.image(highlightShapes.buffer, 0, 0);
+  buffer.image(lightShapes.buffer, 0, 0);
+
+  // buffer.image(highlightShapes.buffer, 0, 0);
 
   buffer.image(duftShape.buffer, 0, 0);
   buffer.image(duft, 0, 0);
@@ -152,6 +180,37 @@ function draw() {
     buffer.rect(duftOrigin.x / exportRatio, duftOrigin.y / exportRatio, duftOrbit * 2 / exportRatio, duftOrbit * 2 / exportRatio);
     buffer.pop();
   }
+
+  // temp
+  buffer.push();
+  buffer.rectMode(CORNER);
+  buffer.stroke("purple");
+  buffer.strokeWeight(5 / exportRatio);
+  buffer.noFill();
+  buffer.rect(
+    // right
+    // (duftOrigin.x - duftOrbit) / exportRatio,
+    // (duftOrigin.y - duftOrbit) / exportRatio,
+    // (exportPaper.width - (duftOrigin.x - duftOrbit)) / exportRatio,
+    // duftOrbit * 2 / exportRatio,
+    // down
+    // (duftOrigin.x - duftOrbit) / exportRatio,
+    // (duftOrigin.y - duftOrbit) / exportRatio,
+    // duftOrbit * 2 / exportRatio,
+    // (exportPaper.height - (duftOrigin.y - duftOrbit)) / exportRatio,
+    // left
+    // 0,
+    // (duftOrigin.y - duftOrbit) / exportRatio,
+    // (duftOrigin.x + duftOrbit) / exportRatio,
+    // duftOrbit * 2 / exportRatio,
+    // up
+    // (duftOrigin.x - duftOrbit) / exportRatio,
+    // 0,
+    // (duftOrbit * 2) / exportRatio,
+    // (duftOrigin.y + duftOrbit) / exportRatio
+  );
+
+  buffer.pop();
 
   image(buffer, - width / 2, - height / 2);
 
