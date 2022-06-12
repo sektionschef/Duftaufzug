@@ -137,7 +137,7 @@ class Shapes {
                 var origin = createVector(posX, posY);
             }
 
-            // place shapes in area between duft and the dge
+            // place shapes in area between duft and the edge
             if (this.duftArea == true) {
 
                 if (orient == "down") {
@@ -155,7 +155,7 @@ class Shapes {
                 }
                 var origin = createVector(posX, posY);
 
-                this.solidColorArea = distortColor(this.solidColorArea, 1);
+                // this.solidColorArea = distortColor(this.solidColorArea, 0.5);
             }
 
             var data = {
