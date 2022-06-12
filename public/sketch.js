@@ -36,7 +36,7 @@ function setup() {
   canvas = createCanvas(rescaling_width, rescaling_height, WEBGL);
   buffer = createGraphics(rescaling_width, rescaling_height);
 
-  // wallBuffer = createGraphics(rescaling_width, rescaling_height);
+  wallBuffer = createGraphics(rescaling_width, rescaling_height);
   lightShapeBuffer = createGraphics(rescaling_width, rescaling_height);
   lightTextureBuffer = createGraphics(rescaling_width, rescaling_height);
   highlightShapeBuffer = createGraphics(rescaling_width, rescaling_height);
@@ -49,18 +49,18 @@ function setup() {
 
   noiseSeed(NOISESEED);
 
-  // wallData = {
-  //   buffer: wallBuffer,
-  //   inc: 0.01,  // noise increase for perlin noise
-  //   colorSolid: 10,  // color of the boxes
-  //   opacityValue: 5,  // opacity of boxes
-  //   scl: 10,  // size of the cell, boxes
-  //   distortion: 30,  // random misplacement of the boxes
-  //   amountMax: 15, // how many rects per cell, max
-  //   margin: 200, // distance to the edge
-  // }
+  wallData = {
+    buffer: wallBuffer,
+    inc: 0.01,  // noise increase for perlin noise
+    colorSolid: 10,  // color of the boxes
+    opacityValue: 5,  // opacity of boxes
+    scl: 10,  // size of the cell, boxes
+    distortion: 30,  // random misplacement of the boxes
+    amountMax: 15, // how many rects per cell, max
+    margin: 200, // distance to the edge
+  }
 
-  // wall = new noiseParticles(wallData);
+  wall = new noiseParticles(wallData);
   // wall = new noisePixel(wallData);  // alternative
 
   duftShapeData = {
@@ -166,12 +166,7 @@ function draw() {
 
   buffer.background(BACKGROUNDCOLOR);
 
-  // buffer.image(wall.buffer, 0, 0);
-
-  // DEBUG single buffers
-  // on canvas directly not buffer:
-  // image(wall.buffer, - width / 2, - height / 2);
-  // buffer.image(duftTexture.buffer, 0, 0);
+  buffer.image(wall.buffer, 0, 0);
 
   buffer.image(lightShape.buffer, 0, 0);
   buffer.image(light, 0, 0);
