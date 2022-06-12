@@ -140,7 +140,8 @@ function setup() {
   highlightShapes = new Shapes(highlightShapeData);
 
   // MASKS
-  (duft = duftTexture.buffer.get()).mask(duftShape.buffer.get());  // works - das vordere bleibt, das hintere filtert alles raus, wo im zweiten keine transparenz ist
+  // (duft = duftTexture.buffer.get()).mask(duftShape.buffer.get());
+  duft = maskBuffers(duftTexture.buffer, duftShape.buffer);
 }
 
 

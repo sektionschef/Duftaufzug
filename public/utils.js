@@ -1,3 +1,10 @@
+// das vordere bleibt, das hintere filtert alles raus, wo im zweiten keine transparenz hat
+function maskBuffers(textureBuffer, shapeBuffer) {
+    var maskedBuffer;
+    (maskedBuffer = textureBuffer.get()).mask(shapeBuffer.get());
+    return maskedBuffer
+}
+
 function getRandomFromInterval(min, max) {
     return fxrand() * (max - min) + min;
 }
