@@ -26,6 +26,8 @@ let rescaling_height;
 
 let fxhash_number;
 
+let duftArea = {};
+
 function preload() {
 }
 
@@ -49,19 +51,19 @@ function setup() {
 
   noiseSeed(NOISESEED);
 
-  wallData = {
-    buffer: wallBuffer,
-    inc: 0.01,  // noise increase for perlin noise
-    colorSolid: 10,  // color of the boxes
-    opacityValue: 5,  // opacity of boxes
-    scl: 10,  // size of the cell, boxes
-    distortion: 30,  // random misplacement of the boxes
-    amountMax: 15, // how many rects per cell, max
-    margin: 200, // distance to the edge
-  }
+  // wallData = {
+  //   buffer: wallBuffer,
+  //   inc: 0.01,  // noise increase for perlin noise
+  //   colorSolid: 10,  // color of the boxes
+  //   opacityValue: 5,  // opacity of boxes
+  //   scl: 10,  // size of the cell, boxes
+  //   distortion: 30,  // random misplacement of the boxes
+  //   amountMax: 15, // how many rects per cell, max
+  //   margin: 200, // distance to the edge
+  // }
 
-  wall = new noiseParticles(wallData);
-  // wall = new noisePixel(wallData);  // alternative
+  // wall = new noiseParticles(wallData);
+  // // wall = new noisePixel(wallData);  // alternative
 
   duftShapeData = {
     buffer: duftShapeBuffer,
@@ -99,58 +101,86 @@ function setup() {
   duftOrbit = (duftShape.shapes[0].radioMax - duftShape.shapes[0].radioMin) / 2 + duftShape.shapes[0].radioMin;
   duftOrient = getRandomFromList(["down", "left", "up", "right"]);
 
-  lightShapeData = {
-    shapeCount: 70, // number of shapes
-    buffer: lightShapeBuffer,
-    radioMin: 300, // size
-    radioMax: 350, // size
-    radioDistortion: 150,  // misplacement
-    polygonCount: 10,  // how many overlapping polygons to draw
-    margin: 500,  // distance from edge
-    curveTightness: 1,
-    noColorStroke: false,
-    solidstrokeWeight: 50,
-    solidColorStroke: color(33, 3),
-    solidColorArea: color(230, 3),
-    duftOrbit: false,
-    duftArea: true,
+  // duftArea.orientation = getRandomFromList(["down", "left", "up", "right"]);
+  duftArea.orientation = getRandomFromList(["right"]);
+
+  if (duftArea.orientation == "down") {
+    var posX = (duftOrigin.x - duftOrbit) / exportRatio;
+    var posY = (duftOrigin.y - duftOrbit) / exportRatio;
+    var widthX = duftOrbit * 2 / exportRatio;
+    var heightY = (exportPaper.height - (duftOrigin.y - duftOrbit)) / exportRatio;
+  } else if (duftArea.orientation == "left") {
+    var posX = 0;
+    var posY = (duftOrigin.y - duftOrbit) / exportRatio;
+    var widthX = (duftOrigin.x + duftOrbit) / exportRatio;
+    var heightY = duftOrbit * 2 / exportRatio;
+  } else if (duftArea.orientation == "up") {
+    var posX = (duftOrigin.x - duftOrbit) / exportRatio;
+    var posY = 0;
+    var widthX = (duftOrbit * 2) / exportRatio;
+    var heightY = (duftOrigin.y + duftOrbit) / exportRatio;
+  } else if (duftArea.orientation == "right") {
+    var posX = (duftOrigin.x - duftOrbit) / exportRatio;
+    var posY = (duftOrigin.y - duftOrbit) / exportRatio;
+    var widthX = (exportPaper.width - (duftOrigin.x - duftOrbit)) / exportRatio;
+    var heightY = duftOrbit * 2 / exportRatio;
   }
-  lightShape = new Shapes(lightShapeData);
+  duftArea.position = createVector(posX, posY);
+  duftArea.width = widthX;
+  duftArea.height = heightY;
+
+  // lightShapeData = {
+  //   shapeCount: 70, // number of shapes
+  //   buffer: lightShapeBuffer,
+  //   radioMin: 300, // size
+  //   radioMax: 350, // size
+  //   radioDistortion: 150,  // misplacement
+  //   polygonCount: 10,  // how many overlapping polygons to draw
+  //   margin: 500,  // distance from edge
+  //   curveTightness: 1,
+  //   noColorStroke: false,
+  //   solidstrokeWeight: 50,
+  //   solidColorStroke: color(33, 3),
+  //   solidColorArea: color(230, 3),
+  //   duftOrbit: false,
+  //   duftArea: true,
+  // }
+  // lightShape = new Shapes(lightShapeData);
 
 
-  lightTextureData = {
-    buffer: lightTextureBuffer,
-    inc: 0.4,  // noise increase for perlin noise
-    colorSolid: 130,  // color of the boxes
-    opacityValue: 30,  // opacity of boxes
-    scl: 10,  // size of the cell, boxes
-    distortion: 30,  // random misplacement of the boxes
-    amountMax: 1, // how many rects per cell, max
-    margin: 0, // distance to the edge
-  }
+  // lightTextureData = {
+  //   buffer: lightTextureBuffer,
+  //   inc: 0.4,  // noise increase for perlin noise
+  //   colorSolid: 130,  // color of the boxes
+  //   opacityValue: 30,  // opacity of boxes
+  //   scl: 10,  // size of the cell, boxes
+  //   distortion: 30,  // random misplacement of the boxes
+  //   amountMax: 1, // how many rects per cell, max
+  //   margin: 0, // distance to the edge
+  // }
 
-  lightTexture = new noiseParticles(lightTextureData);
+  // lightTexture = new noiseParticles(lightTextureData);
 
-  highlightShapeData = {
-    buffer: highlightShapeBuffer,
-    shapeCount: 10, // number of shapes
-    radioMin: 50, // size
-    radioMax: 250, // size
-    radioDistortion: 170,  // misplacement
-    polygonCount: 20,  // how many overlapping polygons to drawo
-    margin: 500,  // distance from edge
-    curveTightness: 0.5,
-    noColorStroke: false,
-    solidstrokeWeight: 50,
-    solidColorStroke: color(60, 5),
-    solidColorArea: color(250, 5),
-    duftOrbit: true,
-  }
-  highlightShapes = new Shapes(highlightShapeData);
+  // highlightShapeData = {
+  //   buffer: highlightShapeBuffer,
+  //   shapeCount: 10, // number of shapes
+  //   radioMin: 50, // size
+  //   radioMax: 250, // size
+  //   radioDistortion: 170,  // misplacement
+  //   polygonCount: 20,  // how many overlapping polygons to drawo
+  //   margin: 500,  // distance from edge
+  //   curveTightness: 0.5,
+  //   noColorStroke: false,
+  //   solidstrokeWeight: 50,
+  //   solidColorStroke: color(60, 5),
+  //   solidColorArea: color(250, 5),
+  //   duftOrbit: true,
+  // }
+  // highlightShapes = new Shapes(highlightShapeData);
 
-  // MASKS
+  // // MASKS
   duft = maskBuffers(duftTexture.buffer, duftShape.buffer);
-  light = maskBuffers(lightTexture.buffer, lightShape.buffer);
+  // light = maskBuffers(lightTexture.buffer, lightShape.buffer);
 }
 
 
@@ -166,18 +196,18 @@ function draw() {
 
   buffer.background(BACKGROUNDCOLOR);
 
-  buffer.image(wall.buffer, 0, 0);
+  // buffer.image(wall.buffer, 0, 0);
 
-  buffer.image(lightShape.buffer, 0, 0);
-  buffer.image(light, 0, 0);
+  // buffer.image(lightShape.buffer, 0, 0);
+  // buffer.image(light, 0, 0);
 
-  buffer.image(highlightShapes.buffer, 0, 0);
+  // buffer.image(highlightShapes.buffer, 0, 0);
 
   buffer.image(duftShape.buffer, 0, 0);
   buffer.image(duft, 0, 0);
 
-  if (logging.getLevel() <= 1) {
-    // debug duftOrbit
+  // debug duftOrbit
+  if (logging.getLevel() <= 2) {
     buffer.push();
     buffer.rectMode(CENTER);
     buffer.stroke("red");
@@ -187,36 +217,44 @@ function draw() {
     buffer.pop();
   }
 
-  // temp
   buffer.push();
   buffer.rectMode(CORNER);
   buffer.stroke("purple");
   buffer.strokeWeight(5 / exportRatio);
   buffer.noFill();
-  buffer.rect(
-    // right
-    // (duftOrigin.x - duftOrbit) / exportRatio,
-    // (duftOrigin.y - duftOrbit) / exportRatio,
-    // (exportPaper.width - (duftOrigin.x - duftOrbit)) / exportRatio,
-    // duftOrbit * 2 / exportRatio,
-    // down
-    // (duftOrigin.x - duftOrbit) / exportRatio,
-    // (duftOrigin.y - duftOrbit) / exportRatio,
-    // duftOrbit * 2 / exportRatio,
-    // (exportPaper.height - (duftOrigin.y - duftOrbit)) / exportRatio,
-    // left
-    // 0,
-    // (duftOrigin.y - duftOrbit) / exportRatio,
-    // (duftOrigin.x + duftOrbit) / exportRatio,
-    // duftOrbit * 2 / exportRatio,
-    // up
-    // (duftOrigin.x - duftOrbit) / exportRatio,
-    // 0,
-    // (duftOrbit * 2) / exportRatio,
-    // (duftOrigin.y + duftOrbit) / exportRatio
-  );
-
+  buffer.rect(duftArea.position.x, duftArea.position.y, duftArea.width, duftArea.height);
   buffer.pop();
+
+  // temp
+  // buffer.push();
+  // buffer.rectMode(CORNER);
+  // buffer.stroke("purple");
+  // buffer.strokeWeight(5 / exportRatio);
+  // buffer.noFill();
+  // buffer.rect(
+  // right
+  // (duftOrigin.x - duftOrbit) / exportRatio,
+  // (duftOrigin.y - duftOrbit) / exportRatio,
+  // (exportPaper.width - (duftOrigin.x - duftOrbit)) / exportRatio,
+  // duftOrbit * 2 / exportRatio,
+  // down
+  // (duftOrigin.x - duftOrbit) / exportRatio,
+  // (duftOrigin.y - duftOrbit) / exportRatio,
+  // duftOrbit * 2 / exportRatio,
+  // (exportPaper.height - (duftOrigin.y - duftOrbit)) / exportRatio,
+  // left
+  // 0,
+  // (duftOrigin.y - duftOrbit) / exportRatio,
+  // (duftOrigin.x + duftOrbit) / exportRatio,
+  // duftOrbit * 2 / exportRatio,
+  // up
+  // (duftOrigin.x - duftOrbit) / exportRatio,
+  // 0,
+  // (duftOrbit * 2) / exportRatio,
+  // (duftOrigin.y + duftOrbit) / exportRatio
+  // );
+
+  // buffer.pop();
 
   image(buffer, - width / 2, - height / 2);
 
