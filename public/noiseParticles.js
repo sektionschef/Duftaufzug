@@ -55,17 +55,19 @@ class noiseParticles {
         this.buffer.clear();
         this.buffer.scale(scaleRatio);
 
+        this.buffer.push();
+
+        // this.buffer.noFill();
+
+        // with RECT
+        this.buffer.noStroke();
 
         for (var particle of this.particles) {
-            // console.log(this.particles);
+
             this.buffer.push();
+            this.buffer.fill(particle.colorObject);
             this.buffer.translate(particle.posX / exportRatio, particle.posY / exportRatio);
 
-            // this.buffer.noFill();
-            this.buffer.fill(particle.colorObject);
-
-            // with RECT
-            this.buffer.noStroke();
             this.buffer.rect(0, 0, particle.width / exportRatio, particle.height / exportRatio);
 
             // with Points
@@ -75,6 +77,8 @@ class noiseParticles {
 
             this.buffer.pop();
         }
+
+        this.buffer.pop();
 
         // debug buffer size
         // this.buffer.noFill();

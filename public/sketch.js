@@ -39,7 +39,6 @@ function setup() {
   wallBuffer = createGraphics(rescaling_width, rescaling_height);
   lightShapeBuffer = createGraphics(rescaling_width, rescaling_height);
   lightTextureBuffer = createGraphics(rescaling_width, rescaling_height);
-  frameShapeBuffer = createGraphics(rescaling_width, rescaling_height);
   highlightShapeBuffer = createGraphics(rescaling_width, rescaling_height);
   duftTextureBuffer = createGraphics(rescaling_width, rescaling_height);
   duftShapeBuffer = createGraphics(rescaling_width, rescaling_height);
@@ -132,23 +131,6 @@ function setup() {
 
   lightTexture = new noiseParticles(lightTextureData);
 
-  // frameShapeData = {
-  //   shapeCount: 130, // number of shapes
-  //   buffer: frameShapeBuffer,
-  //   radioMin: 300, // size
-  //   radioMax: 400, // size
-  //   radioDistortion: 100,  // misplacement
-  //   polygonCount: 100,  // how many overlapping polygons to draw
-  //   margin: 500,  // distance from edge
-  //   curveTightness: 1.5,
-  //   noColorStroke: false,
-  //   solidColorStroke: 30,
-  //   solidColorArea: color(180, 0),
-  //   duftOrbit: false,
-  //   duftArea: true,
-  // }
-  // frameShape = new Shapes(frameShapeData);
-
   highlightShapeData = {
     buffer: highlightShapeBuffer,
     shapeCount: 10, // number of shapes
@@ -188,8 +170,6 @@ function draw() {
 
   buffer.image(lightShape.buffer, 0, 0);
   buffer.image(light, 0, 0);
-
-  // buffer.image(frameShape.buffer, 0, 0);
 
   buffer.image(highlightShapes.buffer, 0, 0);
 
