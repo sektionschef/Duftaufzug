@@ -47,6 +47,7 @@ class Shape {
             this.buffer.noStroke();
         } else {
             this.buffer.stroke(color(this.solidColorStroke, this.opacityValue));
+            this.buffer.strokeWeight(1 / exportRatio);
         }
 
         // this.buffer.noFill();
@@ -70,7 +71,7 @@ class Shape {
 
         if (logging.getLevel() <= 1) {
             this.buffer.push();
-            this.buffer.strokeWeight(2);
+            this.buffer.strokeWeight(1 / exportRatio);
             this.buffer.point(this.rightUp.x / exportRatio, this.rightUp.y / exportRatio);
             this.buffer.point(this.rightDown.x / exportRatio, this.rightDown.y / exportRatio);
             this.buffer.point(this.leftDown.x / exportRatio, this.leftDown.y / exportRatio);
