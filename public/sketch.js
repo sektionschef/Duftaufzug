@@ -50,18 +50,18 @@ function setup() {
 
   noiseSeed(NOISESEED);
 
-  // wallData = {
-  //   buffer: wallBuffer,
-  //   inc: 0.01,  // noise increase for perlin noise
-  //   colorSolid: 10,  // color of the boxes
-  //   opacityValue: 5,  // opacity of boxes
-  //   scl: 10,  // size of the cell, boxes
-  //   distortion: 30,  // random misplacement of the boxes
-  //   amountMax: 15, // how many rects per cell, max
-  //   margin: 200, // distance to the edge
-  // }
+  wallData = {
+    buffer: wallBuffer,
+    inc: 0.01,  // noise increase for perlin noise
+    colorSolid: 10,  // color of the boxes
+    opacityValue: 5,  // opacity of boxes
+    scl: 10,  // size of the cell, boxes
+    distortion: 30,  // random misplacement of the boxes
+    amountMax: 15, // how many rects per cell, max
+    margin: 200, // distance to the edge
+  }
 
-  // wall = new noiseParticles(wallData);
+  wall = new noiseParticles(wallData);
   // wall = new noisePixel(wallData);  // alternative
 
   duftShapeData = {
@@ -94,51 +94,51 @@ function setup() {
     margin: 0, // distance to the edge
   }
 
-  // duftTexture = new noiseParticles(duftTextureData);
+  duftTexture = new noiseParticles(duftTextureData);
 
   duftOrigin = duftShape.shapes[0].origin;
   duftOrbit = (duftShape.shapes[0].radioMax - duftShape.shapes[0].radioMin) / 2 + duftShape.shapes[0].radioMin;
   duftOrient = getRandomFromList(["down", "left", "up", "right"]);
 
-  // lightShapeData = {
-  //   shapeCount: 70, // number of shapes
-  //   buffer: lightShapeBuffer,
-  //   radioMin: 300, // size
-  //   radioMax: 350, // size
-  //   radioDistortion: 150,  // misplacement
-  //   polygonCount: 10,  // how many overlapping polygons to draw
-  //   opacityValue: 2,
-  //   margin: 500,  // distance from edge
-  //   curveTightness: 1,
-  //   noColorStroke: false,
-  //   solidColorStroke: 130,
-  //   solidColorArea: color(180, 10),
-  //   duftOrbit: false,
-  //   duftArea: true,
-  // }
-  // lightShape = new Shapes(lightShapeData);
+  lightShapeData = {
+    shapeCount: 70, // number of shapes
+    buffer: lightShapeBuffer,
+    radioMin: 300, // size
+    radioMax: 350, // size
+    radioDistortion: 150,  // misplacement
+    polygonCount: 10,  // how many overlapping polygons to draw
+    opacityValue: 2,
+    margin: 500,  // distance from edge
+    curveTightness: 1,
+    noColorStroke: false,
+    solidColorStroke: 130,
+    solidColorArea: color(180, 10),
+    duftOrbit: false,
+    duftArea: true,
+  }
+  lightShape = new Shapes(lightShapeData);
 
 
-  // lightTextureData = {
-  //   buffer: lightTextureBuffer,
-  //   inc: 0.4,  // noise increase for perlin noise
-  //   colorSolid: 230,  // color of the boxes
-  //   opacityValue: 30,  // opacity of boxes
-  //   scl: 10,  // size of the cell, boxes
-  //   distortion: 30,  // random misplacement of the boxes
-  //   amountMax: 1, // how many rects per cell, max
-  //   margin: 0, // distance to the edge
-  // }
+  lightTextureData = {
+    buffer: lightTextureBuffer,
+    inc: 0.4,  // noise increase for perlin noise
+    colorSolid: 230,  // color of the boxes
+    opacityValue: 30,  // opacity of boxes
+    scl: 10,  // size of the cell, boxes
+    distortion: 30,  // random misplacement of the boxes
+    amountMax: 1, // how many rects per cell, max
+    margin: 0, // distance to the edge
+  }
 
-  // lightTexture = new noiseParticles(lightTextureData);
+  lightTexture = new noiseParticles(lightTextureData);
 
   frameShapeData = {
-    shapeCount: 5, // number of shapes
+    shapeCount: 3, // number of shapes
     buffer: frameShapeBuffer,
-    radioMin: 600, // size
-    radioMax: 800, // size
+    radioMin: 300, // size
+    radioMax: 400, // size
     radioDistortion: 200,  // misplacement
-    polygonCount: 600,  // how many overlapping polygons to draw
+    polygonCount: 1600,  // how many overlapping polygons to draw
     opacityValue: 5,
     margin: 500,  // distance from edge
     curveTightness: 1.5,
@@ -150,26 +150,26 @@ function setup() {
   }
   frameShape = new Shapes(frameShapeData);
 
-  // highlightShapeData = {
-  //   buffer: highlightShapeBuffer,
-  //   shapeCount: 10, // number of shapes
-  //   radioMin: 50, // size
-  //   radioMax: 250, // size
-  //   radioDistortion: 170,  // misplacement
-  //   polygonCount: 20,  // how many overlapping polygons to draw
-  //   opacityValue: 5,
-  //   margin: 500,  // distance from edge
-  //   curveTightness: 0.5,
-  //   noColorStroke: true,
-  //   solidColorStroke: 130,
-  //   solidColorArea: 250,
-  //   duftOrbit: true,
-  // }
-  // highlightShapes = new Shapes(highlightShapeData);
+  highlightShapeData = {
+    buffer: highlightShapeBuffer,
+    shapeCount: 10, // number of shapes
+    radioMin: 50, // size
+    radioMax: 250, // size
+    radioDistortion: 170,  // misplacement
+    polygonCount: 20,  // how many overlapping polygons to draw
+    opacityValue: 5,
+    margin: 500,  // distance from edge
+    curveTightness: 0.5,
+    noColorStroke: true,
+    solidColorStroke: 130,
+    solidColorArea: 250,
+    duftOrbit: true,
+  }
+  highlightShapes = new Shapes(highlightShapeData);
 
   // MASKS
-  // duft = maskBuffers(duftTexture.buffer, duftShape.buffer);
-  // light = maskBuffers(lightTexture.buffer, lightShape.buffer);
+  duft = maskBuffers(duftTexture.buffer, duftShape.buffer);
+  light = maskBuffers(lightTexture.buffer, lightShape.buffer);
 }
 
 
@@ -185,17 +185,17 @@ function draw() {
 
   buffer.background(BACKGROUNDCOLOR);
 
-  // buffer.image(wall.buffer, 0, 0);
+  buffer.image(wall.buffer, 0, 0);
 
-  // buffer.image(lightShape.buffer, 0, 0);
-  // buffer.image(light, 0, 0);
+  buffer.image(lightShape.buffer, 0, 0);
+  buffer.image(light, 0, 0);
 
   buffer.image(frameShape.buffer, 0, 0);
 
-  // buffer.image(highlightShapes.buffer, 0, 0);
+  buffer.image(highlightShapes.buffer, 0, 0);
 
-  // buffer.image(duftShape.buffer, 0, 0);
-  // buffer.image(duft, 0, 0);
+  buffer.image(duftShape.buffer, 0, 0);
+  buffer.image(duft, 0, 0);
 
   if (logging.getLevel() <= 1) {
     // debug duftOrbit
