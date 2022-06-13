@@ -9,10 +9,13 @@ console.info("fxhash: " + fxhash);
 NOISESEED = hashFnv32a(fxhash);
 logging.debug("Noise seed: " + NOISESEED);
 
-let BACKGROUNDCOLOR = 120;
-let MARGINDUFTORIGIN = 1200;
+let BACKGROUNDCOLOR = 170;  // 120
+let BACKGROUNDMARGIN = 200;
+let MARGINDUFTORIGIN = 1500;
 let DUFTRADIOMIN = 600;
 let DUFTRADIOMAX = 800;
+let LIGHTRADIOMIN = 300;
+let LIGHTRADIOMAX = 350;
 
 
 let scaleRatio;
@@ -63,35 +66,39 @@ function setup() {
 
   duftArea.orientation = getRandomFromList(["down", "left", "up", "right"]);
 
+  let duftAreaMargin = (BACKGROUNDMARGIN + LIGHTRADIOMIN)
+
   if (duftArea.orientation == "down") {
     duftArea.position = createVector(
       duftOrigin.x - duftOrbit,
       duftOrigin.y - duftOrbit
     );
     duftArea.width = duftOrbit * 2;
-    duftArea.height = (exportPaper.height - (duftOrigin.y - duftOrbit));
+    duftArea.height = (exportPaper.height - (duftOrigin.y - duftOrbit) - duftAreaMargin);
   } else if (duftArea.orientation == "left") {
     duftArea.position = createVector(
-      0,
+      0 + duftAreaMargin,
       duftOrigin.y - duftOrbit
     );
-    duftArea.width = (duftOrigin.x + duftOrbit);
+    duftArea.width = (duftOrigin.x + duftOrbit) - duftAreaMargin;
     duftArea.height = duftOrbit * 2;
   } else if (duftArea.orientation == "up") {
     duftArea.position = createVector(
       duftOrigin.x - duftOrbit,
-      0
+      0 + duftAreaMargin
     );
     duftArea.width = (duftOrbit * 2);
-    duftArea.height = (duftOrigin.y + duftOrbit);
+    duftArea.height = (duftOrigin.y + duftOrbit) - duftAreaMargin;
   } else if (duftArea.orientation == "right") {
     duftArea.position = createVector(
       duftOrigin.x - duftOrbit,
       duftOrigin.y - duftOrbit
     )
-    duftArea.width = (exportPaper.width - (duftOrigin.x - duftOrbit));
+    duftArea.width = (exportPaper.width - (duftOrigin.x - duftOrbit) - duftAreaMargin);
     duftArea.height = duftOrbit * 2;
   }
+
+  duftArea.size = duftArea.width * duftArea.height;
 
   wallData = {
     buffer: wallBuffer,
@@ -101,7 +108,7 @@ function setup() {
     scl: 10,  // size of the cell, boxes
     distortion: 30,  // random misplacement of the boxes
     amountMax: 15, // how many rects per cell, max
-    margin: 200, // distance to the edge
+    margin: BACKGROUNDMARGIN, // distance to the edge
   }
 
   wall = new noiseParticles(wallData);
@@ -141,10 +148,10 @@ function setup() {
   duftTexture = new noiseParticles(duftTextureData);
 
   lightShapeData = {
-    shapeCount: 70, // number of shapes
+    shapeCount: duftArea.size / 40000, // number of shapes - 70
     buffer: lightShapeBuffer,
-    radioMin: 300, // size
-    radioMax: 350, // size
+    radioMin: LIGHTRADIOMIN, // size
+    radioMax: LIGHTRADIOMAX, // size
     radioDistortion: 150,  // misplacement
     polygonCount: 10,  // how many overlapping polygons to draw
     margin: 500,  // distance from edge

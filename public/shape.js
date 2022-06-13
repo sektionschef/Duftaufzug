@@ -39,7 +39,6 @@ class Shape {
     }
 
     draw() {
-
         this.buffer.push();
         this.buffer.curveTightness(this.curveTightness)
 
