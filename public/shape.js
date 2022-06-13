@@ -119,10 +119,6 @@ class Shapes {
 
         this.shapes = []
 
-        if (this.duftArea == true) {
-            var orient = getRandomFromList(["down", "left", "up", "right"]);
-        }
-
         for (var i = 0; i < this.shapeCount; i++) {
 
 
@@ -144,20 +140,25 @@ class Shapes {
             // place shapes in area between duft and the edge
             if (this.duftArea == true) {
 
-                if (orient == "down") {
-                    var posX = getRandomFromInterval(duftOrigin.x - duftOrbit, duftOrigin.x + duftOrbit)
-                    var posY = getRandomFromInterval(duftOrigin.y - duftOrbit, exportPaper.height)
-                } else if (orient == "left") {
-                    var posX = getRandomFromInterval(0, duftOrigin.x + duftOrbit)
-                    var posY = getRandomFromInterval(duftOrigin.y - duftOrbit, duftOrigin.y + duftOrbit)
-                } else if (orient == "up") {
-                    var posX = getRandomFromInterval(duftOrigin.x - duftOrbit, duftOrigin.x + duftOrbit)
-                    var posY = getRandomFromInterval(0, duftOrigin.y + duftOrbit)
-                } else if (orient == "right") {
-                    var posX = getRandomFromInterval(duftOrigin.x - duftOrbit, exportPaper.width)
-                    var posY = getRandomFromInterval(duftOrigin.y - duftOrbit, duftOrigin.y + duftOrbit)
-                }
-                var origin = createVector(posX, posY);
+                // if (orient == "down") {
+                //     var posX = getRandomFromInterval(duftOrigin.x - duftOrbit, duftOrigin.x + duftOrbit)
+                //     var posY = getRandomFromInterval(duftOrigin.y - duftOrbit, exportPaper.height)
+                // } else if (orient == "left") {
+                //     var posX = getRandomFromInterval(0, duftOrigin.x + duftOrbit)
+                //     var posY = getRandomFromInterval(duftOrigin.y - duftOrbit, duftOrigin.y + duftOrbit)
+                // } else if (orient == "up") {
+                //     var posX = getRandomFromInterval(duftOrigin.x - duftOrbit, duftOrigin.x + duftOrbit)
+                //     var posY = getRandomFromInterval(0, duftOrigin.y + duftOrbit)
+                // } else if (orient == "right") {
+                //     var posX = getRandomFromInterval(duftOrigin.x - duftOrbit, exportPaper.width)
+                //     var posY = getRandomFromInterval(duftOrigin.y - duftOrbit, duftOrigin.y + duftOrbit)
+                // }
+                // var origin = createVector(posX, posY);
+
+                var origin = createVector(
+                    getRandomFromInterval(duftArea.position.x, duftArea.position.x + duftArea.width),
+                    getRandomFromInterval(duftArea.position.y, duftArea.position.y + duftArea.height),
+                )
 
                 // this.solidColorArea = distortColor(this.solidColorArea, 0.5);
             }
