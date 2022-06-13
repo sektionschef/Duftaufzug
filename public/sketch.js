@@ -11,6 +11,9 @@ logging.debug("Noise seed: " + NOISESEED);
 
 let BACKGROUNDCOLOR = 120;
 let MARGINDUFTORIGIN = 1200;
+let DUFTRADIOMIN = 600;
+let DUFTRADIOMAX = 800;
+
 
 let scaleRatio;
 let exportRatio;
@@ -56,26 +59,59 @@ function setup() {
     getRandomFromInterval(0 + MARGINDUFTORIGIN, exportPaper.width - MARGINDUFTORIGIN),
     getRandomFromInterval(0 + MARGINDUFTORIGIN, exportPaper.height - MARGINDUFTORIGIN)
   );
+  duftOrbit = (DUFTRADIOMAX - DUFTRADIOMIN) / 2 + DUFTRADIOMIN;
 
-  // wallData = {
-  //   buffer: wallBuffer,
-  //   inc: 0.01,  // noise increase for perlin noise
-  //   colorSolid: 10,  // color of the boxes
-  //   opacityValue: 5,  // opacity of boxes
-  //   scl: 10,  // size of the cell, boxes
-  //   distortion: 30,  // random misplacement of the boxes
-  //   amountMax: 15, // how many rects per cell, max
-  //   margin: 200, // distance to the edge
-  // }
+  duftArea.orientation = getRandomFromList(["down", "left", "up", "right"]);
 
-  // wall = new noiseParticles(wallData);
+  if (duftArea.orientation == "down") {
+    duftArea.position = createVector(
+      duftOrigin.x - duftOrbit,
+      duftOrigin.y - duftOrbit
+    );
+    duftArea.width = duftOrbit * 2;
+    duftArea.height = (exportPaper.height - (duftOrigin.y - duftOrbit));
+  } else if (duftArea.orientation == "left") {
+    duftArea.position = createVector(
+      0,
+      duftOrigin.y - duftOrbit
+    );
+    duftArea.width = (duftOrigin.x + duftOrbit);
+    duftArea.height = duftOrbit * 2;
+  } else if (duftArea.orientation == "up") {
+    duftArea.position = createVector(
+      duftOrigin.x - duftOrbit,
+      0
+    );
+    duftArea.width = (duftOrbit * 2);
+    duftArea.height = (duftOrigin.y + duftOrbit);
+  } else if (duftArea.orientation == "right") {
+    duftArea.position = createVector(
+      duftOrigin.x - duftOrbit,
+      duftOrigin.y - duftOrbit
+    )
+    duftArea.width = (exportPaper.width - (duftOrigin.x - duftOrbit));
+    duftArea.height = duftOrbit * 2;
+  }
+
+  wallData = {
+    buffer: wallBuffer,
+    inc: 0.01,  // noise increase for perlin noise
+    colorSolid: 10,  // color of the boxes
+    opacityValue: 5,  // opacity of boxes
+    scl: 10,  // size of the cell, boxes
+    distortion: 30,  // random misplacement of the boxes
+    amountMax: 15, // how many rects per cell, max
+    margin: 200, // distance to the edge
+  }
+
+  wall = new noiseParticles(wallData);
   // // wall = new noisePixel(wallData);  // alternative
 
   duftShapeData = {
     buffer: duftShapeBuffer,
     shapeCount: 1, // number of shapes
-    radioMin: 600, // size
-    radioMax: 800, // size
+    radioMin: DUFTRADIOMIN, // size
+    radioMax: DUFTRADIOMAX, // size
     radioDistortion: 180,  // misplacement
     polygonCount: 100,  // how many overlapping polygons to draw
     margin: MARGINDUFTORIGIN,  // distance from edge
@@ -103,36 +139,6 @@ function setup() {
   }
 
   duftTexture = new noiseParticles(duftTextureData);
-
-  // duftOrigin = duftShape.shapes[0].origin;
-  duftOrbit = (duftShape.shapes[0].radioMax - duftShape.shapes[0].radioMin) / 2 + duftShape.shapes[0].radioMin;
-
-  duftArea.orientation = getRandomFromList(["down", "left", "up", "right"]);
-
-  if (duftArea.orientation == "down") {
-    var posX = (duftOrigin.x - duftOrbit);
-    var posY = (duftOrigin.y - duftOrbit);
-    var widthX = duftOrbit * 2;
-    var heightY = (exportPaper.height - (duftOrigin.y - duftOrbit));
-  } else if (duftArea.orientation == "left") {
-    var posX = 0;
-    var posY = (duftOrigin.y - duftOrbit);
-    var widthX = (duftOrigin.x + duftOrbit);
-    var heightY = duftOrbit * 2;
-  } else if (duftArea.orientation == "up") {
-    var posX = (duftOrigin.x - duftOrbit);
-    var posY = 0;
-    var widthX = (duftOrbit * 2);
-    var heightY = (duftOrigin.y + duftOrbit);
-  } else if (duftArea.orientation == "right") {
-    var posX = (duftOrigin.x - duftOrbit);
-    var posY = (duftOrigin.y - duftOrbit);
-    var widthX = (exportPaper.width - (duftOrigin.x - duftOrbit));
-    var heightY = duftOrbit * 2;
-  }
-  duftArea.position = createVector(posX, posY);
-  duftArea.width = widthX;
-  duftArea.height = heightY;
 
   lightShapeData = {
     shapeCount: 70, // number of shapes
@@ -166,22 +172,22 @@ function setup() {
 
   lightTexture = new noiseParticles(lightTextureData);
 
-  // highlightShapeData = {
-  //   buffer: highlightShapeBuffer,
-  //   shapeCount: 10, // number of shapes
-  //   radioMin: 50, // size
-  //   radioMax: 250, // size
-  //   radioDistortion: 170,  // misplacement
-  //   polygonCount: 20,  // how many overlapping polygons to drawo
-  //   margin: 500,  // distance from edge
-  //   curveTightness: 0.5,
-  //   noColorStroke: false,
-  //   solidstrokeWeight: 50,
-  //   solidColorStroke: color(60, 5),
-  //   solidColorArea: color(250, 5),
-  //   duftOrbit: true,
-  // }
-  // highlightShapes = new Shapes(highlightShapeData);
+  highlightShapeData = {
+    buffer: highlightShapeBuffer,
+    shapeCount: 10, // number of shapes
+    radioMin: 50, // size
+    radioMax: 250, // size
+    radioDistortion: 170,  // misplacement
+    polygonCount: 20,  // how many overlapping polygons to drawo
+    margin: 500,  // distance from edge
+    curveTightness: 0.5,
+    noColorStroke: false,
+    solidstrokeWeight: 50,
+    solidColorStroke: color(60, 5),
+    solidColorArea: color(250, 5),
+    duftOrbit: true,
+  }
+  highlightShapes = new Shapes(highlightShapeData);
 
   // // MASKS
   duft = maskBuffers(duftTexture.buffer, duftShape.buffer);
@@ -201,18 +207,18 @@ function draw() {
 
   buffer.background(BACKGROUNDCOLOR);
 
-  // buffer.image(wall.buffer, 0, 0);
+  buffer.image(wall.buffer, 0, 0);
 
   buffer.image(lightShape.buffer, 0, 0);
   buffer.image(light, 0, 0);
 
-  // buffer.image(highlightShapes.buffer, 0, 0);
+  buffer.image(highlightShapes.buffer, 0, 0);
 
   buffer.image(duftShape.buffer, 0, 0);
   buffer.image(duft, 0, 0);
 
   // debug duftOrbit
-  if (logging.getLevel() <= 2) {
+  if (logging.getLevel() <= 1) {
     buffer.push();
     buffer.rectMode(CENTER);
     buffer.stroke("red");
@@ -223,7 +229,7 @@ function draw() {
   }
 
   // debug duftArea
-  if (logging.getLevel() <= 2) {
+  if (logging.getLevel() <= 1) {
     buffer.push();
     buffer.rectMode(CORNER);
     buffer.stroke("purple");
