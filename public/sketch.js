@@ -10,6 +10,7 @@ NOISESEED = hashFnv32a(fxhash);
 logging.debug("Noise seed: " + NOISESEED);
 
 let BACKGROUNDCOLOR = 120;
+let MARGINDUFTORIGIN = 1200;
 
 let scaleRatio;
 let exportRatio;
@@ -51,6 +52,11 @@ function setup() {
 
   noiseSeed(NOISESEED);
 
+  duftOrigin = createVector(
+    getRandomFromInterval(0 + MARGINDUFTORIGIN, exportPaper.width - MARGINDUFTORIGIN),
+    getRandomFromInterval(0 + MARGINDUFTORIGIN, exportPaper.height - MARGINDUFTORIGIN)
+  );
+
   // wallData = {
   //   buffer: wallBuffer,
   //   inc: 0.01,  // noise increase for perlin noise
@@ -72,12 +78,13 @@ function setup() {
     radioMax: 800, // size
     radioDistortion: 180,  // misplacement
     polygonCount: 100,  // how many overlapping polygons to draw
-    margin: 1200,  // distance from edge
+    margin: MARGINDUFTORIGIN,  // distance from edge
     curveTightness: 1,
     noColorStroke: true,
     solidstrokeWeight: 50,
     solidColorStroke: color(20, 5),
     solidColorArea: color(30, 5),
+    origin: duftOrigin,
     duftOrbit: false,
   }
 
@@ -97,7 +104,7 @@ function setup() {
 
   duftTexture = new noiseParticles(duftTextureData);
 
-  duftOrigin = duftShape.shapes[0].origin;
+  // duftOrigin = duftShape.shapes[0].origin;
   duftOrbit = (duftShape.shapes[0].radioMax - duftShape.shapes[0].radioMin) / 2 + duftShape.shapes[0].radioMin;
 
   duftArea.orientation = getRandomFromList(["down", "left", "up", "right"]);
@@ -215,44 +222,16 @@ function draw() {
     buffer.pop();
   }
 
-  buffer.push();
-  buffer.rectMode(CORNER);
-  buffer.stroke("purple");
-  buffer.strokeWeight(5 / exportRatio);
-  buffer.noFill();
-  buffer.rect(duftArea.position.x / exportRatio, duftArea.position.y / exportRatio, duftArea.width / exportRatio, duftArea.height / exportRatio);
-  buffer.pop();
-
-  // temp
-  // buffer.push();
-  // buffer.rectMode(CORNER);
-  // buffer.stroke("purple");
-  // buffer.strokeWeight(5 / exportRatio);
-  // buffer.noFill();
-  // buffer.rect(
-  // right
-  // (duftOrigin.x - duftOrbit) / exportRatio,
-  // (duftOrigin.y - duftOrbit) / exportRatio,
-  // (exportPaper.width - (duftOrigin.x - duftOrbit)) / exportRatio,
-  // duftOrbit * 2 / exportRatio,
-  // down
-  // (duftOrigin.x - duftOrbit) / exportRatio,
-  // (duftOrigin.y - duftOrbit) / exportRatio,
-  // duftOrbit * 2 / exportRatio,
-  // (exportPaper.height - (duftOrigin.y - duftOrbit)) / exportRatio,
-  // left
-  // 0,
-  // (duftOrigin.y - duftOrbit) / exportRatio,
-  // (duftOrigin.x + duftOrbit) / exportRatio,
-  // duftOrbit * 2 / exportRatio,
-  // up
-  // (duftOrigin.x - duftOrbit) / exportRatio,
-  // 0,
-  // (duftOrbit * 2) / exportRatio,
-  // (duftOrigin.y + duftOrbit) / exportRatio
-  // );
-
-  // buffer.pop();
+  // debug duftArea
+  if (logging.getLevel() <= 2) {
+    buffer.push();
+    buffer.rectMode(CORNER);
+    buffer.stroke("purple");
+    buffer.strokeWeight(5 / exportRatio);
+    buffer.noFill();
+    buffer.rect(duftArea.position.x / exportRatio, duftArea.position.y / exportRatio, duftArea.width / exportRatio, duftArea.height / exportRatio);
+    buffer.pop();
+  }
 
   image(buffer, - width / 2, - height / 2);
 

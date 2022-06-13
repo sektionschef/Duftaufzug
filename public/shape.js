@@ -16,11 +16,11 @@ class Shape {
         this.solidColorStroke = data.solidColorStroke;
         this.solidColorArea = data.solidColorArea;
 
-        if (typeof data.origin == "undefined") {
-            this.origin = createVector(getRandomFromInterval(0 + this.margin, exportPaper.width - this.margin), getRandomFromInterval(0 + this.margin, exportPaper.height - this.margin));
-        } else {
-            this.origin = data.origin
-        }
+        // if (typeof data.origin == "undefined") {
+        // this.origin = createVector(getRandomFromInterval(0 + this.margin, exportPaper.width - this.margin), getRandomFromInterval(0 + this.margin, exportPaper.height - this.margin));
+        // } else {
+        this.origin = data.origin;
+        // }
 
         this.polygons = [];
         this.rightUp = createVector(this.origin.x + getRandomFromInterval(this.radioMin, this.radioMax), this.origin.y + getRandomFromInterval(-this.radioMin, -this.radioMax));
@@ -35,7 +35,6 @@ class Shape {
                 leftDown: createVector(this.leftDown.x + getRandomFromInterval(0, this.radioDistortion), this.leftDown.y + getRandomFromInterval(0, this.radioDistortion)),
                 leftUp: createVector(this.leftUp.x + getRandomFromInterval(0, this.radioDistortion), this.leftUp.y + getRandomFromInterval(0, this.radioDistortion))
             })
-
         }
     }
 
@@ -114,13 +113,13 @@ class Shapes {
         this.noColorStroke = data.noColorStroke;
         this.solidColorStroke = data.solidColorStroke;
         this.solidColorArea = data.solidColorArea;
+        this.origin = data.origin;
         this.duftOrbit = data.duftOrbit
         this.duftArea = data.duftArea
 
         this.shapes = []
 
         for (var i = 0; i < this.shapeCount; i++) {
-
 
             // place randomly on the orbit
             if (this.duftOrbit == true) {
@@ -134,28 +133,13 @@ class Shapes {
                     var posY = getRandomFromInterval((duftOrigin.y - duftOrbit), (duftOrigin.y + duftOrbit))
                 }
 
-                var origin = createVector(posX, posY);
+                this.origin = createVector(posX, posY);
             }
 
             // place shapes in area between duft and the edge
             if (this.duftArea == true) {
 
-                // if (orient == "down") {
-                //     var posX = getRandomFromInterval(duftOrigin.x - duftOrbit, duftOrigin.x + duftOrbit)
-                //     var posY = getRandomFromInterval(duftOrigin.y - duftOrbit, exportPaper.height)
-                // } else if (orient == "left") {
-                //     var posX = getRandomFromInterval(0, duftOrigin.x + duftOrbit)
-                //     var posY = getRandomFromInterval(duftOrigin.y - duftOrbit, duftOrigin.y + duftOrbit)
-                // } else if (orient == "up") {
-                //     var posX = getRandomFromInterval(duftOrigin.x - duftOrbit, duftOrigin.x + duftOrbit)
-                //     var posY = getRandomFromInterval(0, duftOrigin.y + duftOrbit)
-                // } else if (orient == "right") {
-                //     var posX = getRandomFromInterval(duftOrigin.x - duftOrbit, exportPaper.width)
-                //     var posY = getRandomFromInterval(duftOrigin.y - duftOrbit, duftOrigin.y + duftOrbit)
-                // }
-                // var origin = createVector(posX, posY);
-
-                var origin = createVector(
+                this.origin = createVector(
                     getRandomFromInterval(duftArea.position.x, duftArea.position.x + duftArea.width),
                     getRandomFromInterval(duftArea.position.y, duftArea.position.y + duftArea.height),
                 )
@@ -165,7 +149,7 @@ class Shapes {
 
             var data = {
                 buffer: this.buffer,
-                origin: origin,
+                origin: this.origin,
                 radioMin: this.radioMin,
                 radioMax: this.radioMax,
                 radioDistortion: this.radioDistortion,
