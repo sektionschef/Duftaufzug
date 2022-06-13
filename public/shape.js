@@ -8,10 +8,11 @@ class Shape {
         this.radioMax = data.radioMax;
         this.radioDistortion = data.radioDistortion;
         this.polygonCount = data.polygonCount;
-        this.opacityValue = data.opacityValue;
+        // this.opacityValue = data.opacityValue;
         this.margin = data.margin;
         this.curveTightness = data.curveTightness;
         this.noColorStroke = data.noColorStroke;
+        this.solidstrokeWeight = data.solidstrokeWeight;
         this.solidColorStroke = data.solidColorStroke;
         this.solidColorArea = data.solidColorArea;
 
@@ -46,12 +47,14 @@ class Shape {
         if (this.noColorStroke == true) {
             this.buffer.noStroke();
         } else {
-            this.buffer.stroke(color(this.solidColorStroke, this.opacityValue));
-            this.buffer.strokeWeight(1 / exportRatio);
+            // this.buffer.stroke(color(this.solidColorStroke, this.opacityValue));
+            this.buffer.stroke(this.solidColorStroke);
+            this.buffer.strokeWeight(this.solidstrokeWeight / exportRatio);
         }
 
         // this.buffer.noFill();
-        this.buffer.fill(color(this.solidColorArea, this.opacityValue));
+        // this.buffer.fill(color(this.solidColorArea, this.opacityValue));
+        this.buffer.fill(this.solidColorArea);
 
         for (var polygon of this.polygons) {
             this.buffer.beginShape();

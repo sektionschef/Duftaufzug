@@ -71,12 +71,12 @@ function setup() {
     radioMax: 800, // size
     radioDistortion: 180,  // misplacement
     polygonCount: 100,  // how many overlapping polygons to draw
-    opacityValue: 5,
     margin: 1200,  // distance from edge
     curveTightness: 1,
     noColorStroke: true,
-    solidColorStroke: 20,
-    solidColorArea: 30,
+    solidstrokeWeight: 50,
+    solidColorStroke: color(20, 5),
+    solidColorArea: color(30, 5),
     duftOrbit: false,
   }
 
@@ -86,7 +86,7 @@ function setup() {
   duftTextureData = {
     buffer: duftTextureBuffer,
     inc: 0.01,  // noise increase for perlin noise
-    colorSolid: 0,  // color of the boxes
+    colorSolid: 180,  // color of the boxes
     opacityValue: 10,  // opacity of boxes
     scl: 10,  // size of the cell, boxes
     distortion: 60,  // random misplacement of the boxes
@@ -107,12 +107,12 @@ function setup() {
     radioMax: 350, // size
     radioDistortion: 150,  // misplacement
     polygonCount: 10,  // how many overlapping polygons to draw
-    opacityValue: 2,
     margin: 500,  // distance from edge
     curveTightness: 1,
     noColorStroke: false,
-    solidColorStroke: 130,
-    solidColorArea: color(180, 10),
+    solidstrokeWeight: 50,
+    solidColorStroke: color(33, 3),
+    solidColorArea: color(230, 3),
     duftOrbit: false,
     duftArea: true,
   }
@@ -122,7 +122,7 @@ function setup() {
   lightTextureData = {
     buffer: lightTextureBuffer,
     inc: 0.4,  // noise increase for perlin noise
-    colorSolid: 230,  // color of the boxes
+    colorSolid: 130,  // color of the boxes
     opacityValue: 30,  // opacity of boxes
     scl: 10,  // size of the cell, boxes
     distortion: 30,  // random misplacement of the boxes
@@ -132,23 +132,22 @@ function setup() {
 
   lightTexture = new noiseParticles(lightTextureData);
 
-  frameShapeData = {
-    shapeCount: 3, // number of shapes
-    buffer: frameShapeBuffer,
-    radioMin: 300, // size
-    radioMax: 400, // size
-    radioDistortion: 200,  // misplacement
-    polygonCount: 1600,  // how many overlapping polygons to draw
-    opacityValue: 5,
-    margin: 500,  // distance from edge
-    curveTightness: 1.5,
-    noColorStroke: false,
-    solidColorStroke: 30,
-    solidColorArea: color(180, 0),
-    duftOrbit: false,
-    duftArea: true,
-  }
-  frameShape = new Shapes(frameShapeData);
+  // frameShapeData = {
+  //   shapeCount: 130, // number of shapes
+  //   buffer: frameShapeBuffer,
+  //   radioMin: 300, // size
+  //   radioMax: 400, // size
+  //   radioDistortion: 100,  // misplacement
+  //   polygonCount: 100,  // how many overlapping polygons to draw
+  //   margin: 500,  // distance from edge
+  //   curveTightness: 1.5,
+  //   noColorStroke: false,
+  //   solidColorStroke: 30,
+  //   solidColorArea: color(180, 0),
+  //   duftOrbit: false,
+  //   duftArea: true,
+  // }
+  // frameShape = new Shapes(frameShapeData);
 
   highlightShapeData = {
     buffer: highlightShapeBuffer,
@@ -156,13 +155,13 @@ function setup() {
     radioMin: 50, // size
     radioMax: 250, // size
     radioDistortion: 170,  // misplacement
-    polygonCount: 20,  // how many overlapping polygons to draw
-    opacityValue: 5,
+    polygonCount: 20,  // how many overlapping polygons to drawo
     margin: 500,  // distance from edge
     curveTightness: 0.5,
-    noColorStroke: true,
-    solidColorStroke: 130,
-    solidColorArea: 250,
+    noColorStroke: false,
+    solidstrokeWeight: 50,
+    solidColorStroke: color(60, 5),
+    solidColorArea: color(250, 5),
     duftOrbit: true,
   }
   highlightShapes = new Shapes(highlightShapeData);
@@ -190,7 +189,7 @@ function draw() {
   buffer.image(lightShape.buffer, 0, 0);
   buffer.image(light, 0, 0);
 
-  buffer.image(frameShape.buffer, 0, 0);
+  // buffer.image(frameShape.buffer, 0, 0);
 
   buffer.image(highlightShapes.buffer, 0, 0);
 
