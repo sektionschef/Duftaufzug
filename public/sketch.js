@@ -51,6 +51,7 @@ function setup() {
   highlightShapeBuffer = createGraphics(rescaling_width, rescaling_height);
   duftTextureBuffer = createGraphics(rescaling_width, rescaling_height);
   duftShapeBuffer = createGraphics(rescaling_width, rescaling_height);
+  lineBuffer = createGraphics(rescaling_width, rescaling_height);
 
 
   logging.debug("Pixel density: " + pixelDensity())
@@ -126,7 +127,7 @@ function setup() {
     noColorStroke: true,
     solidstrokeWeight: 50,
     solidColorStroke: color(20, 5),
-    solidColorArea: color(30, 5),
+    solidColorArea: color(70, 5),
     origin: duftOrigin,
     duftOrbit: false,
   }
@@ -169,7 +170,7 @@ function setup() {
   lightTextureData = {
     buffer: lightTextureBuffer,
     inc: 0.4,  // noise increase for perlin noise
-    colorSolid: 130,  // color of the boxes
+    colorSolid: 160,  // color of the boxes
     opacityValue: 30,  // opacity of boxes
     scl: 10,  // size of the cell, boxes
     distortion: 30,  // random misplacement of the boxes
@@ -246,7 +247,24 @@ function draw() {
     buffer.pop();
   }
 
+  buffer.push();
+  buffer.drawingContext.filter = 'blur(6px)';
+  buffer.stroke("black");
+  buffer.strokeWeight(5 / exportRatio);
+  buffer.noFill();
+  buffer.curveTightness(1.5);
+  buffer.beginShape();
+  buffer.curveVertex(800 / exportRatio, 1000 / exportRatio);
+  buffer.curveVertex(800 / exportRatio, 1000 / exportRatio);
+  buffer.curveVertex(((800 - 300) / 2 + 800 + 30) / exportRatio, ((1000 - 1200) / 2 + 1000 + 30) / exportRatio);
+  buffer.curveVertex(300 / exportRatio, 1200 / exportRatio);
+  buffer.curveVertex(300 / exportRatio, 1200 / exportRatio);
+  buffer.endShape();
+  buffer.pop();
+
+
   image(buffer, - width / 2, - height / 2);
+
 
   noLoop();
   // fxpreview()
