@@ -5,21 +5,20 @@ const SWITCH_LOGGING_LEVEL = "info";
 
 logging.setLevel(SWITCH_LOGGING_LEVEL);
 
-// const MODE = "FINE ART";
-const MODE = "COMPOSITIONAL"
+// const MODE = 1  // "FINE ART";
+const MODE = 2  // basi image
+// const MODE = 5 // all debug messages
 
 console.info("fxhash: " + fxhash);
 NOISESEED = hashFnv32a(fxhash);
 logging.debug("Noise seed: " + NOISESEED);
 
-let BACKGROUNDCOLOR = 140;  // 120  //170
 let BACKGROUNDMARGIN = 200;
 let MARGINDUFTORIGIN = 1500;
-let DUFTRADIOMIN = 600;
-let DUFTRADIOMAX = 800;
-let LIGHTRADIOMIN = 300;
-let LIGHTRADIOMAX = 350;
-
+let DUFTRADIOMIN = 300;
+let DUFTRADIOMAX = 600;
+let LIGHTRADIOMIN = 100;
+let LIGHTRADIOMAX = 150;
 
 let scaleRatio;
 let exportRatio;
@@ -61,6 +60,15 @@ function setup() {
   exportRatio /= pixelDensity();  // FOR EACH BUFFER??
 
   noiseSeed(NOISESEED);
+
+  // COLOR
+  colorMode(HSB, 100);
+  backgroundColor = color(150, 3, 31, 100);
+  duftColor = color(220, 6, 21, 2);
+  lightColor = color(44, 8, 80, 5);
+  highlightColor = color(70, 3, 89, 0.1);
+  colorMode(RGB, 255);
+
 
   duftOrigin = createVector(
     getRandomFromInterval(0 + MARGINDUFTORIGIN, exportPaper.width - MARGINDUFTORIGIN),
@@ -115,7 +123,7 @@ function setup() {
     margin: BACKGROUNDMARGIN, // distance to the edge
   }
 
-  if (MODE == "FINE ART") {
+  if (MODE == 1) {
     wallTexture = new noiseParticles(wallData);
   }
 
@@ -131,7 +139,9 @@ function setup() {
     noColorStroke: true,
     solidstrokeWeight: 50,
     solidColorStroke: color(20, 5),
-    solidColorArea: color(70, 5),
+    solidColorArea: duftColor,
+    opacityFillValue: 255,
+    opacityStrokeValue: 255,
     origin: duftOrigin,
     duftOrbit: false,
   }
@@ -150,23 +160,25 @@ function setup() {
     margin: 0, // distance to the edge
   }
 
-  if (MODE == "FINE ART") {
+  if (MODE == 2) {
     duftTexture = new noiseParticles(duftTextureData);
   }
 
   lightShapeData = {
-    shapeCount: duftArea.size / 40000, // number of shapes - 70
+    shapeCount: duftArea.size / 20000, // number of shapes - 70
     buffer: lightShapeBuffer,
     radioMin: LIGHTRADIOMIN, // size
     radioMax: LIGHTRADIOMAX, // size
     radioDistortion: 150,  // misplacement
-    polygonCount: 10,  // how many overlapping polygons to draw
+    polygonCount: 30,  // how many overlapping polygons to draw
     margin: 500,  // distance from edge
-    curveTightness: 1,
-    noColorStroke: false,
+    curveTightness: -0.5,
+    noColorStroke: true,
     solidstrokeWeight: 50,
-    solidColorStroke: color(33, 3),
-    solidColorArea: color(230, 3),
+    solidColorStroke: color(33),
+    solidColorArea: [color("#908583"), color("#c8c3b7")],// lightColor, // color(230, 3),
+    opacityFillValue: 130,
+    opacityStrokeValue: 130,
     duftOrbit: false,
     duftArea: true,
   }
@@ -184,24 +196,26 @@ function setup() {
     margin: 0, // distance to the edge
   }
 
-  if (MODE == "FINE ART") {
+  if (MODE == 1) {
     lightTexture = new noiseParticles(lightTextureData);
   }
 
   highlightShapeData = {
     buffer: highlightShapeBuffer,
-    shapeCount: 10, // number of shapes
+    shapeCount: 15, // number of shapes
     radioMin: 50, // size
-    radioMax: 250, // size
+    radioMax: 150, // size
     radioDistortion: 170,  // misplacement
-    polygonCount: 20,  // how many overlapping polygons to drawo
+    polygonCount: 100,  // how many overlapping polygons to drawo
     margin: 500,  // distance from edge
     curveTightness: 0.5,
-    noColorStroke: false,
+    noColorStroke: true,
     solidstrokeWeight: 50,
-    solidColorStroke: color(60, 5),
+    solidColorStroke: highlightColor, // color(60, 5),
     solidColorArea: color(250, 5),
     duftOrbit: true,
+    opacityFillValue: 255,
+    opacityStrokeValue: 255,
   }
   highlightShapes = new Shapes(highlightShapeData);
 
@@ -224,7 +238,7 @@ function setup() {
   dummyLine = new Lines(LineData);
 
   // // MASKS
-  if (MODE == "FINE ART") {
+  if (MODE == 1) {
     duft = maskBuffers(duftTexture.buffer, duftShape.buffer);
     light = maskBuffers(lightTexture.buffer, lightShape.buffer);
   }
@@ -242,39 +256,39 @@ function draw() {
   buffer.clear();
   buffer.scale(scaleRatio);
 
-  buffer.background(BACKGROUNDCOLOR);
+  buffer.background(backgroundColor);
 
-  if (MODE == "FINE ART") {
+  if (MODE == 1) {
     buffer.image(wallTexture.buffer, 0, 0);
   }
 
   buffer.image(lightShape.buffer, 0, 0);
-  if (MODE == "FINE ART") {
+  if (MODE == 1) {
     buffer.image(light, 0, 0);
   }
 
   buffer.image(highlightShapes.buffer, 0, 0);
 
   buffer.image(duftShape.buffer, 0, 0);
-  if (MODE == "FINE ART") {
+  if (MODE == 1) {
     buffer.image(duft, 0, 0);
   }
 
   buffer.image(dummyLine.buffer, 0, 0);
 
   // debug duftOrbit
-  if (logging.getLevel() <= 1) {
+  if (MODE == 5) {
     buffer.push();
     buffer.rectMode(CENTER);
     buffer.stroke("red");
-    buffer.strokeWeight(1 / exportRatio);
+    buffer.strokeWeight(3 / exportRatio);
     buffer.noFill();
     buffer.rect(duftOrigin.x / exportRatio, duftOrigin.y / exportRatio, duftOrbit * 2 / exportRatio, duftOrbit * 2 / exportRatio);
     buffer.pop();
   }
 
   // debug duftArea
-  if (logging.getLevel() <= 1) {
+  if (MODE == 5) {
     buffer.push();
     buffer.rectMode(CORNER);
     buffer.stroke("purple");
@@ -284,6 +298,16 @@ function draw() {
     buffer.pop();
   }
 
+  // debug duftArea
+  if (MODE == 5) {
+    buffer.push();
+    buffer.rectMode(CORNER);
+    buffer.stroke("black");
+    buffer.strokeWeight(15 / exportRatio);
+    buffer.noFill();
+    buffer.rect(BACKGROUNDMARGIN / exportRatio, BACKGROUNDMARGIN / exportRatio, (exportPaper.width - BACKGROUNDMARGIN * 2) / exportRatio, (exportPaper.width - BACKGROUNDMARGIN * 2) / exportRatio);
+    buffer.pop();
+  }
 
   image(buffer, - width / 2, - height / 2);
 

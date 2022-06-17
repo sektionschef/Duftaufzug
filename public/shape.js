@@ -8,19 +8,20 @@ class Shape {
         this.radioMax = data.radioMax;
         this.radioDistortion = data.radioDistortion;
         this.polygonCount = data.polygonCount;
-        // this.opacityValue = data.opacityValue;
         this.margin = data.margin;
         this.curveTightness = data.curveTightness;
         this.noColorStroke = data.noColorStroke;
         this.solidstrokeWeight = data.solidstrokeWeight;
         this.solidColorStroke = data.solidColorStroke;
-        this.solidColorArea = data.solidColorArea;
+        this.opacityStrokeValue = data.opacityStrokeValue;
+        if (data.solidColorArea instanceof Array) {
+            this.solidColorArea = getRandomFromList(data.solidColorArea);
+        } else {
+            this.solidColorArea = data.solidColorArea;
+        }
+        this.opacityFillValue = data.opacityFillValue;
 
-        // if (typeof data.origin == "undefined") {
-        // this.origin = createVector(getRandomFromInterval(0 + this.margin, exportPaper.width - this.margin), getRandomFromInterval(0 + this.margin, exportPaper.height - this.margin));
-        // } else {
         this.origin = data.origin;
-        // }
 
         this.polygons = [];
         this.rightUp = createVector(this.origin.x + getRandomFromInterval(this.radioMin, this.radioMax), this.origin.y + getRandomFromInterval(-this.radioMin, -this.radioMax));
@@ -42,16 +43,27 @@ class Shape {
         this.buffer.push();
         this.buffer.curveTightness(this.curveTightness)
 
+        // STROKE
         if (this.noColorStroke == true) {
             this.buffer.noStroke();
         } else {
-            // this.buffer.stroke(color(this.solidColorStroke, this.opacityValue));
+            if (MODE == 5) {
+                this.solidColorStroke.setAlpha(255);
+            } else {
+                this.solidColorStroke.setAlpha(this.opacityStrokeValue);
+            }
+
             this.buffer.stroke(this.solidColorStroke);
             this.buffer.strokeWeight(this.solidstrokeWeight / exportRatio);
         }
 
-        // this.buffer.noFill();
-        // this.buffer.fill(color(this.solidColorArea, this.opacityValue));
+        // FILL
+        if (MODE == 5) {
+            this.solidColorArea.setAlpha(255);
+        } else {
+            this.solidColorArea.setAlpha(this.opacityFillValue);
+        }
+
         this.buffer.fill(this.solidColorArea);
 
         for (var polygon of this.polygons) {
@@ -61,6 +73,10 @@ class Shape {
             this.buffer.curveVertex(polygon.leftDown.x / exportRatio, polygon.leftDown.y / exportRatio);
             this.buffer.curveVertex(polygon.leftUp.x / exportRatio, polygon.leftUp.y / exportRatio);
             this.buffer.endShape(CLOSE);
+
+            if (MODE != "FINE ART") {
+                break
+            }
         }
         this.buffer.pop();
 
@@ -70,9 +86,10 @@ class Shape {
 
     draw_debug() {
 
-        if (logging.getLevel() <= 1) {
+        if (MODE == 5) {
             this.buffer.push();
             this.buffer.strokeWeight(1 / exportRatio);
+            this.buffer.stroke("yellow");
             this.buffer.point(this.rightUp.x / exportRatio, this.rightUp.y / exportRatio);
             this.buffer.point(this.rightDown.x / exportRatio, this.rightDown.y / exportRatio);
             this.buffer.point(this.leftDown.x / exportRatio, this.leftDown.y / exportRatio);
@@ -82,14 +99,15 @@ class Shape {
             // margin visible
             this.buffer.push();
             this.buffer.noFill()
+            this.buffer.stroke("orange")
             this.buffer.strokeWeight(1 / exportRatio);
             this.buffer.rect(this.margin / exportRatio, this.margin / exportRatio, (exportPaper.width - 2 * this.margin) / exportRatio, (exportPaper.height - 2 * this.margin) / exportRatio);
             this.buffer.pop();
 
             // debug origin - orbit
             this.buffer.push();
-            this.buffer.stroke("red");
-            this.buffer.strokeWeight(50 / exportRatio);
+            this.buffer.stroke("blue");
+            this.buffer.strokeWeight(30 / exportRatio);
             this.buffer.point(this.origin.x / exportRatio, this.origin.y / exportRatio);
             this.buffer.pop();
         }
@@ -106,12 +124,13 @@ class Shapes {
         this.radioMax = data.radioMax;
         this.radioDistortion = data.radioDistortion;  // misplacement
         this.polygonCount = data.polygonCount;  // how many overlapping polygons to draw
-        this.opacityValue = data.opacityValue;
         this.margin = data.margin;  // distance from edge
         this.curveTightness = data.curveTightness;
         this.noColorStroke = data.noColorStroke;
         this.solidColorStroke = data.solidColorStroke;
+        this.opacityStrokeValue = data.opacityStrokeValue;
         this.solidColorArea = data.solidColorArea;
+        this.opacityFillValue = data.opacityFillValue;
         this.origin = data.origin;
         this.duftOrbit = data.duftOrbit
         this.duftArea = data.duftArea
@@ -159,6 +178,8 @@ class Shapes {
                 noColorStroke: this.noColorStroke,
                 solidColorStroke: this.solidColorStroke,
                 solidColorArea: this.solidColorArea,
+                opacityFillValue: this.opacityStrokeValue,
+                opacityStrokeValue: this.opacityFillValue,
             }
 
             this.shapes.push(new Shape(data));
