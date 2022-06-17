@@ -6,7 +6,7 @@ const SWITCH_LOGGING_LEVEL = "info";
 logging.setLevel(SWITCH_LOGGING_LEVEL);
 
 // const MODE = 1  // "FINE ART";
-const MODE = 2  // basi image
+const MODE = 2  // basic image
 // const MODE = 5 // all debug messages
 
 console.info("fxhash: " + fxhash);
@@ -279,8 +279,6 @@ function draw() {
     buffer.image(duft, 0, 0);
   }
 
-  buffer.image(pixelfire.buffer, 0, 0);
-
   buffer.image(dummyLine.buffer, 0, 0);
 
   // debug duftOrbit
@@ -315,6 +313,8 @@ function draw() {
     buffer.rect(BACKGROUNDMARGIN / exportRatio, BACKGROUNDMARGIN / exportRatio, (exportPaper.width - BACKGROUNDMARGIN * 2) / exportRatio, (exportPaper.width - BACKGROUNDMARGIN * 2) / exportRatio);
     buffer.pop();
   }
+
+  buffer.image(pixelfire.buffer, 0, 0);
 
   image(buffer, - width / 2, - height / 2);
 
