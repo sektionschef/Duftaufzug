@@ -170,18 +170,18 @@ class Pixies {
 
         for (var i = 0; i < this.totalDots; i++) {
 
-            var _density_ = this.density + getRandomFromInterval(-10, 10);
+            var _density_ = this.density + Math.round(getRandomFromInterval(-10, 10));
             // draw each dto
             // on x axis
             for (var v = 0; v < this.dotSize / 2; v++) {
                 this.dotPixelIndex.push(
-                    (this.density * (i + 1) + v)
+                    (_density_ * (i + 1) + v)
                 )
             }
             // on y axis
             for (var w = 0; w < this.dotSize / 2; w++) {
                 this.dotPixelIndex.push(
-                    (this.density * (i + 1 + this.buffer.width * 4) + w)
+                    (_density_ * (i + 1 + this.buffer.width * 4) + w)
                 )
             }
         }
