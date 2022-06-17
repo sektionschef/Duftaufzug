@@ -126,7 +126,7 @@ function setup() {
   }
 
   if (MODE == 1) {
-    wallTexture = new noiseParticles(wallData);
+    // wallTexture = new noiseParticles(wallData);
   }
   pixelfire = new Pixies({ buffer: pixelfireBuffer, inc: 0.3 });
 

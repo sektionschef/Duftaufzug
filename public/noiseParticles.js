@@ -30,6 +30,8 @@ class noiseParticles {
 
                 for (var amount = 0; amount < r * this.amountMax; amount++) {
 
+                    // console.log(amount);
+
                     this.particles.push(
                         {
                             posX: (this.margin + x * this.scl) + getRandomFromInterval(0, this.distortion),
@@ -69,6 +71,8 @@ class noiseParticles {
             this.buffer.translate(particle.posX / exportRatio, particle.posY / exportRatio);
 
             this.buffer.rect(0, 0, particle.width / exportRatio, particle.height / exportRatio);
+
+            // console.log(particle.width / exportRatio);
 
             // with Points
             // this.buffer.stroke(particle.colorObject);
@@ -159,39 +163,18 @@ class Pixies {
         // noiseDetail(noiseDetailLod, noiseDetailFalloff);
 
         this.buffer = data.buffer;
-        this.inc = 0.01;
+        this.inc = 0.008;
 
         this.colorBackground = backgroundColor;
-        this.colorForeground = color(20);
+        this.colorForeground = color(0);
         this.opacityValue = 75;
         this.distortion = 7;
-        this.density = 15;
-        this.amountMax = 1;
+        this.density = 10;
+        this.amountMax = 10;
+        this.margin = BACKGROUNDMARGIN;
 
         this.totalPixels = this.buffer.width * this.buffer.height * 4;
         this.totalDots = this.totalPixels / this.density;
-        this.dotSize = 4;  // diameter
-
-        // this.dotPixelIndex = [];
-
-        // for (var i = 0; i < this.totalDots; i++) {
-
-        //     var _density_ = this.density + Math.round(getRandomFromInterval(-this.distortion, this.distortion));
-        //     // draw each dto
-        //     // on x axis
-        //     for (var v = 0; v < this.dotSize / 2; v++) {
-        //         this.dotPixelIndex.push(
-        //             (_density_ * (i + 1) + v)
-        //         )
-        //     }
-        //     // on y axis
-        //     for (var w = 0; w < this.dotSize / 2; w++) {
-        //         this.dotPixelIndex.push(
-        //             (_density_ * (i + 1 + this.buffer.width * 4) + w)
-        //         )
-        //     }
-        // }
-        // console.log(this.dotPixelIndex);
 
         this.draw();
 
@@ -203,6 +186,9 @@ class Pixies {
         let xoff = 0;
         let yoff = 0;
 
+        console.log(this.buffer.width * 4)
+        console.log(Math.round((this.buffer.width - this.margin / exportRatio) * 4));
+
         this.buffer.push();
         this.buffer.loadPixels();
         for (let y = 0; y < this.buffer.height; y++) {
@@ -211,15 +197,18 @@ class Pixies {
                 let index = (x + y * this.buffer.width) * 4;
                 var noiseF = noise(xoff, yoff);
 
-                // if (this.dotPixelIndex.includes(index)) {
+                // if (index < this.margin * 4) {
+                //     console.log("asefaf");
+                // }
+
+                // for (var amount = 0; amount < noiseF * this.amountMax; amount++) {
                 if (
-                    // (index % (this.density + Math.round(getRandomFromInterval(-this.distortion, this.distortion))) == 0) ||
-                    // ((index - 1) % (this.density + Math.round(getRandomFromInterval(-this.distortion, this.distortion))) == 0)
-                    (index % _density_ == 0) // ||
-                    // (((index - 4) % _density_) == 0)
+                    (index % _density_ == 0) &&
+                    // (index / this.buffer.width * 4) > (this.margin * 4)  // top bar
+                    (index % (this.buffer.width * 4) > this.margin * 4 / exportRatio) &&
+                    (index % (this.buffer.width * 4) < ((this.buffer.width - (this.margin / exportRatio)) * 4))
                 ) {
-                    if (fxrand() > 0.75) {
-                        // if (true) {
+                    if (fxrand() > 0.5) {
                         // this pixel
                         this.buffer.pixels[index + 0] = red(this.colorForeground);
                         this.buffer.pixels[index + 1] = green(this.colorForeground);
@@ -252,12 +241,23 @@ class Pixies {
                         this.buffer.pixels[index + 1] = green(this.colorForeground);
                         this.buffer.pixels[index + 2] = blue(this.colorForeground);
                         this.buffer.pixels[index + 3] = this.opacityValue * noiseF;  // opacity   
+
+                        _density_ = this.density + Math.round(getRandomFromInterval(-this.distortion, this.distortion))
                     }
                 } else {
+                    // background
                     this.buffer.pixels[index + 0] = red(this.colorBackground);
                     this.buffer.pixels[index + 1] = green(this.colorBackground);
                     this.buffer.pixels[index + 2] = blue(this.colorBackground);
-                    this.buffer.pixels[index + 3] = this.opacityValue * noiseF;  // opacity
+                    this.buffer.pixels[index + 3] = this.opacityValue;  // opacity
+                }
+                // }
+
+                if (index % (this.buffer.width * 4) == Math.round((this.buffer.width - this.margin / exportRatio) * 4)) {
+                    this.buffer.pixels[index + 0] = 255;
+                    this.buffer.pixels[index + 1] = 0;
+                    this.buffer.pixels[index + 2] = 0;
+                    this.buffer.pixels[index + 3] = 255;  // opacity
                 }
 
                 xoff += this.inc;
