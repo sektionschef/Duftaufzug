@@ -128,7 +128,7 @@ function setup() {
   if (MODE == 1) {
     wallTexture = new noiseParticles(wallData);
   }
-  pixelfire = new noisePixel({ buffer: pixelfireBuffer, inc: 0.3 });
+  pixelfire = new Pixies({ buffer: pixelfireBuffer, inc: 0.3 });
 
   duftShapeData = {
     buffer: duftShapeBuffer,

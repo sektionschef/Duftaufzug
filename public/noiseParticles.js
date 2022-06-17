@@ -97,37 +97,6 @@ class noisePixel {
         this.buffer = data.buffer;
         var inc = data.inc;
 
-
-        var density = 800;
-        var totalPixels = this.buffer.width * this.buffer.height;
-        var totalDots = totalPixels / density;
-        var dotPixelIndex = [];
-        var dotSize = 4;  // diameter
-
-        for (var i = 0; i < totalDots; i++) {
-            // draw each dto
-            // on x axis
-            for (var v = 0; v < dotSize / 2; v++) {
-                dotPixelIndex.push(
-                    (density * (i + 1) + v)
-                )
-            }
-            // on y axis
-            for (var w = 0; w < dotSize / 2; w++) {
-                dotPixelIndex.push(
-                    (density * (i + 1 + this.buffer.width * 4) + w)
-                )
-            }
-        }
-        // console.log(dotPixelIndex);
-        // dotPixelIndex = [80001, 80002, 80003, 80004];
-        // console.log(dotPixelIndex.includes(80001));
-
-        // REMOVE??
-        var dotIndex = 0;
-
-
-
         let yoff = 0;
         this.buffer.loadPixels();
         for (let y = 0; y < this.buffer.height; y++) {
@@ -142,13 +111,13 @@ class noisePixel {
                 // this.buffer.pixels[index + 3] = r;  // 255
 
                 // quite cool texture
-                // if (fxrand() > 0.75) {
-                //     let r = noise(xoff, yoff) * 255;
-                //     this.buffer.pixels[index + 0] = r;
-                //     this.buffer.pixels[index + 1] = r;
-                //     this.buffer.pixels[index + 2] = r;
-                //     this.buffer.pixels[index + 3] = r;  // 255
-                // }
+                if (fxrand() > 0.75) {
+                    let r = noise(xoff, yoff) * 255;
+                    this.buffer.pixels[index + 0] = r;
+                    this.buffer.pixels[index + 1] = r;
+                    this.buffer.pixels[index + 2] = r;
+                    this.buffer.pixels[index + 3] = r;  // 255
+                }
 
                 // CUSTOM COLOR
                 // let gain = 50;
@@ -175,22 +144,62 @@ class noisePixel {
                 // this.buffer.pixels[index + 2] = colorObject.levels[2] + b;
                 // this.buffer.pixels[index + 3] = opacityValue;
 
-                // manual dot drawing
-                // if (index == 80000 || index == (80000 + this.buffer.width * 4) || (dotIndex >= 1 && dotIndex <= 2)) {
-                //     dotIndex += 1;
-                //     this.buffer.pixels[index + 0] = 130;
-                //     this.buffer.pixels[index + 1] = 190;
-                //     this.buffer.pixels[index + 2] = 10;
-                //     this.buffer.pixels[index + 3] = 255;  // opacity                    
-                // } else {
-                //     dotIndex = 0;
-                //     this.buffer.pixels[index + 0] = 30;
-                //     this.buffer.pixels[index + 1] = 90;
-                //     this.buffer.pixels[index + 2] = 100;
-                //     this.buffer.pixels[index + 3] = 255;  // opacity
-                // }
+                xoff += inc;
+            }
+            yoff += inc;
+        }
+        this.buffer.updatePixels();
+    }
+}
 
-                if (dotPixelIndex.includes(index)) {
+
+class Pixies {
+
+    constructor(data) {
+        // noiseDetail(noiseDetailLod, noiseDetailFalloff);
+
+        this.buffer = data.buffer;
+        this.inc = data.inc;
+
+        this.density = 800;
+        this.totalPixels = this.buffer.width * this.buffer.height * 4;
+        this.totalDots = this.totalPixels / this.density;
+        this.dotSize = 4;  // diameter
+
+        this.dotPixelIndex = [];
+
+        for (var i = 0; i < this.totalDots; i++) {
+
+            var _density_ = this.density + getRandomFromInterval(-10, 10);
+            // draw each dto
+            // on x axis
+            for (var v = 0; v < this.dotSize / 2; v++) {
+                this.dotPixelIndex.push(
+                    (this.density * (i + 1) + v)
+                )
+            }
+            // on y axis
+            for (var w = 0; w < this.dotSize / 2; w++) {
+                this.dotPixelIndex.push(
+                    (this.density * (i + 1 + this.buffer.width * 4) + w)
+                )
+            }
+        }
+
+        this.draw();
+
+    }
+
+
+    draw() {
+        let yoff = 0;
+        this.buffer.loadPixels();
+        for (let y = 0; y < this.buffer.height; y++) {
+            let xoff = 0;
+            for (let x = 0; x < this.buffer.width; x++) {
+                let index = (x + y * this.buffer.width) * 4;
+
+                if (this.dotPixelIndex.includes(index)) {
                     this.buffer.pixels[index + 0] = 130;
                     this.buffer.pixels[index + 1] = 190;
                     this.buffer.pixels[index + 2] = 10;
@@ -202,9 +211,9 @@ class noisePixel {
                     this.buffer.pixels[index + 3] = 255;  // opacity
                 }
 
-                xoff += inc;
+                xoff += this.inc;
             }
-            yoff += inc;
+            yoff += this.inc;
         }
         this.buffer.updatePixels();
     }
