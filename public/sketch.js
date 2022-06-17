@@ -163,7 +163,7 @@ function setup() {
     margin: 0, // distance to the edge
   }
 
-  if (MODE == 2) {
+  if (MODE <= 2) {
     duftTexture = new noiseParticles(duftTextureData);
   }
 
@@ -264,12 +264,12 @@ function draw() {
   buffer.background(backgroundColor);
 
   if (MODE == 1) {
-    buffer.image(wallTexture.buffer, 0, 0);
+    // buffer.image(wallTexture.buffer, 0, 0);
   }
-  // buffer.push()
-  // buffer.drawingContext.filter = 'blur(1px)';
+  buffer.push()
+  // buffer.drawingContext.filter = 'blur(0.3px)';
   buffer.image(pixelfire.buffer, 0, 0);
-  // buffer.pop()
+  buffer.pop()
 
   buffer.image(lightShape.buffer, 0, 0);
   if (MODE == 1) {

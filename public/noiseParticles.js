@@ -162,11 +162,12 @@ class Pixies {
         this.inc = 0.01;
 
         this.colorBackground = backgroundColor;
-        this.colorForeground = color(10);
-        this.opacityValue = 50;
-        this.distortion = 5;
-        this.density = 10;
-        this.amountMax = 2;
+        this.colorForeground = color(20);
+        this.opacityValue = 75;
+        this.distortion = 7;
+        this.density = 15;
+        this.amountMax = 1;
+
         this.totalPixels = this.buffer.width * this.buffer.height * 4;
         this.totalDots = this.totalPixels / this.density;
         this.dotSize = 4;  // diameter
@@ -218,6 +219,7 @@ class Pixies {
                     // (((index - 4) % _density_) == 0)
                 ) {
                     if (fxrand() > 0.75) {
+                        // if (true) {
                         // this pixel
                         this.buffer.pixels[index + 0] = red(this.colorForeground);
                         this.buffer.pixels[index + 1] = green(this.colorForeground);
@@ -255,7 +257,7 @@ class Pixies {
                     this.buffer.pixels[index + 0] = red(this.colorBackground);
                     this.buffer.pixels[index + 1] = green(this.colorBackground);
                     this.buffer.pixels[index + 2] = blue(this.colorBackground);
-                    this.buffer.pixels[index + 3] = 255;  // opacity
+                    this.buffer.pixels[index + 3] = this.opacityValue * noiseF;  // opacity
                 }
 
                 xoff += this.inc;
