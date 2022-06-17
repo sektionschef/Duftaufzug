@@ -55,6 +55,8 @@ function setup() {
   duftShapeBuffer = createGraphics(rescaling_width, rescaling_height);
   lineBuffer = createGraphics(rescaling_width, rescaling_height);
 
+  pixelfireBuffer = createGraphics(rescaling_width, rescaling_height);
+
 
   logging.debug("Pixel density: " + pixelDensity())
   exportRatio /= pixelDensity();  // FOR EACH BUFFER??
@@ -126,6 +128,7 @@ function setup() {
   if (MODE == 1) {
     wallTexture = new noiseParticles(wallData);
   }
+  pixelfire = new noisePixel({ buffer: pixelfireBuffer, inc: 0.3 });
 
   duftShapeData = {
     buffer: duftShapeBuffer,
@@ -165,22 +168,23 @@ function setup() {
   }
 
   lightShapeData = {
-    shapeCount: duftArea.size / 20000, // number of shapes - 70
+    shapeCount: duftArea.size / 10000, // number of shapes - 70
     buffer: lightShapeBuffer,
     radioMin: LIGHTRADIOMIN, // size
     radioMax: LIGHTRADIOMAX, // size
     radioDistortion: 150,  // misplacement
-    polygonCount: 30,  // how many overlapping polygons to draw
+    polygonCount: 1,  // how many overlapping polygons to draw
     margin: 500,  // distance from edge
     curveTightness: -0.5,
     noColorStroke: true,
     solidstrokeWeight: 50,
     solidColorStroke: color(33),
     solidColorArea: [color("#908583"), color("#c8c3b7")],// lightColor, // color(230, 3),
-    opacityFillValue: 130,
-    opacityStrokeValue: 130,
+    opacityFillValue: 50,
+    opacityStrokeValue: 50,
     duftOrbit: false,
     duftArea: true,
+    blur: 1,
   }
   lightShape = new Shapes(lightShapeData);
 
@@ -216,6 +220,7 @@ function setup() {
     duftOrbit: true,
     opacityFillValue: 255,
     opacityStrokeValue: 255,
+    blur: undefined,
   }
   highlightShapes = new Shapes(highlightShapeData);
 
@@ -273,6 +278,8 @@ function draw() {
   if (MODE == 1) {
     buffer.image(duft, 0, 0);
   }
+
+  buffer.image(pixelfire.buffer, 0, 0);
 
   buffer.image(dummyLine.buffer, 0, 0);
 

@@ -20,6 +20,7 @@ class Shape {
             this.solidColorArea = data.solidColorArea;
         }
         this.opacityFillValue = data.opacityFillValue;
+        this.blur = data.blur;
 
         this.origin = data.origin;
 
@@ -41,6 +42,10 @@ class Shape {
 
     draw() {
         this.buffer.push();
+
+        if (typeof this.blur != "undefined") {
+            this.buffer.drawingContext.filter = 'blur(' + this.blur + 'px)';
+        }
         this.buffer.curveTightness(this.curveTightness)
 
         // STROKE
@@ -74,7 +79,7 @@ class Shape {
             this.buffer.curveVertex(polygon.leftUp.x / exportRatio, polygon.leftUp.y / exportRatio);
             this.buffer.endShape(CLOSE);
 
-            if (MODE != "FINE ART") {
+            if (MODE != 2) {
                 break
             }
         }
@@ -132,8 +137,9 @@ class Shapes {
         this.solidColorArea = data.solidColorArea;
         this.opacityFillValue = data.opacityFillValue;
         this.origin = data.origin;
-        this.duftOrbit = data.duftOrbit
-        this.duftArea = data.duftArea
+        this.duftOrbit = data.duftOrbit;
+        this.duftArea = data.duftArea;
+        this.blur = data.blur;
 
         this.shapes = []
 
@@ -180,6 +186,7 @@ class Shapes {
                 solidColorArea: this.solidColorArea,
                 opacityFillValue: this.opacityStrokeValue,
                 opacityStrokeValue: this.opacityFillValue,
+                blur: this.blur,
             }
 
             this.shapes.push(new Shape(data));
