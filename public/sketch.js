@@ -266,6 +266,10 @@ function draw() {
   if (MODE == 1) {
     buffer.image(wallTexture.buffer, 0, 0);
   }
+  // buffer.push()
+  // buffer.drawingContext.filter = 'blur(1px)';
+  buffer.image(pixelfire.buffer, 0, 0);
+  // buffer.pop()
 
   buffer.image(lightShape.buffer, 0, 0);
   if (MODE == 1) {
@@ -313,8 +317,6 @@ function draw() {
     buffer.rect(BACKGROUNDMARGIN / exportRatio, BACKGROUNDMARGIN / exportRatio, (exportPaper.width - BACKGROUNDMARGIN * 2) / exportRatio, (exportPaper.width - BACKGROUNDMARGIN * 2) / exportRatio);
     buffer.pop();
   }
-
-  buffer.image(pixelfire.buffer, 0, 0);
 
   image(buffer, - width / 2, - height / 2);
 
