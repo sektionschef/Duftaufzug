@@ -202,8 +202,10 @@ class Pixies {
                 if (
                     (index % _density_ == 0) &&
                     // (index / this.buffer.width * 4) > (this.margin * 4)  // top bar
-                    (index % (this.buffer.width * 4) > this.margin * 4 / exportRatio) &&
-                    (index % (this.buffer.width * 4) < ((this.buffer.width - (this.margin / exportRatio)) * 4))
+                    (index % (this.buffer.width * 4) > this.margin * 4 / exportRatio) &&  // horizontal left
+                    (index % (this.buffer.width * 4) < ((this.buffer.width - (this.margin / exportRatio)) * 4)) &&  // horizontal right
+                    (index > (this.buffer.width * (this.margin / exportRatio)) * 4) && // vertical top
+                    (index < ((this.buffer.width * this.buffer.height * 4) - this.buffer.width * (this.margin / exportRatio) * 4))
 
                 ) {
                     if (fxrand() > 0.5) {
