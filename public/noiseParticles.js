@@ -161,15 +161,25 @@ class Pixies {
 
     constructor(data) {
 
+        // this.buffer = data.buffer;
+        // this.inc = 0.008;
+        // this.colorBackground = backgroundColor;
+        // this.colorForeground = color(0);
+        // this.opacityValue = 75;
+        // this.distortion = 7;
+        // this.density = 10;
+        // this.amountMax = 10;
+        // this.margin = BACKGROUNDMARGIN;
+
         this.buffer = data.buffer;
-        this.inc = 0.008;
-        this.colorBackground = backgroundColor;
-        this.colorForeground = color(0);
-        this.opacityValue = 75;
-        this.distortion = 7;
-        this.density = 10;
-        this.amountMax = 10;
-        this.margin = BACKGROUNDMARGIN;
+        this.inc = data.inc;
+        this.colorBackground = data.colorBackground;
+        this.colorForeground = data.colorForeground;
+        this.opacityValue = data.opacityValue;
+        this.distortion = data.distortion;
+        this.density = data.density;
+        this.amountMax = data.amountMax;
+        this.margin = data.margin;
 
         this.totalPixels = this.buffer.width * this.buffer.height * 4;
         this.totalDots = this.totalPixels / this.density;

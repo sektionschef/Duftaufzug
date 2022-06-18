@@ -5,9 +5,9 @@ const SWITCH_LOGGING_LEVEL = "info";
 
 logging.setLevel(SWITCH_LOGGING_LEVEL);
 
-// const MODE = 1  // "FINE ART";
+const MODE = 1  // "FINE ART";
 // const MODE = 2  // basic image
-const MODE = 5 // all debug messages
+// const MODE = 5 // all debug messages
 
 console.info("fxhash: " + fxhash);
 NOISESEED = hashFnv32a(fxhash);
@@ -213,10 +213,10 @@ function setup() {
   }
   duftTextureData = {
     buffer: duftTextureBuffer,
-    inc: 0.1,  // noise increase for perlin noise
-    colorBackground: color(180),  // drawn pixels for background
-    colorForeground: color(0),  // drawn pixels for noise
-    opacityValue: 1,  // opacity of boxes
+    inc: 0.001,  // noise increase for perlin noise
+    colorBackground: color(0),  // drawn pixels for background
+    colorForeground: color(100),  // drawn pixels for noise
+    opacityValue: 75,  // opacity of boxes
     distortion: 7,  // random misplacement of the boxes
     density: 10,
     // amountMax: 15, // how many rects per cell, max
@@ -296,7 +296,7 @@ function setup() {
     duftOrbit: false,
     duftArea: false,
     duftCounty: true,
-    blur: undefined,
+    blur: 7,
   }
   ambientShape = new Shapes(ambientShapeData);
 
