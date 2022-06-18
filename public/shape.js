@@ -45,7 +45,7 @@ class Shape {
     draw() {
         this.buffer.push();
 
-        if (typeof this.blur != "undefined") {
+        if (typeof this.blur != "undefined" && MODE < 5) {
             this.buffer.drawingContext.filter = 'blur(' + this.blur + 'px)';
         }
         this.buffer.curveTightness(this.curveTightness)
@@ -146,8 +146,6 @@ class Shapes {
         this.blur = data.blur;
 
         this.shapes = []
-        // this.securityMargin = BACKGROUNDMARGIN + this.radioMin + (this.radioMax - this.radioMin) / 2;
-        this.securityMargin = BACKGROUNDMARGIN + this.radioMax;
 
         for (var i = 0; i < this.shapeCount; i++) {
 
@@ -191,12 +189,12 @@ class Shapes {
                 this.origin = createVector(
                     constrain(
                         posX,
-                        this.securityMargin,
-                        (exportPaper.width - this.securityMargin)
+                        BACKGROUNDMARGIN + this.radioMax,
+                        (exportPaper.width - BACKGROUNDMARGIN - this.radioMax)
                     ), constrain(
                         posY,
-                        this.securityMargin,
-                        (exportPaper.height - this.securityMargin)
+                        BACKGROUNDMARGIN + this.radioMax,
+                        (exportPaper.height - BACKGROUNDMARGIN - this.radioMax)
                     )
                 )
             }

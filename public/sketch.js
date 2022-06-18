@@ -5,9 +5,9 @@ const SWITCH_LOGGING_LEVEL = "info";
 
 logging.setLevel(SWITCH_LOGGING_LEVEL);
 
-// const MODE = 1  // "FINE ART";
+const MODE = 1  // "FINE ART";
 // const MODE = 2  // basic image
-const MODE = 5 // all debug messages
+// const MODE = 5 // all debug messages
 
 console.info("fxhash: " + fxhash);
 NOISESEED = hashFnv32a(fxhash);
@@ -17,8 +17,8 @@ let BACKGROUNDMARGIN = 200;
 let MARGINDUFTORIGIN = 1500;
 let DUFTRADIOMIN = 300;
 let DUFTRADIOMAX = 600;
-let LIGHTRADIOMIN = 100;
-let LIGHTRADIOMAX = 150;
+let LIGHTRADIOMIN = 200;
+let LIGHTRADIOMAX = 300;
 let AMBIENTRADIOMIN = 300;
 let AMBIENTRADIOMAX = 500;
 
@@ -67,8 +67,9 @@ function setup() {
   noiseSeed(NOISESEED);
 
   // COLOR
+  backgroundColor = color(100);
   colorMode(HSB, 100);
-  backgroundColor = color(150, 3, 31, 100);
+  // backgroundColor = color(150, 3, 31, 100);
   duftColor = color(220, 6, 21, 2);
   lightColor = color(44, 8, 80, 5);
   highlightColor = color(70, 3, 89, 0.1);
@@ -82,7 +83,7 @@ function setup() {
   duftOrbit = (DUFTRADIOMAX - DUFTRADIOMIN) / 2 + DUFTRADIOMIN;
 
   // DUFT AREA
-  // duftArea.orientation = getRandomFromList(["down", "left", "up", "right"]);
+  duftArea.orientation = getRandomFromList(["down", "left", "up", "right"]);
   duftArea.orientation = getRandomFromList(["down"]);
 
   if (duftArea.orientation == "down") {
@@ -231,14 +232,14 @@ function setup() {
   }
 
   lightShapeData = {
-    shapeCount: duftArea.size / 10000, // number of shapes - 70
+    shapeCount: duftArea.size / 100000, // number of shapes - 70
     buffer: lightShapeBuffer,
     radioMin: LIGHTRADIOMIN, // size
     radioMax: LIGHTRADIOMAX, // size
-    radioDistortion: 150,  // misplacement
+    radioDistortion: 50,  // misplacement
     polygonCount: 1,  // how many overlapping polygons to draw
     margin: 500,  // distance from edge
-    curveTightness: -0.5,
+    curveTightness: 1,
     noColorStroke: false,
     solidstrokeWeight: 50,
     solidColorStroke: color(33),
@@ -286,7 +287,7 @@ function setup() {
     radioMin: AMBIENTRADIOMIN, // size
     radioMax: AMBIENTRADIOMAX, // size
     radioDistortion: 150,  // misplacement
-    polygonCount: 1,  // how many overlapping polygons to draw
+    polygonCount: 2,  // how many overlapping polygons to draw
     margin: 0,  // distance from edge
     curveTightness: 1,
     noColorStroke: false,
