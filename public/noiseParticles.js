@@ -160,11 +160,9 @@ class noisePixel {
 class Pixies {
 
     constructor(data) {
-        // noiseDetail(noiseDetailLod, noiseDetailFalloff);
 
         this.buffer = data.buffer;
         this.inc = 0.008;
-
         this.colorBackground = backgroundColor;
         this.colorForeground = color(0);
         this.opacityValue = 75;
@@ -194,10 +192,7 @@ class Pixies {
                 let index = (x + y * this.buffer.width) * 4;
                 var noiseF = noise(xoff, yoff);
 
-                // if (index < this.margin * 4) {
-                //     console.log("asefaf");
-                // }
-
+                // vlt. mehrere vorschläge zu _density_ in einem loop.
                 // for (var amount = 0; amount < noiseF * this.amountMax; amount++) {
                 if (
                     (index % _density_ == 0) &&
@@ -205,7 +200,7 @@ class Pixies {
                     (index % (this.buffer.width * 4) > this.margin * 4 / exportRatio) &&  // horizontal left
                     (index % (this.buffer.width * 4) < ((this.buffer.width - (this.margin / exportRatio)) * 4)) &&  // horizontal right
                     (index > (this.buffer.width * (this.margin / exportRatio)) * 4) && // vertical top
-                    (index < ((this.buffer.width * this.buffer.height * 4) - this.buffer.width * (this.margin / exportRatio) * 4))
+                    (index < (this.totalPixels - this.buffer.width * (this.margin / exportRatio) * 4))
 
                 ) {
                     if (fxrand() > 0.5) {
@@ -265,7 +260,6 @@ class Pixies {
             yoff += this.inc;
         }
         this.buffer.updatePixels();
-        // this.buffer.smooth();
         this.buffer.pop();
     }
 }

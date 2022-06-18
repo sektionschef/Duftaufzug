@@ -6,7 +6,7 @@ const SWITCH_LOGGING_LEVEL = "info";
 logging.setLevel(SWITCH_LOGGING_LEVEL);
 
 // const MODE = 1  // "FINE ART";
-const MODE = 2  // basic image
+const MODE = 1  // basic image
 // const MODE = 5 // all debug messages
 
 console.info("fxhash: " + fxhash);
@@ -43,6 +43,7 @@ function preload() {
 function setup() {
 
   scaleDynamically();
+  setAttributes('antialias', true);
 
   canvas = createCanvas(rescaling_width, rescaling_height, WEBGL);
   buffer = createGraphics(rescaling_width, rescaling_height);
@@ -54,8 +55,6 @@ function setup() {
   duftTextureBuffer = createGraphics(rescaling_width, rescaling_height);
   duftShapeBuffer = createGraphics(rescaling_width, rescaling_height);
   lineBuffer = createGraphics(rescaling_width, rescaling_height);
-
-  pixelfireBuffer = createGraphics(rescaling_width, rescaling_height);
 
 
   logging.debug("Pixel density: " + pixelDensity())
@@ -114,7 +113,7 @@ function setup() {
 
   duftArea.size = duftArea.width * duftArea.height;
 
-  wallData = {
+  wallDataLegacy = {
     buffer: wallBuffer,
     inc: 0.01,  // noise increase for perlin noise
     colorSolid: 10,  // color of the boxes
@@ -125,10 +124,22 @@ function setup() {
     margin: BACKGROUNDMARGIN, // distance to the edge
   }
 
-  if (MODE == 1) {
-    // wallTexture = new noiseParticles(wallData);
+  wallData = {
+    buffer: wallBuffer,
+    inc: 0.008,  // noise increase for perlin noise
+    colorBackground: backgroundColor,  // drawn pixels for background
+    colorForeground: color(0),  // drawn pixels for noise
+    opacityValue: 75,  // opacity of boxes
+    distortion: 7,  // random misplacement of the boxes
+    density: 10,
+    // amountMax: 15, // how many rects per cell, max
+    margin: BACKGROUNDMARGIN, // distance to the edge
   }
-  pixelfire = new Pixies({ buffer: pixelfireBuffer, inc: 0.3 });
+
+  if (MODE == 1) {
+    // wallTexture = new noiseParticles(wallDataLegacy);
+    wallTexture = new Pixies(wallData);
+  }
 
   duftShapeData = {
     buffer: duftShapeBuffer,
@@ -152,7 +163,7 @@ function setup() {
   duftShape = new Shapes(duftShapeData);
 
   // mask
-  duftTextureData = {
+  duftTextureDataLegacy = {
     buffer: duftTextureBuffer,
     inc: 0.01,  // noise increase for perlin noise
     colorSolid: 180,  // color of the boxes
@@ -162,9 +173,21 @@ function setup() {
     amountMax: 1, // how many rects per cell, max
     margin: 0, // distance to the edge
   }
+  duftTextureData = {
+    buffer: duftTextureBuffer,
+    inc: 0.008,  // noise increase for perlin noise
+    colorBackground: color(180),  // drawn pixels for background
+    colorForeground: color(0),  // drawn pixels for noise
+    opacityValue: 10,  // opacity of boxes
+    distortion: 7,  // random misplacement of the boxes
+    density: 10,
+    // amountMax: 15, // how many rects per cell, max
+    margin: BACKGROUNDMARGIN, // distance to the edge
+  }
 
   if (MODE <= 2) {
-    duftTexture = new noiseParticles(duftTextureData);
+    // duftTexture = new noiseParticles(duftTextureDataLegacy);
+    duftTexture = new Pixies(duftTextureData);
   }
 
   lightShapeData = {
@@ -189,7 +212,7 @@ function setup() {
   lightShape = new Shapes(lightShapeData);
 
 
-  lightTextureData = {
+  lightTextureDataLegacy = {
     buffer: lightTextureBuffer,
     inc: 0.4,  // noise increase for perlin noise
     colorSolid: 160,  // color of the boxes
@@ -200,8 +223,21 @@ function setup() {
     margin: 0, // distance to the edge
   }
 
+  lightTextureData = {
+    buffer: lightTextureBuffer,
+    inc: 0.008,  // noise increase for perlin noise
+    colorBackground: color(160),  // drawn pixels for background
+    colorForeground: color(0),  // drawn pixels for noise
+    opacityValue: 10,  // opacity of boxes
+    distortion: 7,  // random misplacement of the boxes
+    density: 20,
+    // amountMax: 15, // how many rects per cell, max
+    margin: BACKGROUNDMARGIN, // distance to the edge
+  }
+
   if (MODE == 1) {
-    lightTexture = new noiseParticles(lightTextureData);
+    // lightTexture = new noiseParticles(lightTextureDataLegacy);
+    lightTexture = new Pixies(lightTextureData);
   }
 
   highlightShapeData = {
@@ -264,12 +300,11 @@ function draw() {
   buffer.background(backgroundColor);
 
   if (MODE == 1) {
-    // buffer.image(wallTexture.buffer, 0, 0);
+    buffer.push()
+    // buffer.drawingContext.filter = 'blur(0.7px)';
+    buffer.image(wallTexture.buffer, 0, 0);
+    buffer.pop()
   }
-  buffer.push()
-  // buffer.drawingContext.filter = 'blur(0.3px)';
-  buffer.image(pixelfire.buffer, 0, 0);
-  buffer.pop()
 
   buffer.image(lightShape.buffer, 0, 0);
   if (MODE == 1) {
