@@ -5,9 +5,9 @@ const SWITCH_LOGGING_LEVEL = "info";
 
 logging.setLevel(SWITCH_LOGGING_LEVEL);
 
-const MODE = 1  // "FINE ART";
+// const MODE = 1  // "FINE ART";
 // const MODE = 2  // basic image
-// const MODE = 5 // all debug messages
+const MODE = 5 // all debug messages
 
 console.info("fxhash: " + fxhash);
 NOISESEED = hashFnv32a(fxhash);
@@ -85,35 +85,33 @@ function setup() {
   // duftArea.orientation = getRandomFromList(["down", "left", "up", "right"]);
   duftArea.orientation = getRandomFromList(["down"]);
 
-  duftAreaMargin = (BACKGROUNDMARGIN + LIGHTRADIOMIN)
-
   if (duftArea.orientation == "down") {
     duftArea.position = createVector(
       duftOrigin.x - duftOrbit,
       duftOrigin.y - duftOrbit
     );
     duftArea.width = duftOrbit * 2;
-    duftArea.height = (exportPaper.height - (duftOrigin.y - duftOrbit) - duftAreaMargin);
+    duftArea.height = (exportPaper.height - (duftOrigin.y - duftOrbit));
   } else if (duftArea.orientation == "left") {
     duftArea.position = createVector(
-      0 + duftAreaMargin,
+      0,
       duftOrigin.y - duftOrbit
     );
-    duftArea.width = (duftOrigin.x + duftOrbit) - duftAreaMargin;
+    duftArea.width = (duftOrigin.x + duftOrbit);
     duftArea.height = duftOrbit * 2;
   } else if (duftArea.orientation == "up") {
     duftArea.position = createVector(
       duftOrigin.x - duftOrbit,
-      0 + duftAreaMargin
+      0
     );
     duftArea.width = (duftOrbit * 2);
-    duftArea.height = (duftOrigin.y + duftOrbit) - duftAreaMargin;
+    duftArea.height = (duftOrigin.y + duftOrbit);
   } else if (duftArea.orientation == "right") {
     duftArea.position = createVector(
       duftOrigin.x - duftOrbit,
       duftOrigin.y - duftOrbit
     )
-    duftArea.width = (exportPaper.width - (duftOrigin.x - duftOrbit) - duftAreaMargin);
+    duftArea.width = (exportPaper.width - (duftOrigin.x - duftOrbit));
     duftArea.height = duftOrbit * 2;
   }
 
@@ -121,9 +119,6 @@ function setup() {
 
   // DUFTCOUNTY
   duftExpander = duftOrbit * 2  // distance for DuftCounty
-
-  DUFTCOUNTYMARGIN = (BACKGROUNDMARGIN + AMBIENTRADIOMIN)
-  // constrain variable
 
   if (duftArea.orientation == "down") {
     duftCounty.position = createVector(
@@ -199,6 +194,7 @@ function setup() {
     opacityFillValue: 55,
     opacityStrokeValue: 55,
     origin: duftOrigin,
+    duft: true,
     duftOrbit: false,
     duftArea: false,
     blur: 4,
