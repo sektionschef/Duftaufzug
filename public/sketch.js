@@ -154,8 +154,8 @@ function setup() {
     solidstrokeWeight: 50,
     solidColorStroke: color(20, 5),
     solidColorArea: duftColor,
-    opacityFillValue: 255,
-    opacityStrokeValue: 255,
+    opacityFillValue: 5,
+    opacityStrokeValue: 5,
     origin: duftOrigin,
     duftOrbit: false,
   }
@@ -177,8 +177,8 @@ function setup() {
     buffer: duftTextureBuffer,
     inc: 0.008,  // noise increase for perlin noise
     colorBackground: color(180),  // drawn pixels for background
-    colorForeground: color(0),  // drawn pixels for noise
-    opacityValue: 10,  // opacity of boxes
+    colorForeground: color(150),  // drawn pixels for noise
+    opacityValue: 1,  // opacity of boxes
     distortion: 7,  // random misplacement of the boxes
     density: 10,
     // amountMax: 15, // how many rects per cell, max
@@ -246,17 +246,17 @@ function setup() {
     radioMin: 50, // size
     radioMax: 150, // size
     radioDistortion: 170,  // misplacement
-    polygonCount: 100,  // how many overlapping polygons to drawo
+    polygonCount: 1,  // how many overlapping polygons to drawo
     margin: 500,  // distance from edge
     curveTightness: 0.5,
-    noColorStroke: true,
+    noColorStroke: false,
     solidstrokeWeight: 50,
     solidColorStroke: highlightColor, // color(60, 5),
-    solidColorArea: color(250, 5),
+    solidColorArea: color(250),
     duftOrbit: true,
-    opacityFillValue: 255,
-    opacityStrokeValue: 255,
-    blur: undefined,
+    opacityFillValue: 50,
+    opacityStrokeValue: 50,
+    blur: 1  // undefined,
   }
   highlightShapes = new Shapes(highlightShapeData);
 

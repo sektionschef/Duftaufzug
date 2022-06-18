@@ -79,7 +79,7 @@ class Shape {
             this.buffer.curveVertex(polygon.leftUp.x / exportRatio, polygon.leftUp.y / exportRatio);
             this.buffer.endShape(CLOSE);
 
-            if (MODE != 2) {
+            if (MODE > 2) {
                 break
             }
         }
