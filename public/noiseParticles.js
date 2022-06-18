@@ -186,9 +186,6 @@ class Pixies {
         let xoff = 0;
         let yoff = 0;
 
-        console.log(this.buffer.width * 4)
-        console.log(Math.round((this.buffer.width - this.margin / exportRatio) * 4));
-
         this.buffer.push();
         this.buffer.loadPixels();
         for (let y = 0; y < this.buffer.height; y++) {
@@ -207,6 +204,7 @@ class Pixies {
                     // (index / this.buffer.width * 4) > (this.margin * 4)  // top bar
                     (index % (this.buffer.width * 4) > this.margin * 4 / exportRatio) &&
                     (index % (this.buffer.width * 4) < ((this.buffer.width - (this.margin / exportRatio)) * 4))
+
                 ) {
                     if (fxrand() > 0.5) {
                         // this pixel
