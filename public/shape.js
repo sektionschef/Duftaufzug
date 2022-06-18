@@ -139,6 +139,7 @@ class Shapes {
         this.origin = data.origin;
         this.duftOrbit = data.duftOrbit;
         this.duftArea = data.duftArea;
+        this.duftCounty = data.duftCounty;
         this.blur = data.blur;
 
         this.shapes = []
@@ -170,6 +171,16 @@ class Shapes {
 
                 // this.solidColorArea = distortColor(this.solidColorArea, 0.5);
             }
+            if (this.duftCounty == true) {
+
+                this.origin = createVector(
+                    getRandomFromInterval(duftCounty.position.x, duftCounty.position.x + duftCounty.width),
+                    getRandomFromInterval(duftCounty.position.y, duftCounty.position.y + duftCounty.height),
+                )
+            }
+            console.log(this.origin);
+
+
 
             var data = {
                 buffer: this.buffer,

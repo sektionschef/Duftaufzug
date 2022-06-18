@@ -248,13 +248,6 @@ class Pixies {
                 }
                 // }
 
-                if (index % (this.buffer.width * 4) == Math.round((this.buffer.width - this.margin / exportRatio) * 4)) {
-                    this.buffer.pixels[index + 0] = 255;
-                    this.buffer.pixels[index + 1] = 0;
-                    this.buffer.pixels[index + 2] = 0;
-                    this.buffer.pixels[index + 3] = 255;  // opacity
-                }
-
                 xoff += this.inc;
             }
             yoff += this.inc;

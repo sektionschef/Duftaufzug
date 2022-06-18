@@ -6,8 +6,8 @@ const SWITCH_LOGGING_LEVEL = "info";
 logging.setLevel(SWITCH_LOGGING_LEVEL);
 
 // const MODE = 1  // "FINE ART";
-const MODE = 1  // basic image
-// const MODE = 5 // all debug messages
+// const MODE = 2  // basic image
+const MODE = 5 // all debug messages
 
 console.info("fxhash: " + fxhash);
 NOISESEED = hashFnv32a(fxhash);
@@ -36,6 +36,7 @@ let rescaling_height;
 let fxhash_number;
 
 let duftArea = {};
+let duftCounty = {};
 
 function preload() {
 }
@@ -52,6 +53,7 @@ function setup() {
   lightShapeBuffer = createGraphics(rescaling_width, rescaling_height);
   lightTextureBuffer = createGraphics(rescaling_width, rescaling_height);
   highlightShapeBuffer = createGraphics(rescaling_width, rescaling_height);
+  ambientShapeBuffer = createGraphics(rescaling_width, rescaling_height);
   duftTextureBuffer = createGraphics(rescaling_width, rescaling_height);
   duftShapeBuffer = createGraphics(rescaling_width, rescaling_height);
   lineBuffer = createGraphics(rescaling_width, rescaling_height);
@@ -77,9 +79,10 @@ function setup() {
   );
   duftOrbit = (DUFTRADIOMAX - DUFTRADIOMIN) / 2 + DUFTRADIOMIN;
 
+  // DUFT AREA
   duftArea.orientation = getRandomFromList(["down", "left", "up", "right"]);
 
-  let duftAreaMargin = (BACKGROUNDMARGIN + LIGHTRADIOMIN)
+  duftAreaMargin = (BACKGROUNDMARGIN + LIGHTRADIOMIN)
 
   if (duftArea.orientation == "down") {
     duftArea.position = createVector(
@@ -112,6 +115,39 @@ function setup() {
   }
 
   duftArea.size = duftArea.width * duftArea.height;
+
+  // DUFTCOUNTY
+  duftExpander = duftOrbit * 2  // distance for DuftCounty
+
+  if (duftArea.orientation == "down") {
+    duftCounty.position = createVector(
+      duftArea.position.x - duftExpander,
+      duftArea.position.y - duftExpander / 4  // add a quarter
+    );
+    duftCounty.width = duftArea.width + duftExpander * 2;
+    duftCounty.height = duftArea.height;
+  } else if (duftArea.orientation == "left") {
+    duftCounty.position = createVector(
+      duftArea.position.x,
+      duftArea.position.y - duftExpander
+    );
+    duftCounty.width = duftArea.width + duftExpander / 4;
+    duftCounty.height = duftArea.height + duftExpander * 2;
+  } else if (duftArea.orientation == "up") {
+    duftCounty.position = createVector(
+      duftArea.position.x - duftExpander,
+      duftArea.position.y
+    );
+    duftCounty.width = duftArea.width + duftExpander * 2;
+    duftCounty.height = duftArea.height + duftExpander / 4;
+  } else if (duftArea.orientation == "right") {
+    duftCounty.position = createVector(
+      duftArea.position.x - duftExpander / 4,
+      duftArea.position.y - duftExpander
+    );
+    duftCounty.width = duftArea.width;
+    duftCounty.height = duftArea.height + duftExpander * 2;
+  }
 
   wallDataLegacy = {
     buffer: wallBuffer,
@@ -147,17 +183,19 @@ function setup() {
     radioMin: DUFTRADIOMIN, // size
     radioMax: DUFTRADIOMAX, // size
     radioDistortion: 180,  // misplacement
-    polygonCount: 100,  // how many overlapping polygons to draw
+    polygonCount: 2,  // how many overlapping polygons to draw
     margin: MARGINDUFTORIGIN,  // distance from edge
     curveTightness: 1,
     noColorStroke: true,
     solidstrokeWeight: 50,
     solidColorStroke: color(20, 5),
     solidColorArea: duftColor,
-    opacityFillValue: 5,
-    opacityStrokeValue: 5,
+    opacityFillValue: 55,
+    opacityStrokeValue: 55,
     origin: duftOrigin,
     duftOrbit: false,
+    duftArea: false,
+    blur: 4,
   }
 
   duftShape = new Shapes(duftShapeData);
@@ -175,9 +213,9 @@ function setup() {
   }
   duftTextureData = {
     buffer: duftTextureBuffer,
-    inc: 0.008,  // noise increase for perlin noise
+    inc: 0.1,  // noise increase for perlin noise
     colorBackground: color(180),  // drawn pixels for background
-    colorForeground: color(150),  // drawn pixels for noise
+    colorForeground: color(0),  // drawn pixels for noise
     opacityValue: 1,  // opacity of boxes
     distortion: 7,  // random misplacement of the boxes
     density: 10,
@@ -199,7 +237,7 @@ function setup() {
     polygonCount: 1,  // how many overlapping polygons to draw
     margin: 500,  // distance from edge
     curveTightness: -0.5,
-    noColorStroke: true,
+    noColorStroke: false,
     solidstrokeWeight: 50,
     solidColorStroke: color(33),
     solidColorArea: [color("#908583"), color("#c8c3b7")],// lightColor, // color(230, 3),
@@ -207,7 +245,7 @@ function setup() {
     opacityStrokeValue: 50,
     duftOrbit: false,
     duftArea: true,
-    blur: 1,
+    blur: 3,
   }
   lightShape = new Shapes(lightShapeData);
 
@@ -240,23 +278,46 @@ function setup() {
     lightTexture = new Pixies(lightTextureData);
   }
 
+  ambientShapeData = {
+    shapeCount: duftArea.size / 100000, // number of shapes - 70
+    buffer: ambientShapeBuffer,
+    radioMin: 300, // size
+    radioMax: 500, // size
+    radioDistortion: 150,  // misplacement
+    polygonCount: 1,  // how many overlapping polygons to draw
+    margin: 0,  // distance from edge
+    curveTightness: 1,
+    noColorStroke: false,
+    solidstrokeWeight: 50,
+    solidColorStroke: color(33),
+    solidColorArea: [color("#908583"), color("#c8c3b7")],
+    opacityFillValue: 50,
+    opacityStrokeValue: 50,
+    duftOrbit: false,
+    duftArea: false,
+    duftCounty: true,
+    blur: undefined,
+  }
+  ambientShape = new Shapes(ambientShapeData);
+
   highlightShapeData = {
     buffer: highlightShapeBuffer,
     shapeCount: 15, // number of shapes
     radioMin: 50, // size
     radioMax: 150, // size
     radioDistortion: 170,  // misplacement
-    polygonCount: 1,  // how many overlapping polygons to drawo
+    polygonCount: 3,  // how many overlapping polygons to drawo
     margin: 500,  // distance from edge
     curveTightness: 0.5,
     noColorStroke: false,
     solidstrokeWeight: 50,
-    solidColorStroke: highlightColor, // color(60, 5),
-    solidColorArea: color(250),
+    solidColorStroke: color(250),
+    // [color("#fcf9f4"), color("#e3e0d9"), color("#d9d4da")]
+    solidColorArea: [distortColor(highlightColor, 10), distortColor(highlightColor, 10), distortColor(highlightColor, 10)], // color(60, 5),
     duftOrbit: true,
     opacityFillValue: 50,
     opacityStrokeValue: 50,
-    blur: 1  // undefined,
+    blur: 4  // undefined,
   }
   highlightShapes = new Shapes(highlightShapeData);
 
@@ -305,11 +366,13 @@ function draw() {
     buffer.image(wallTexture.buffer, 0, 0);
     buffer.pop()
   }
+  buffer.image(ambientShape.buffer, 0, 0);
 
   buffer.image(lightShape.buffer, 0, 0);
   if (MODE == 1) {
     buffer.image(light, 0, 0);
   }
+
 
   buffer.image(highlightShapes.buffer, 0, 0);
 
@@ -342,7 +405,18 @@ function draw() {
     buffer.pop();
   }
 
-  // debug duftArea
+  // debug duftCounty
+  if (MODE == 5) {
+    buffer.push();
+    buffer.rectMode(CORNER);
+    buffer.stroke("cyan");
+    buffer.strokeWeight(5 / exportRatio);
+    buffer.noFill();
+    buffer.rect(duftCounty.position.x / exportRatio, duftCounty.position.y / exportRatio, duftCounty.width / exportRatio, duftCounty.height / exportRatio);
+    buffer.pop();
+  }
+
+  // debug canvas margin
   if (MODE == 5) {
     buffer.push();
     buffer.rectMode(CORNER);
