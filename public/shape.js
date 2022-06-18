@@ -139,12 +139,15 @@ class Shapes {
         this.solidColorArea = data.solidColorArea;
         this.opacityFillValue = data.opacityFillValue;
         this.origin = data.origin;
+        this.duft = data.duft;
         this.duftOrbit = data.duftOrbit;
         this.duftArea = data.duftArea;
         this.duftCounty = data.duftCounty;
         this.blur = data.blur;
 
         this.shapes = []
+        // this.securityMargin = BACKGROUNDMARGIN + this.radioMin + (this.radioMax - this.radioMin) / 2;
+        this.securityMargin = BACKGROUNDMARGIN + this.radioMax;
 
         for (var i = 0; i < this.shapeCount; i++) {
 
@@ -160,34 +163,40 @@ class Shapes {
                     var posY = getRandomFromInterval((duftOrigin.y - duftOrbit), (duftOrigin.y + duftOrbit))
                 }
 
-                this.origin = createVector(posX, posY);
+                // this.origin = createVector(posX, posY);
             }
 
             // place shapes in area between duft and the edge
             if (this.duftArea == true) {
 
-                this.origin = createVector(
-                    getRandomFromInterval(duftArea.position.x, duftArea.position.x + duftArea.width),
-                    getRandomFromInterval(duftArea.position.y, duftArea.position.y + duftArea.height),
-                )
+                // this.origin = createVector(
+                //     getRandomFromInterval(duftArea.position.x, duftArea.position.x + duftArea.width),
+                //     getRandomFromInterval(duftArea.position.y, duftArea.position.y + duftArea.height),
+                // )
+
+                var posX = getRandomFromInterval(duftArea.position.x, duftArea.position.x + duftArea.width);
+                var posY = getRandomFromInterval(duftArea.position.y, duftArea.position.y + duftArea.height);
 
                 // this.solidColorArea = distortColor(this.solidColorArea, 0.5);
             }
             if (this.duftCounty == true) {
 
-                var securityMargin = BACKGROUNDMARGIN + this.radioMin + (this.radioMax - this.radioMin) / 2;
                 var posX = getRandomFromInterval(duftCounty.position.x, duftCounty.position.x + duftCounty.width);
                 var posY = getRandomFromInterval(duftCounty.position.y, duftCounty.position.y + duftCounty.height)
 
+            }
+
+            if (this.duft != true) {
+                //draw inside of margins, in respect to the shape's size
                 this.origin = createVector(
                     constrain(
                         posX,
-                        securityMargin,
-                        (exportPaper.width - securityMargin)
+                        this.securityMargin,
+                        (exportPaper.width - this.securityMargin)
                     ), constrain(
                         posY,
-                        securityMargin,
-                        (exportPaper.height - securityMargin)
+                        this.securityMargin,
+                        (exportPaper.height - this.securityMargin)
                     )
                 )
             }
