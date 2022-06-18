@@ -19,6 +19,8 @@ let DUFTRADIOMIN = 300;
 let DUFTRADIOMAX = 600;
 let LIGHTRADIOMIN = 100;
 let LIGHTRADIOMAX = 150;
+let AMBIENTRADIOMIN = 300;
+let AMBIENTRADIOMAX = 500;
 
 let scaleRatio;
 let exportRatio;
@@ -80,7 +82,8 @@ function setup() {
   duftOrbit = (DUFTRADIOMAX - DUFTRADIOMIN) / 2 + DUFTRADIOMIN;
 
   // DUFT AREA
-  duftArea.orientation = getRandomFromList(["down", "left", "up", "right"]);
+  // duftArea.orientation = getRandomFromList(["down", "left", "up", "right"]);
+  duftArea.orientation = getRandomFromList(["down"]);
 
   duftAreaMargin = (BACKGROUNDMARGIN + LIGHTRADIOMIN)
 
@@ -118,6 +121,9 @@ function setup() {
 
   // DUFTCOUNTY
   duftExpander = duftOrbit * 2  // distance for DuftCounty
+
+  DUFTCOUNTYMARGIN = (BACKGROUNDMARGIN + AMBIENTRADIOMIN)
+  // constrain variable
 
   if (duftArea.orientation == "down") {
     duftCounty.position = createVector(
@@ -201,20 +207,20 @@ function setup() {
   duftShape = new Shapes(duftShapeData);
 
   // mask
-  duftTextureDataLegacy = {
-    buffer: duftTextureBuffer,
-    inc: 0.01,  // noise increase for perlin noise
-    colorSolid: 180,  // color of the boxes
-    opacityValue: 10,  // opacity of boxes
-    scl: 10,  // size of the cell, boxes
-    distortion: 60,  // random misplacement of the boxes
-    amountMax: 1, // how many rects per cell, max
-    margin: 0, // distance to the edge
-  }
+  // duftTextureDataLegacy = {
+  //   buffer: duftTextureBuffer,
+  //   inc: 0.01,  // noise increase for perlin noise
+  //   colorSolid: 180,  // color of the boxes
+  //   opacityValue: 10,  // opacity of boxes
+  //   scl: 10,  // size of the cell, boxes
+  //   distortion: 60,  // random misplacement of the boxes
+  //   amountMax: 1, // how many rects per cell, max
+  //   margin: 0, // distance to the edge
+  // }
   duftTextureData = {
     buffer: duftTextureBuffer,
-    inc: 0.001,  // noise increase for perlin noise
-    colorBackground: color(0),  // drawn pixels for background
+    inc: 0.01,  // noise increase for perlin noise
+    colorBackground: duftColor,  // drawn pixels for background
     colorForeground: color(100),  // drawn pixels for noise
     opacityValue: 75,  // opacity of boxes
     distortion: 7,  // random misplacement of the boxes
@@ -250,16 +256,16 @@ function setup() {
   lightShape = new Shapes(lightShapeData);
 
 
-  lightTextureDataLegacy = {
-    buffer: lightTextureBuffer,
-    inc: 0.4,  // noise increase for perlin noise
-    colorSolid: 160,  // color of the boxes
-    opacityValue: 30,  // opacity of boxes
-    scl: 10,  // size of the cell, boxes
-    distortion: 30,  // random misplacement of the boxes
-    amountMax: 1, // how many rects per cell, max
-    margin: 0, // distance to the edge
-  }
+  // lightTextureDataLegacy = {
+  //   buffer: lightTextureBuffer,
+  //   inc: 0.4,  // noise increase for perlin noise
+  //   colorSolid: 160,  // color of the boxes
+  //   opacityValue: 30,  // opacity of boxes
+  //   scl: 10,  // size of the cell, boxes
+  //   distortion: 30,  // random misplacement of the boxes
+  //   amountMax: 1, // how many rects per cell, max
+  //   margin: 0, // distance to the edge
+  // }
 
   lightTextureData = {
     buffer: lightTextureBuffer,
@@ -281,8 +287,8 @@ function setup() {
   ambientShapeData = {
     shapeCount: duftArea.size / 100000, // number of shapes - 70
     buffer: ambientShapeBuffer,
-    radioMin: 300, // size
-    radioMax: 500, // size
+    radioMin: AMBIENTRADIOMIN, // size
+    radioMax: AMBIENTRADIOMAX, // size
     radioDistortion: 150,  // misplacement
     polygonCount: 1,  // how many overlapping polygons to draw
     margin: 0,  // distance from edge

@@ -37,6 +37,8 @@ class Shape {
                 leftDown: createVector(this.leftDown.x + getRandomFromInterval(0, this.radioDistortion), this.leftDown.y + getRandomFromInterval(0, this.radioDistortion)),
                 leftUp: createVector(this.leftUp.x + getRandomFromInterval(0, this.radioDistortion), this.leftUp.y + getRandomFromInterval(0, this.radioDistortion))
             })
+
+
         }
     }
 
@@ -173,12 +175,22 @@ class Shapes {
             }
             if (this.duftCounty == true) {
 
+                var securityMargin = BACKGROUNDMARGIN + this.radioMin + (this.radioMax - this.radioMin) / 2;
+                var posX = getRandomFromInterval(duftCounty.position.x, duftCounty.position.x + duftCounty.width);
+                var posY = getRandomFromInterval(duftCounty.position.y, duftCounty.position.y + duftCounty.height)
+
                 this.origin = createVector(
-                    getRandomFromInterval(duftCounty.position.x, duftCounty.position.x + duftCounty.width),
-                    getRandomFromInterval(duftCounty.position.y, duftCounty.position.y + duftCounty.height),
+                    constrain(
+                        posX,
+                        securityMargin,
+                        (exportPaper.width - securityMargin)
+                    ), constrain(
+                        posY,
+                        securityMargin,
+                        (exportPaper.height - securityMargin)
+                    )
                 )
             }
-            console.log(this.origin);
 
 
 
