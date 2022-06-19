@@ -214,8 +214,8 @@ class Shapes {
                 noColorStroke: this.noColorStroke,
                 solidColorStroke: this.solidColorStroke,
                 solidColorArea: this.solidColorArea,
-                opacityFillValue: this.opacityStrokeValue,
-                opacityStrokeValue: this.opacityFillValue,
+                opacityFillValue: this.opacityFillValue,
+                opacityStrokeValue: this.opacityStrokeValue,
                 blur: this.blur,
             }
 
