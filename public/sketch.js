@@ -355,10 +355,10 @@ function setup() {
   duftTextureData = {
     buffer: duftTextureBuffer,
     inc: 0.01,  // noise increase for perlin noise
-    gain: -30,
-    colorBackground: duftColor,  // drawn pixels for background
-    colorForeground: color(100),  // drawn pixels for noise
-    opacityValue: 75,  // opacity of boxes
+    gain: -10,
+    colorBackground: color(0, 0),  // drawn pixels for background
+    colorForeground: color(90),  // drawn pixels for noise
+    // opacityValue: 75,  // opacity of boxes
     distortion: 7,  // random misplacement of the boxes
     density: 10,
     // amountMax: 15, // how many rects per cell, max
@@ -389,7 +389,7 @@ function setup() {
 
   // // MASKS
   if (MODE == 1) {
-    duft = maskBuffers(duftTexture.buffer, duftShape.buffer);
+    duftMasked = maskBuffers(duftTexture.buffer, duftShape.buffer);
     lightMasked = maskBuffers(lightTexture.buffer, lightShape.buffer);
     highlightMasked = maskBuffers(highlightTexture.buffer, highlightShapes.buffer);
     ambientMasked = maskBuffers(ambientTexture.buffer, ambientShape.buffer);
@@ -432,10 +432,10 @@ function draw() {
     buffer.image(highlightMasked, 0, 0);
   }
 
-  // buffer.image(duftShape.buffer, 0, 0);
-  // if (MODE == 1) {
-  //   buffer.image(duft, 0, 0);
-  // }
+  buffer.image(duftShape.buffer, 0, 0);
+  if (MODE == 1) {
+    buffer.image(duftMasked, 0, 0);
+  }
 
   // buffer.image(dummyLine.buffer, 0, 0);
 
