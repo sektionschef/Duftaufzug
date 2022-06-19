@@ -173,6 +173,8 @@ class Pixies {
 
         this.buffer = data.buffer;
         this.inc = data.inc;
+        this.gain = data.gain;
+        this.gain = data.gain;
         this.colorBackground = data.colorBackground;
         this.colorForeground = data.colorForeground;
         this.opacityValue = data.opacityValue;
@@ -201,6 +203,13 @@ class Pixies {
             for (let x = 0; x < this.buffer.width; x++) {
                 let index = (x + y * this.buffer.width) * 4;
                 var noiseF = noise(xoff, yoff);
+                var _gain_ = noiseF * this.gain;
+
+                // draw the background
+                this.buffer.pixels[index + 0] = red(this.colorBackground);
+                this.buffer.pixels[index + 1] = green(this.colorBackground);
+                this.buffer.pixels[index + 2] = blue(this.colorBackground);
+                this.buffer.pixels[index + 3] = 255;  // opacity
 
                 // vlt. mehrere vorschläge zu _density_ in einem loop.
                 // for (var amount = 0; amount < noiseF * this.amountMax; amount++) {
@@ -215,46 +224,40 @@ class Pixies {
                 ) {
                     if (fxrand() > 0.5) {
                         // this pixel
-                        this.buffer.pixels[index + 0] = red(this.colorForeground);
-                        this.buffer.pixels[index + 1] = green(this.colorForeground);
-                        this.buffer.pixels[index + 2] = blue(this.colorForeground);
-                        this.buffer.pixels[index + 3] = this.opacityValue * noiseF;  // opacity
+                        this.buffer.pixels[index + 0] = red(this.colorForeground) + _gain_;
+                        this.buffer.pixels[index + 1] = green(this.colorForeground) + _gain_;
+                        this.buffer.pixels[index + 2] = blue(this.colorForeground) + _gain_;
+                        this.buffer.pixels[index + 3] = 255 //this.opacityValue * noiseF;  // opacity
 
                         // preceding pixel, the pixel left
-                        this.buffer.pixels[index - 4] = red(this.colorForeground);
-                        this.buffer.pixels[index - 3] = green(this.colorForeground);
-                        this.buffer.pixels[index - 2] = blue(this.colorForeground);
-                        this.buffer.pixels[index - 1] = this.opacityValue * noiseF;  // opacity
+                        this.buffer.pixels[index - 4] = red(this.colorForeground) + _gain_;
+                        this.buffer.pixels[index - 3] = green(this.colorForeground) + _gain_;
+                        this.buffer.pixels[index - 2] = blue(this.colorForeground) + _gain_;
+                        this.buffer.pixels[index - 1] = 255 //this.opacityValue * noiseF;  // opacity
                         // }
 
                         // pixel above on y axis
-                        this.buffer.pixels[index - this.buffer.width * 4] = red(this.colorForeground);
-                        this.buffer.pixels[index - this.buffer.width * 4 + 1] = green(this.colorForeground);
-                        this.buffer.pixels[index - this.buffer.width * 4 + 2] = blue(this.colorForeground);
-                        this.buffer.pixels[index - this.buffer.width * 4 + 3] = this.opacityValue * noiseF;  // opacity
+                        this.buffer.pixels[index - this.buffer.width * 4] = red(this.colorForeground) + _gain_;
+                        this.buffer.pixels[index - this.buffer.width * 4 + 1] = green(this.colorForeground) + _gain_;
+                        this.buffer.pixels[index - this.buffer.width * 4 + 2] = blue(this.colorForeground) + _gain_;
+                        this.buffer.pixels[index - this.buffer.width * 4 + 3] = 255 //this.opacityValue * noiseF;  // opacity
 
                         // pixel above on y axis
-                        this.buffer.pixels[index - this.buffer.width * 4 - 4] = red(this.colorForeground);
-                        this.buffer.pixels[index - this.buffer.width * 4 - 3] = green(this.colorForeground);
-                        this.buffer.pixels[index - this.buffer.width * 4 - 2] = blue(this.colorForeground);
-                        this.buffer.pixels[index - this.buffer.width * 4 - 1] = this.opacityValue * noiseF;  // opacity
+                        this.buffer.pixels[index - this.buffer.width * 4 - 4] = red(this.colorForeground) + _gain_;
+                        this.buffer.pixels[index - this.buffer.width * 4 - 3] = green(this.colorForeground) + _gain_;
+                        this.buffer.pixels[index - this.buffer.width * 4 - 2] = blue(this.colorForeground) + _gain_;
+                        this.buffer.pixels[index - this.buffer.width * 4 - 1] = 255 //this.opacityValue * noiseF;  // opacity
 
                         _density_ = this.density + Math.round(getRandomFromInterval(-this.distortion, this.distortion))
                     } else {
                         // this pixel
-                        this.buffer.pixels[index + 0] = red(this.colorForeground);
-                        this.buffer.pixels[index + 1] = green(this.colorForeground);
-                        this.buffer.pixels[index + 2] = blue(this.colorForeground);
-                        this.buffer.pixels[index + 3] = this.opacityValue * noiseF;  // opacity   
+                        this.buffer.pixels[index + 0] = red(this.colorForeground) + _gain_;
+                        this.buffer.pixels[index + 1] = green(this.colorForeground) + _gain_;
+                        this.buffer.pixels[index + 2] = blue(this.colorForeground) + _gain_;
+                        this.buffer.pixels[index + 3] = 255 //this.opacityValue * noiseF;  // opacity   
 
                         _density_ = this.density + Math.round(getRandomFromInterval(-this.distortion, this.distortion))
                     }
-                } else {
-                    // background
-                    this.buffer.pixels[index + 0] = red(this.colorBackground);
-                    this.buffer.pixels[index + 1] = green(this.colorBackground);
-                    this.buffer.pixels[index + 2] = blue(this.colorBackground);
-                    this.buffer.pixels[index + 3] = this.opacityValue;  // opacity
                 }
                 // }
 
