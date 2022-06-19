@@ -5,8 +5,8 @@ const SWITCH_LOGGING_LEVEL = "info";
 
 logging.setLevel(SWITCH_LOGGING_LEVEL);
 
-// const MODE = 1  // "FINE ART";
-const MODE = 2  // basic image
+const MODE = 1  // "FINE ART";
+// const MODE = 2  // basic image
 // const MODE = 5 // all debug messages
 
 console.info("fxhash: " + fxhash);
@@ -70,8 +70,14 @@ function setup() {
   // COLOR
   // backgroundColor = color(100);
   colorMode(HSB, 100);
-  backgroundColor = color(150, 3, 31, 100);
-  ambientColor = [color("#756e6d"), color("#6e6b64"), color("#4e4e50"), color("#424041"), color("#6e695d")];
+  backgroundColor = color("#4d4f4e");
+  ambientColor = [
+    // color("#756e6d"),
+    // color("#6e6b64"),
+    color("#353633"),
+    color("#33323b"),
+    // color("#6e695d")
+  ];
   duftColor = color(220, 6, 21, 2);
   lightColor = color(44, 8, 80, 5);
   highlightColor = color(70, 3, 89, 0.1);
@@ -207,9 +213,9 @@ function setup() {
   ambientTextureData = {
     buffer: ambientTextureBuffer,
     inc: 0.008,  // noise increase for perlin noise
-    gain: -30,
-    colorBackground: color(150),  // drawn pixels for background
-    colorForeground: color(140),  // drawn pixels for noise
+    gain: 10,
+    colorBackground: color(0, 0),  // drawn pixels for background
+    colorForeground: color(50),  // drawn pixels for noise
     opacityValue: 10,  // opacity of boxes
     distortion: 7,  // random misplacement of the boxes
     density: 20,
@@ -261,7 +267,7 @@ function setup() {
     gain: -30,
     colorBackground: color(160),  // drawn pixels for background
     colorForeground: color(0),  // drawn pixels for noise
-    opacityValue: 10,  // opacity of boxes
+    opacityValue: 255,  // opacity of boxes
     distortion: 7,  // random misplacement of the boxes
     density: 20,
     // amountMax: 15, // how many rects per cell, max
@@ -394,6 +400,7 @@ function draw() {
   }
 
   if (MODE == 1) {
+    buffer.image(ambientShape.buffer, 0, 0);
     buffer.image(ambientMasked, 0, 0);
   } else {
     buffer.image(ambientShape.buffer, 0, 0);
