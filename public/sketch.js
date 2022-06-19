@@ -55,6 +55,7 @@ function setup() {
   lightShapeBuffer = createGraphics(rescaling_width, rescaling_height);
   lightTextureBuffer = createGraphics(rescaling_width, rescaling_height);
   highlightShapeBuffer = createGraphics(rescaling_width, rescaling_height);
+  highlightTextureBuffer = createGraphics(rescaling_width, rescaling_height);
   ambientShapeBuffer = createGraphics(rescaling_width, rescaling_height);
   ambientTextureBuffer = createGraphics(rescaling_width, rescaling_height);
   duftTextureBuffer = createGraphics(rescaling_width, rescaling_height);
@@ -299,6 +300,23 @@ function setup() {
   }
   highlightShapes = new Shapes(highlightShapeData);
 
+  highlightTextureData = {
+    buffer: highlightTextureBuffer,
+    inc: 0.08,  // noise increase for perlin noise
+    gain: -20,
+    colorBackground: color(0, 0),  // drawn pixels for background
+    colorForeground: color(170, 100),  // drawn pixels for noise
+    // opacityValue: 255,  // opacity of boxes
+    distortion: 7,  // random misplacement of the boxes
+    density: 20,
+    // amountMax: 15, // how many rects per cell, max
+    margin: BACKGROUNDMARGIN, // distance to the edge
+  }
+
+  if (MODE == 1) {
+    highlightTexture = new Pixies(highlightTextureData);
+  }
+
   duftShapeData = {
     buffer: duftShapeBuffer,
     shapeCount: 1, // number of shapes
@@ -373,6 +391,7 @@ function setup() {
   if (MODE == 1) {
     duft = maskBuffers(duftTexture.buffer, duftShape.buffer);
     lightMasked = maskBuffers(lightTexture.buffer, lightShape.buffer);
+    highlightMasked = maskBuffers(highlightTexture.buffer, highlightShapes.buffer);
     ambientMasked = maskBuffers(ambientTexture.buffer, ambientShape.buffer);
   }
 }
@@ -408,8 +427,10 @@ function draw() {
     buffer.image(lightMasked, 0, 0);
   }
 
-
-  // buffer.image(highlightShapes.buffer, 0, 0);
+  buffer.image(highlightShapes.buffer, 0, 0);
+  if (MODE == 1) {
+    buffer.image(highlightMasked, 0, 0);
+  }
 
   // buffer.image(duftShape.buffer, 0, 0);
   // if (MODE == 1) {
