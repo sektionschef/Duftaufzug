@@ -68,20 +68,22 @@ function setup() {
 
   noiseSeed(NOISESEED);
 
+
+  colorPalette = [
+    color("#555555"),
+    color("#777777"),
+    color("#bbbbbb"),
+    color("#888888"),
+  ]
+
   // COLOR
-  // backgroundColor = color(100);
+  // BACKGROUNDCOLOR = color(100);
   colorMode(HSB, 100);
-  backgroundColor = color("#4d4f4e");
-  ambientColor = [
-    // color("#756e6d"),
-    // color("#6e6b64"),
-    color("#353633"),
-    color("#33323b"),
-    // color("#6e695d")
-  ];
-  duftColor = color(220, 6, 21, 2);
-  lightColor = color(44, 8, 80, 5);
-  highlightColor = color(70, 3, 89, 0.1);
+  BACKGROUNDCOLOR = color("#666666");
+  ambientColor = colorPalette;
+  lightColor = colorPalette;
+  highlightColor = colorPalette;
+  duftColor = color("#444444");//color(220, 6, 21, 2);
   colorMode(RGB, 255);
 
 
@@ -174,9 +176,9 @@ function setup() {
   wallTextureData = {
     buffer: wallBuffer,
     inc: 0.005,  // noise increase for perlin noise
-    gain: -10,
-    colorBackground: backgroundColor,  // drawn pixels for background
-    colorForeground: lessenColor(backgroundColor, 60),  // drawn pixels for noise
+    gain: -20,
+    colorBackground: BACKGROUNDCOLOR,  // drawn pixels for background
+    colorForeground: lessenColor(BACKGROUNDCOLOR, 60),  // drawn pixels for noise
     // opacityValue: 255,  // opacity of boxes
     distortion: 7,  // random misplacement of the boxes
     density: 10,
@@ -195,9 +197,9 @@ function setup() {
     radioMin: AMBIENTRADIOMIN, // size
     radioMax: AMBIENTRADIOMAX, // size
     radioDistortion: 200,  // misplacement
-    polygonCount: 2,  // how many overlapping polygons to draw
+    polygonCount: 3,  // how many overlapping polygons to draw
     margin: 0,  // distance from edge
-    curveTightness: 1,
+    curveTightness: 0.5,
     noColorStroke: false,
     solidstrokeWeight: 50,
     solidColorStroke: color(0),
@@ -207,21 +209,21 @@ function setup() {
     duftOrbit: false,
     duftArea: false,
     duftCounty: true,
-    blur: 10,
+    blur: 7,
   }
   ambientShape = new Shapes(ambientShapeData);
 
   ambientTextureData = {
     buffer: ambientTextureBuffer,
-    inc: 0.008,  // noise increase for perlin noise
-    gain: 10,
+    inc: 0.08,  // noise increase for perlin noise
+    gain: -70,
     colorBackground: color(0, 0),  // drawn pixels for background
-    colorForeground: color(50),  // drawn pixels for noise
+    colorForeground: color(100, 100),  // drawn pixels for noise
     // opacityValue: 10,  // opacity of boxes
     distortion: 7,  // random misplacement of the boxes
     density: 20,
     // amountMax: 15, // how many rects per cell, max
-    margin: BACKGROUNDMARGIN, // distance to the edge
+    margin: 0, // distance to the edge
   }
 
   if (MODE == 1) {
@@ -235,18 +237,18 @@ function setup() {
     radioMin: LIGHTRADIOMIN, // size
     radioMax: LIGHTRADIOMAX, // size
     radioDistortion: 150,  // misplacement
-    polygonCount: 2,  // how many overlapping polygons to draw
+    polygonCount: 23,  // how many overlapping polygons to draw
     margin: 500,  // distance from edge
     curveTightness: 1,
     noColorStroke: false,
     solidstrokeWeight: 50,
     solidColorStroke: color(0),
-    solidColorArea: [color("#908583"), color("#c8c3b7")],// lightColor, // color(230, 3),
+    solidColorArea: lightColor, // color(230, 3),
     opacityFillValue: 50,
     opacityStrokeValue: 50,
     duftOrbit: false,
     duftArea: true,
-    blur: 3,
+    blur: 5,
   }
   lightShape = new Shapes(lightShapeData);
 
@@ -263,15 +265,15 @@ function setup() {
 
   lightTextureData = {
     buffer: lightTextureBuffer,
-    inc: 0.08,  // noise increase for perlin noise
-    gain: -30,
+    inc: 0.008,  // noise increase for perlin noise
+    gain: 90,
     colorBackground: color(0, 0),  // drawn pixels for background
-    colorForeground: color(120, 100),  // drawn pixels for noise
+    colorForeground: color(100, 100), // color(120, 100),  // drawn pixels for noise
     // opacityValue: 255,  // opacity of boxes
     distortion: 7,  // random misplacement of the boxes
     density: 20,
     // amountMax: 15, // how many rects per cell, max
-    margin: BACKGROUNDMARGIN, // distance to the edge
+    margin: 0, // distance to the edge
   }
 
   if (MODE == 1) {
@@ -281,34 +283,33 @@ function setup() {
 
   highlightShapeData = {
     buffer: highlightShapeBuffer,
-    shapeCount: 15, // number of shapes
+    shapeCount: 10, // number of shapes
     radioMin: 50, // size
     radioMax: 150, // size
     radioDistortion: 170,  // misplacement
     polygonCount: 3,  // how many overlapping polygons to drawo
     margin: 500,  // distance from edge
-    curveTightness: 0.5,
+    curveTightness: 1,
     noColorStroke: false,
     solidstrokeWeight: 50,
-    solidColorStroke: color(250),
-    // [color("#fcf9f4"), color("#e3e0d9"), color("#d9d4da")]
-    solidColorArea: [distortColor(highlightColor, 10), distortColor(highlightColor, 10), distortColor(highlightColor, 10)], // color(60, 5),
+    solidColorStroke: color(0),
+    solidColorArea: highlightColor,
     duftOrbit: true,
     opacityFillValue: 50,
     opacityStrokeValue: 50,
-    blur: 4  // undefined,
+    blur: 2  // undefined,
   }
   highlightShapes = new Shapes(highlightShapeData);
 
   highlightTextureData = {
     buffer: highlightTextureBuffer,
     inc: 0.08,  // noise increase for perlin noise
-    gain: -20,
+    gain: -90,
     colorBackground: color(0, 0),  // drawn pixels for background
-    colorForeground: color(170, 100),  // drawn pixels for noise
+    colorForeground: color(120, 150),  // drawn pixels for noise
     // opacityValue: 255,  // opacity of boxes
     distortion: 7,  // random misplacement of the boxes
-    density: 20,
+    density: 10,
     // amountMax: 15, // how many rects per cell, max
     margin: BACKGROUNDMARGIN, // distance to the edge
   }
@@ -330,7 +331,7 @@ function setup() {
     solidstrokeWeight: 50,
     solidColorStroke: color(20, 5),
     solidColorArea: duftColor,
-    opacityFillValue: 55,
+    opacityFillValue: 70,
     opacityStrokeValue: 55,
     origin: duftOrigin,
     duft: true,
@@ -354,10 +355,10 @@ function setup() {
   // }
   duftTextureData = {
     buffer: duftTextureBuffer,
-    inc: 0.01,  // noise increase for perlin noise
-    gain: -10,
+    inc: 0.08,  // noise increase for perlin noise
+    gain: -20,
     colorBackground: color(0, 0),  // drawn pixels for background
-    colorForeground: color(90),  // drawn pixels for noise
+    colorForeground: color(60, 150),  // drawn pixels for noise
     // opacityValue: 75,  // opacity of boxes
     distortion: 7,  // random misplacement of the boxes
     density: 10,
@@ -408,33 +409,45 @@ function draw() {
   buffer.clear();
   buffer.scale(scaleRatio);
 
-  buffer.background(backgroundColor);
+  buffer.background(BACKGROUNDCOLOR);
 
   if (MODE == 1) {
     buffer.push()
-    buffer.drawingContext.filter = 'blur(0.5px)';
+    buffer.drawingContext.filter = 'blur(1px)';
     buffer.image(wallTexture.buffer, 0, 0);
     buffer.pop()
   }
 
   buffer.image(ambientShape.buffer, 0, 0);
   if (MODE == 1) {
+    buffer.push();
+    buffer.drawingContext.filter = 'blur(1px)';
     buffer.image(ambientMasked, 0, 0);
+    buffer.pop();
   }
 
   buffer.image(lightShape.buffer, 0, 0);
   if (MODE == 1) {
+    buffer.push()
+    buffer.drawingContext.filter = 'blur(1px)';
     buffer.image(lightMasked, 0, 0);
+    buffer.pop();
   }
 
   buffer.image(highlightShapes.buffer, 0, 0);
   if (MODE == 1) {
+    buffer.push()
+    buffer.drawingContext.filter = 'blur(1px)';
     buffer.image(highlightMasked, 0, 0);
+    buffer.pop();
   }
 
   buffer.image(duftShape.buffer, 0, 0);
   if (MODE == 1) {
+    buffer.push()
+    buffer.drawingContext.filter = 'blur(1px)';
     buffer.image(duftMasked, 0, 0);
+    buffer.pop();
   }
 
   // buffer.image(dummyLine.buffer, 0, 0);
