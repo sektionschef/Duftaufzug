@@ -227,26 +227,26 @@ class Pixies {
                         this.buffer.pixels[index + 0] = red(this.colorForeground) + _gain_;
                         this.buffer.pixels[index + 1] = green(this.colorForeground) + _gain_;
                         this.buffer.pixels[index + 2] = blue(this.colorForeground) + _gain_;
-                        this.buffer.pixels[index + 3] = 255 //this.opacityValue * noiseF;  // opacity
+                        this.buffer.pixels[index + 3] = alpha(this.colorForeground);
 
                         // preceding pixel, the pixel left
                         this.buffer.pixels[index - 4] = red(this.colorForeground) + _gain_;
                         this.buffer.pixels[index - 3] = green(this.colorForeground) + _gain_;
                         this.buffer.pixels[index - 2] = blue(this.colorForeground) + _gain_;
-                        this.buffer.pixels[index - 1] = 255 //this.opacityValue * noiseF;  // opacity
+                        this.buffer.pixels[index - 1] = alpha(this.colorForeground);
                         // }
 
                         // pixel above on y axis
                         this.buffer.pixels[index - this.buffer.width * 4] = red(this.colorForeground) + _gain_;
                         this.buffer.pixels[index - this.buffer.width * 4 + 1] = green(this.colorForeground) + _gain_;
                         this.buffer.pixels[index - this.buffer.width * 4 + 2] = blue(this.colorForeground) + _gain_;
-                        this.buffer.pixels[index - this.buffer.width * 4 + 3] = 255 //this.opacityValue * noiseF;  // opacity
+                        this.buffer.pixels[index - this.buffer.width * 4 + 3] = alpha(this.colorForeground);
 
                         // pixel above on y axis
                         this.buffer.pixels[index - this.buffer.width * 4 - 4] = red(this.colorForeground) + _gain_;
                         this.buffer.pixels[index - this.buffer.width * 4 - 3] = green(this.colorForeground) + _gain_;
                         this.buffer.pixels[index - this.buffer.width * 4 - 2] = blue(this.colorForeground) + _gain_;
-                        this.buffer.pixels[index - this.buffer.width * 4 - 1] = 255 //this.opacityValue * noiseF;  // opacity
+                        this.buffer.pixels[index - this.buffer.width * 4 - 1] = alpha(this.colorForeground);
 
                         _density_ = this.density + Math.round(getRandomFromInterval(-this.distortion, this.distortion))
                     } else {
@@ -254,7 +254,7 @@ class Pixies {
                         this.buffer.pixels[index + 0] = red(this.colorForeground) + _gain_;
                         this.buffer.pixels[index + 1] = green(this.colorForeground) + _gain_;
                         this.buffer.pixels[index + 2] = blue(this.colorForeground) + _gain_;
-                        this.buffer.pixels[index + 3] = 255 //this.opacityValue * noiseF;  // opacity   
+                        this.buffer.pixels[index + 3] = alpha(this.colorForeground);
 
                         _density_ = this.density + Math.round(getRandomFromInterval(-this.distortion, this.distortion))
                     }

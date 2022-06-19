@@ -176,7 +176,7 @@ function setup() {
     gain: -10,
     colorBackground: backgroundColor,  // drawn pixels for background
     colorForeground: lessenColor(backgroundColor, 60),  // drawn pixels for noise
-    opacityValue: 255,  // opacity of boxes
+    // opacityValue: 255,  // opacity of boxes
     distortion: 7,  // random misplacement of the boxes
     density: 10,
     // amountMax: 15, // how many rects per cell, max
@@ -199,7 +199,7 @@ function setup() {
     curveTightness: 1,
     noColorStroke: false,
     solidstrokeWeight: 50,
-    solidColorStroke: color(33),
+    solidColorStroke: color(0),
     solidColorArea: ambientColor,
     opacityFillValue: 50,
     opacityStrokeValue: 255,
@@ -216,7 +216,7 @@ function setup() {
     gain: 10,
     colorBackground: color(0, 0),  // drawn pixels for background
     colorForeground: color(50),  // drawn pixels for noise
-    opacityValue: 10,  // opacity of boxes
+    // opacityValue: 10,  // opacity of boxes
     distortion: 7,  // random misplacement of the boxes
     density: 20,
     // amountMax: 15, // how many rects per cell, max
@@ -233,13 +233,13 @@ function setup() {
     buffer: lightShapeBuffer,
     radioMin: LIGHTRADIOMIN, // size
     radioMax: LIGHTRADIOMAX, // size
-    radioDistortion: 50,  // misplacement
-    polygonCount: 1,  // how many overlapping polygons to draw
+    radioDistortion: 150,  // misplacement
+    polygonCount: 2,  // how many overlapping polygons to draw
     margin: 500,  // distance from edge
     curveTightness: 1,
     noColorStroke: false,
     solidstrokeWeight: 50,
-    solidColorStroke: color(33),
+    solidColorStroke: color(0),
     solidColorArea: [color("#908583"), color("#c8c3b7")],// lightColor, // color(230, 3),
     opacityFillValue: 50,
     opacityStrokeValue: 50,
@@ -248,7 +248,6 @@ function setup() {
     blur: 3,
   }
   lightShape = new Shapes(lightShapeData);
-
 
   // lightTextureDataLegacy = {
   //   buffer: lightTextureBuffer,
@@ -263,11 +262,11 @@ function setup() {
 
   lightTextureData = {
     buffer: lightTextureBuffer,
-    inc: 0.008,  // noise increase for perlin noise
+    inc: 0.08,  // noise increase for perlin noise
     gain: -30,
-    colorBackground: color(160),  // drawn pixels for background
-    colorForeground: color(0),  // drawn pixels for noise
-    opacityValue: 255,  // opacity of boxes
+    colorBackground: color(0, 0),  // drawn pixels for background
+    colorForeground: color(120, 100),  // drawn pixels for noise
+    // opacityValue: 255,  // opacity of boxes
     distortion: 7,  // random misplacement of the boxes
     density: 20,
     // amountMax: 15, // how many rects per cell, max
@@ -373,7 +372,7 @@ function setup() {
   // // MASKS
   if (MODE == 1) {
     duft = maskBuffers(duftTexture.buffer, duftShape.buffer);
-    light = maskBuffers(lightTexture.buffer, lightShape.buffer);
+    lightMasked = maskBuffers(lightTexture.buffer, lightShape.buffer);
     ambientMasked = maskBuffers(ambientTexture.buffer, ambientShape.buffer);
   }
 }
@@ -399,17 +398,15 @@ function draw() {
     buffer.pop()
   }
 
+  buffer.image(ambientShape.buffer, 0, 0);
   if (MODE == 1) {
-    buffer.image(ambientShape.buffer, 0, 0);
     buffer.image(ambientMasked, 0, 0);
-  } else {
-    buffer.image(ambientShape.buffer, 0, 0);
   }
 
-  // buffer.image(lightShape.buffer, 0, 0);
-  // if (MODE == 1) {
-  //   buffer.image(light, 0, 0);
-  // }
+  buffer.image(lightShape.buffer, 0, 0);
+  if (MODE == 1) {
+    buffer.image(lightMasked, 0, 0);
+  }
 
 
   // buffer.image(highlightShapes.buffer, 0, 0);
