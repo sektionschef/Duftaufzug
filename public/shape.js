@@ -4,6 +4,7 @@ class Shape {
     constructor(data) {
 
         this.buffer = data.buffer;
+        this.bufferTexture = data.bufferTexture;
         this.radioMin = data.radioMin;
         this.radioMax = data.radioMax;
         this.radioDistortion = data.radioDistortion;
@@ -19,6 +20,7 @@ class Shape {
         } else {
             this.solidColorArea = data.solidColorArea;
         }
+        this.noiseColorArea = data.noiseColorArea;
         this.opacityFillValue = data.opacityFillValue;
         this.blur = data.blur;
 
@@ -37,8 +39,23 @@ class Shape {
                 leftDown: createVector(this.leftDown.x + getRandomFromInterval(0, this.radioDistortion), this.leftDown.y + getRandomFromInterval(0, this.radioDistortion)),
                 leftUp: createVector(this.leftUp.x + getRandomFromInterval(0, this.radioDistortion), this.leftUp.y + getRandomFromInterval(0, this.radioDistortion))
             })
+        }
 
+        this.textureData = {
+            buffer: this.bufferTexture,
+            inc: 0.008,  // noise increase for perlin noise
+            gain: -100,  // COOL TO CHANGE
+            colorBackground: this.solidColorArea,  // drawn pixels for background
+            colorForeground: this.noiseColorArea,  // drawn pixels for noise
+            // opacityValue: 10,  // opacity of boxes
+            distortion: 7,  // random misplacement of the boxes
+            density: 10,
+            // amountMax: 15, // how many rects per cell, max
+            margin: 0, // distance to the edge
+        }
 
+        if (MODE == 1) {
+            this.texture = new Pixies(this.textureData);
         }
     }
 
@@ -126,6 +143,7 @@ class Shape {
 class Shapes {
     constructor(data) {
         this.buffer = data.buffer;
+        this.bufferTexture = data.bufferTexture;
         this.shapeCount = data.shapeCount;
         this.radioMin = data.radioMin;
         this.radioMax = data.radioMax;
@@ -137,6 +155,7 @@ class Shapes {
         this.solidColorStroke = data.solidColorStroke;
         this.opacityStrokeValue = data.opacityStrokeValue;
         this.solidColorArea = data.solidColorArea;
+        this.noiseColorArea = data.noiseColorArea;
         this.opacityFillValue = data.opacityFillValue;
         this.origin = data.origin;
         this.duft = data.duft;
@@ -203,6 +222,7 @@ class Shapes {
 
             var data = {
                 buffer: this.buffer,
+                bufferTexture: this.bufferTexture,
                 origin: this.origin,
                 radioMin: this.radioMin,
                 radioMax: this.radioMax,
@@ -214,6 +234,7 @@ class Shapes {
                 noColorStroke: this.noColorStroke,
                 solidColorStroke: this.solidColorStroke,
                 solidColorArea: this.solidColorArea,
+                noiseColorArea: this.noiseColorArea,
                 opacityFillValue: this.opacityFillValue,
                 opacityStrokeValue: this.opacityStrokeValue,
                 blur: this.blur,
@@ -233,6 +254,22 @@ class Shapes {
 
         for (var shape of this.shapes) {
             shape.draw();
+            if (MODE == 1) {
+                this.bufferMasked = maskBuffers(shape.texture.buffer, shape.buffer);
+                this.buffer.blend(
+                    this.bufferMasked,
+                    0,
+                    0,
+                    this.buffer.width,
+                    this.buffer.height,
+                    0,
+                    0,
+                    this.bufferMasked.width,
+                    this.bufferMasked.height,
+                    NORMAL
+                    // BLEND
+                )
+            }
         }
     }
 }

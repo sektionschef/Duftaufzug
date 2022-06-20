@@ -95,6 +95,8 @@ function setup() {
       background: color("#aaaaaa"),
       backgroundnoise: color("#bbbbbb"),
       darkA: color("#555555"),
+      darkAnoise: color("#666666"),
+      // darkAnoise: color("#555555"),
 
       duft: color("#222222"),
     }
@@ -200,8 +202,9 @@ function setup() {
   }
 
   ambientShapeData = {
-    shapeCount: duftArea.size / 60000, // number of shapes - 70
+    shapeCount: 3, // duftArea.size / 60000, // number of shapes
     buffer: ambientShapeBuffer,
+    bufferTexture: ambientTextureBuffer,
     radioMin: AMBIENTRADIOMIN, // size
     radioMax: AMBIENTRADIOMAX, // size
     radioDistortion: 200,  // misplacement
@@ -211,7 +214,8 @@ function setup() {
     noColorStroke: false,
     solidstrokeWeight: 50,
     solidColorStroke: color(40),
-    solidColorArea: ambientColor,
+    solidColorArea: colors[color_profile].darkA,
+    noiseColorArea: colors[color_profile].darkAnoise,
     opacityFillValue: 200,
     opacityStrokeValue: 255,
     duftOrbit: false,
@@ -219,24 +223,24 @@ function setup() {
     duftCounty: true,
     blur: 3,
   }
-  ambientShape = new Shapes(ambientShapeData);
+  ambients = new Shapes(ambientShapeData);
 
-  ambientTextureData = {
-    buffer: ambientTextureBuffer,
-    inc: 0.009,  // noise increase for perlin noise
-    gain: -70,
-    colorBackground: color(0, 0),  // drawn pixels for background
-    colorForeground: color(80),  // drawn pixels for noise
-    // opacityValue: 10,  // opacity of boxes
-    distortion: 3,  // random misplacement of the boxes
-    density: 10,
-    // amountMax: 15, // how many rects per cell, max
-    margin: 0, // distance to the edge
-  }
+  // ambientTextureData = {
+  //   buffer: ambientTextureBuffer,
+  //   inc: 0.009,  // noise increase for perlin noise
+  //   gain: -70,
+  //   colorBackground: color(0, 0),  // drawn pixels for background
+  //   colorForeground: color(80),  // drawn pixels for noise
+  //   // opacityValue: 10,  // opacity of boxes
+  //   distortion: 3,  // random misplacement of the boxes
+  //   density: 10,
+  //   // amountMax: 15, // how many rects per cell, max
+  //   margin: 0, // distance to the edge
+  // }
 
-  if (MODE == 1) {
-    ambientTexture = new Pixies(ambientTextureData);
-  }
+  // if (MODE == 1) {
+  //   ambientTexture = new Pixies(ambientTextureData);
+  // }
 
   lightShapeData = {
     shapeCount: duftArea.size / 70000, // number of shapes - 70
@@ -257,7 +261,7 @@ function setup() {
     duftArea: true,
     blur: 2,
   }
-  lightShape = new Shapes(lightShapeData);
+  // lightShape = new Shapes(lightShapeData);
 
   lightTextureData = {
     buffer: lightTextureBuffer,
@@ -273,8 +277,7 @@ function setup() {
   }
 
   if (MODE == 1) {
-    // lightTexture = new noiseParticles(lightTextureDataLegacy);
-    lightTexture = new Pixies(lightTextureData);
+    // lightTexture = new Pixies(lightTextureData);
   }
 
   highlightShapeData = {
@@ -295,7 +298,7 @@ function setup() {
     opacityStrokeValue: 255,
     blur: 2  // undefined,
   }
-  highlightShapes = new Shapes(highlightShapeData);
+  // highlightShapes = new Shapes(highlightShapeData);
 
   highlightTextureData = {
     buffer: highlightTextureBuffer,
@@ -311,7 +314,7 @@ function setup() {
   }
 
   if (MODE == 1) {
-    highlightTexture = new Pixies(highlightTextureData);
+    // highlightTexture = new Pixies(highlightTextureData);
   }
 
   duftShapeData = {
@@ -336,7 +339,7 @@ function setup() {
     blur: 2,
   }
 
-  duftShape = new Shapes(duftShapeData);
+  // duftShape = new Shapes(duftShapeData);
 
   duftTextureData = {
     buffer: duftTextureBuffer,
@@ -353,7 +356,7 @@ function setup() {
 
   if (MODE <= 2) {
     // duftTexture = new noiseParticles(duftTextureDataLegacy);
-    duftTexture = new Pixies(duftTextureData);
+    // duftTexture = new Pixies(duftTextureData);
   }
 
   LineData = {
@@ -375,10 +378,11 @@ function setup() {
 
   // // MASKS
   if (MODE == 1) {
-    duftMasked = maskBuffers(duftTexture.buffer, duftShape.buffer);
-    lightMasked = maskBuffers(lightTexture.buffer, lightShape.buffer);
-    highlightMasked = maskBuffers(highlightTexture.buffer, highlightShapes.buffer);
-    ambientMasked = maskBuffers(ambientTexture.buffer, ambientShape.buffer);
+    // duftMasked = maskBuffers(duftTexture.buffer, duftShape.buffer);
+    // lightMasked = maskBuffers(lightTexture.buffer, lightShape.buffer);
+    // highlightMasked = maskBuffers(highlightTexture.buffer, highlightShapes.buffer);
+
+    // ambientMasked = maskBuffers(ambientTexture.buffer, ambientShape.buffer);
   }
 }
 
@@ -396,46 +400,47 @@ function draw() {
 
   buffer.background(colors[color_profile].background);
 
-  if (MODE == 1) {
-    buffer.push()
-    buffer.drawingContext.filter = 'blur(0.5px)';
-    buffer.image(wallTexture.buffer, 0, 0);
-    buffer.pop()
-  }
+  // if (MODE == 1) {
+  //   buffer.push()
+  //   buffer.drawingContext.filter = 'blur(0.5px)';
+  //   buffer.image(wallTexture.buffer, 0, 0);
+  //   buffer.pop()
+  // }
 
-  buffer.image(ambientShape.buffer, 0, 0);
+  // buffer.image(ambientShape.buffer, 0, 0);
   if (MODE == 1) {
     buffer.push();
     buffer.drawingContext.filter = 'blur(0.5px)';
-    buffer.image(ambientMasked, 0, 0);
+    // buffer.image(ambients.buffer, 0, 0);
+    buffer.image(ambients.buffer, 0, 0);
     buffer.pop();
   }
 
-  buffer.image(lightShape.buffer, 0, 0);
-  if (MODE == 1) {
-    buffer.push()
-    buffer.drawingContext.filter = 'blur(0.5px)';
-    buffer.image(lightMasked, 0, 0);
-    buffer.pop();
-  }
+  // buffer.image(lightShape.buffer, 0, 0);
+  // if (MODE == 1) {
+  //   buffer.push()
+  //   buffer.drawingContext.filter = 'blur(0.5px)';
+  //   buffer.image(lightMasked, 0, 0);
+  //   buffer.pop();
+  // }
 
-  buffer.image(highlightShapes.buffer, 0, 0);
-  if (MODE == 1) {
-    buffer.push()
-    buffer.drawingContext.filter = 'blur(0.5px)';
-    buffer.image(highlightMasked, 0, 0);
-    buffer.pop();
-  }
+  // buffer.image(highlightShapes.buffer, 0, 0);
+  // if (MODE == 1) {
+  //   buffer.push()
+  //   buffer.drawingContext.filter = 'blur(0.5px)';
+  //   buffer.image(highlightMasked, 0, 0);
+  //   buffer.pop();
+  // }
 
-  buffer.image(duftShape.buffer, 0, 0);
-  if (MODE == 1) {
-    buffer.push()
-    buffer.drawingContext.filter = 'blur(0.5px)';
-    buffer.image(duftMasked, 0, 0);
-    buffer.pop();
-  }
+  // buffer.image(duftShape.buffer, 0, 0);
+  // if (MODE == 1) {
+  //   buffer.push()
+  //   buffer.drawingContext.filter = 'blur(0.5px)';
+  //   buffer.image(duftMasked, 0, 0);
+  //   buffer.pop();
+  // }
 
-  buffer.image(dummyLine.buffer, 0, 0);
+  // buffer.image(dummyLine.buffer, 0, 0);
 
   // debug duftOrbit
   if (MODE == 5) {
