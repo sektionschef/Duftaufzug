@@ -40,6 +40,8 @@ let fxhash_number;
 let duftArea = {};
 let duftCounty = {};
 
+let color_profile = getRandomFromList(["greyscale"]);
+
 function preload() {
 }
 
@@ -88,17 +90,19 @@ function setup() {
 
   // COLOR
   colorMode(HSB, 100);
-  // BACKGROUNDCOLOR = color("#666666");
-  // BACKGROUNDNOISECOLOR = color("#777777");
+  colors = {
+    "greyscale": {
+      background: color("#aaaaaa"),
+      backgroundnoise: color("#bbbbbb"),
+      darkA: color("#555555")
 
-  BACKGROUNDCOLOR = color("#aaaaaa");
-  BACKGROUNDNOISECOLOR = color("#bbbbbb");
-
+      duft: color("#222222"),
+    }
+  }
 
   ambientColor = colorPaletteDark;
   lightColor = colorPaletteLight;
   highlightColor = colorPaletteGlow;
-  duftColor = color("#222222");//color(220, 6, 21, 2);
   colorMode(RGB, 255);
 
 
@@ -181,8 +185,8 @@ function setup() {
     buffer: wallBuffer,
     inc: 0.005,  // noise increase for perlin noise
     gain: -255,
-    colorBackground: BACKGROUNDCOLOR,  // drawn pixels for background
-    colorForeground: BACKGROUNDNOISECOLOR, // color(90),  // drawn pixels for noise
+    colorBackground: colors[color_profile].background,  // drawn pixels for background
+    colorForeground: colors[color_profile].backgroundnoise, // color(90),  // drawn pixels for noise
     // opacityValue: 255,  // opacity of boxes
     distortion: 7,  // random misplacement of the boxes
     density: 10,
@@ -322,7 +326,7 @@ function setup() {
     noColorStroke: true,
     solidstrokeWeight: 50,
     solidColorStroke: color(20, 5),
-    solidColorArea: duftColor,
+    solidColorArea: colors[color_profile].duft,
     opacityFillValue: 70,
     opacityStrokeValue: 55,
     origin: duftOrigin,
@@ -390,7 +394,7 @@ function draw() {
   buffer.clear();
   buffer.scale(scaleRatio);
 
-  buffer.background(BACKGROUNDCOLOR);
+  buffer.background(colors[color_profile].background);
 
   if (MODE == 1) {
     buffer.push()
