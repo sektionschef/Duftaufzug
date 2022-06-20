@@ -88,8 +88,13 @@ function setup() {
 
   // COLOR
   colorMode(HSB, 100);
-  BACKGROUNDCOLOR = color("#666666");
-  // BACKGROUNDCOLOR = color("#999999");
+  // BACKGROUNDCOLOR = color("#666666");
+  // BACKGROUNDNOISECOLOR = color("#777777");
+
+  BACKGROUNDCOLOR = color("#aaaaaa");
+  BACKGROUNDNOISECOLOR = color("#bbbbbb");
+
+
   ambientColor = colorPaletteDark;
   lightColor = colorPaletteLight;
   highlightColor = colorPaletteGlow;
@@ -175,9 +180,9 @@ function setup() {
   wallTextureData = {
     buffer: wallBuffer,
     inc: 0.005,  // noise increase for perlin noise
-    gain: -30,
+    gain: -255,
     colorBackground: BACKGROUNDCOLOR,  // drawn pixels for background
-    colorForeground: color(90),  // drawn pixels for noise
+    colorForeground: BACKGROUNDNOISECOLOR, // color(90),  // drawn pixels for noise
     // opacityValue: 255,  // opacity of boxes
     distortion: 7,  // random misplacement of the boxes
     density: 10,
@@ -429,11 +434,10 @@ function draw() {
   buffer.image(dummyLine.buffer, 0, 0);
 
   // debug duftOrbit
-  if (MODE == 1) {
+  if (MODE == 5) {
     buffer.push();
     buffer.rectMode(CENTER);
-    // buffer.stroke("red");
-    buffer.stroke("black");
+    buffer.stroke("red");
     buffer.strokeWeight(3 / exportRatio);
     buffer.noFill();
     buffer.rect(duftOrigin.x / exportRatio, duftOrigin.y / exportRatio, duftOrbit * 2 / exportRatio, duftOrbit * 2 / exportRatio);
@@ -441,11 +445,10 @@ function draw() {
   }
 
   // debug duftArea
-  if (MODE == 1) {
+  if (MODE == 5) {
     buffer.push();
     buffer.rectMode(CORNER);
-    // buffer.stroke("purple");
-    buffer.stroke("black");
+    buffer.stroke("purple");
     buffer.strokeWeight(5 / exportRatio);
     buffer.noFill();
     buffer.rect(duftArea.position.x / exportRatio, duftArea.position.y / exportRatio, duftArea.width / exportRatio, duftArea.height / exportRatio);
@@ -453,11 +456,10 @@ function draw() {
   }
 
   // debug duftCounty
-  if (MODE == 1) {
+  if (MODE == 5) {
     buffer.push();
     buffer.rectMode(CORNER);
-    // buffer.stroke("cyan");
-    buffer.stroke("black");
+    buffer.stroke("cyan");
     buffer.strokeWeight(5 / exportRatio);
     buffer.noFill();
     buffer.rect(duftCounty.position.x / exportRatio, duftCounty.position.y / exportRatio, duftCounty.width / exportRatio, duftCounty.height / exportRatio);
