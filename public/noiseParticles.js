@@ -160,25 +160,12 @@ class noisePixel {
 class Pixies {
 
     constructor(data) {
-
-        // this.buffer = data.buffer;
-        // this.inc = 0.008;
-        // this.colorBackground = backgroundColor;
-        // this.colorForeground = color(0);
-        // this.opacityValue = 75;
-        // this.distortion = 7;
-        // this.density = 10;
-        // this.amountMax = 10;
-        // this.margin = BACKGROUNDMARGIN;
-
-        // this.buffer = data.buffer;
         this.buffer = createGraphics(rescaling_width, rescaling_height);
         this.inc = data.inc;
         this.gain = data.gain;
         this.gain = data.gain;
         this.colorBackground = data.colorBackground;
         this.colorForeground = data.colorForeground;
-        this.opacityValue = data.opacityValue;
         this.distortion = data.distortion;
         this.density = data.density;
         this.amountMax = data.amountMax;
@@ -188,17 +175,15 @@ class Pixies {
         this.totalDots = this.totalPixels / this.density;
 
         this.draw();
-
     }
 
 
     draw() {
         var _density_ = this.density;
-        let xoff = 0;
-        let yoff = 0;
 
         this.buffer.push();
         this.buffer.loadPixels();
+        let yoff = 0;
         for (let y = 0; y < this.buffer.height; y++) {
             let xoff = 0;
             for (let x = 0; x < this.buffer.width; x++) {
@@ -219,7 +204,6 @@ class Pixies {
                 // for (var amount = 0; amount < noiseF * this.amountMax; amount++) {
                 if (
                     (index % _density_ == 0) &&
-                    // (index / this.buffer.width * 4) > (this.margin * 4)  // top bar
                     (index % (this.buffer.width * 4) > this.margin * 4 / exportRatio) &&  // horizontal left
                     (index % (this.buffer.width * 4) < ((this.buffer.width - (this.margin / exportRatio)) * 4)) &&  // horizontal right
                     (index > (this.buffer.width * (this.margin / exportRatio)) * 4) && // vertical top
@@ -227,7 +211,7 @@ class Pixies {
 
                 ) {
                     if (fxrand() > 0.75) {
-                        // if (noiseF > 0.9) {
+
                         // this pixel
                         this.buffer.pixels[index + 0] = red(this.colorForeground) + _soft_gain_;
                         this.buffer.pixels[index + 1] = green(this.colorForeground) + _soft_gain_;
@@ -264,7 +248,6 @@ class Pixies {
                         _density_ = this.density + Math.round(getRandomFromInterval(-this.distortion, this.distortion))
                     }
                 }
-                // }
 
                 xoff += this.inc;
             }

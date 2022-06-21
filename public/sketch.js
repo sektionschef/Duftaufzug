@@ -60,7 +60,7 @@ function setup() {
   highlightTextureBuffer = createGraphics(rescaling_width, rescaling_height);
   // ambientShapeBuffer = createGraphics(rescaling_width, rescaling_height);
   // ambientTextureBuffer = createGraphics(rescaling_width, rescaling_height);
-  ambientBuffer = createGraphics(rescaling_width, rescaling_height);
+  // ambientBuffer = createGraphics(rescaling_width, rescaling_height);
   // ambientBuffer = createGraphics(rescaling_width, rescaling_height);
   duftTextureBuffer = createGraphics(rescaling_width, rescaling_height);
   duftShapeBuffer = createGraphics(rescaling_width, rescaling_height);
@@ -90,8 +90,6 @@ function setup() {
     color("#eeeeee"),
   ]
 
-  // COLOR
-  // colorMode(HSB, 100);
   colors = {
     "greyscale": {
       background: color("#aaaaaa"),
@@ -103,22 +101,23 @@ function setup() {
     }
   }
 
-  ambientColor = colorPaletteDark;
-  lightColor = colorPaletteLight;
-  highlightColor = colorPaletteGlow;
+  // COLOR
+  // colorMode(HSB, 100);
+  // ambientColor = colorPaletteDark;
+  // lightColor = colorPaletteLight;
+  // highlightColor = colorPaletteGlow;
   // colorMode(RGB, 255);
-
 
   duftOrigin = createVector(
     getRandomFromInterval(0 + MARGINDUFTORIGIN, exportPaper.width - MARGINDUFTORIGIN),
     getRandomFromInterval(0 + MARGINDUFTORIGIN, exportPaper.height - MARGINDUFTORIGIN)
   );
-  duftOrbit = (DUFTRADIOMAX - DUFTRADIOMIN) / 2 + DUFTRADIOMIN;
 
   // DUFT AREA
   duftArea.orientation = getRandomFromList(["down", "left", "up", "right"]);
   // duftArea.orientation = getRandomFromList(["down"]);
 
+  duftOrbit = (DUFTRADIOMAX - DUFTRADIOMIN) / 2 + DUFTRADIOMIN;
   if (duftArea.orientation == "down") {
     duftArea.position = createVector(
       duftOrigin.x - duftOrbit,
@@ -190,7 +189,6 @@ function setup() {
     gain: -255,
     colorBackground: undefined, // colors[color_profile].background,  // drawn pixels for background
     colorForeground: colors[color_profile].backgroundnoise, // color(90),  // drawn pixels for noise
-    // opacityValue: 255,  // opacity of boxes
     distortion: 7,  // random misplacement of the boxes
     density: 10,
     // amountMax: 15, // how many rects per cell, max
@@ -201,11 +199,8 @@ function setup() {
     wallTexture = new Pixies(wallTextureData);
   }
 
-  ambientShapeData = {
-    shapeCount: 5, // duftArea.size / 60000, // number of shapes
-    // buffer: ambientBuffer,
-    // bufferShape: ambientShapeBuffer,
-    // bufferTexture: ambientTextureBuffer,
+  ambientData = {
+    shapeCount: duftArea.size / 70000, // number of shapes
     radioMin: AMBIENTRADIOMIN, // size
     radioMax: AMBIENTRADIOMAX, // size
     radioDistortion: 200,  // misplacement
@@ -224,44 +219,28 @@ function setup() {
     duftCounty: true,
     blur: 3,
   }
-  ambients = new Shapes(ambientShapeData);
+  ambients = new Shapes(ambientData);
 
-  // ambientTextureData = {
-  //   buffer: ambientTextureBuffer,
-  //   inc: 0.009,  // noise increase for perlin noise
-  //   gain: -70,
-  //   colorBackground: color(0, 0),  // drawn pixels for background
-  //   colorForeground: color(80),  // drawn pixels for noise
-  //   // opacityValue: 10,  // opacity of boxes
-  //   distortion: 3,  // random misplacement of the boxes
-  //   density: 10,
-  //   // amountMax: 15, // how many rects per cell, max
-  //   margin: 0, // distance to the edge
+
+  // lightShapeData = {
+  //   shapeCount: duftArea.size / 70000, // number of shapes - 70
+  //   buffer: lightShapeBuffer,
+  //   radioMin: LIGHTRADIOMIN, // size
+  //   radioMax: LIGHTRADIOMAX, // size
+  //   radioDistortion: 150,  // misplacement
+  //   polygonCount: 2,  // how many overlapping polygons to draw
+  //   margin: 500,  // distance from edge
+  //   curveTightness: 1,
+  //   noColorStroke: false,
+  //   solidstrokeWeight: 1,
+  //   solidColorStroke: color(140),
+  //   solidColorArea: lightColor, // color(230, 3),
+  //   opacityFillValue: 100,
+  //   opacityStrokeValue: 255,
+  //   duftOrbit: false,
+  //   duftArea: true,
+  //   blur: 2,
   // }
-
-  // if (MODE == 1) {
-  //   ambientTexture = new Pixies(ambientTextureData);
-  // }
-
-  lightShapeData = {
-    shapeCount: duftArea.size / 70000, // number of shapes - 70
-    buffer: lightShapeBuffer,
-    radioMin: LIGHTRADIOMIN, // size
-    radioMax: LIGHTRADIOMAX, // size
-    radioDistortion: 150,  // misplacement
-    polygonCount: 2,  // how many overlapping polygons to draw
-    margin: 500,  // distance from edge
-    curveTightness: 1,
-    noColorStroke: false,
-    solidstrokeWeight: 1,
-    solidColorStroke: color(140),
-    solidColorArea: lightColor, // color(230, 3),
-    opacityFillValue: 100,
-    opacityStrokeValue: 255,
-    duftOrbit: false,
-    duftArea: true,
-    blur: 2,
-  }
   // lightShape = new Shapes(lightShapeData);
 
   lightTextureData = {
@@ -270,7 +249,6 @@ function setup() {
     gain: 60,
     colorBackground: color(0, 0),  // drawn pixels for background
     colorForeground: color(130), // color(120, 100),  // drawn pixels for noise
-    // opacityValue: 255,  // opacity of boxes
     distortion: 7,  // random misplacement of the boxes
     density: 10,
     // amountMax: 15, // how many rects per cell, max
@@ -281,24 +259,24 @@ function setup() {
     // lightTexture = new Pixies(lightTextureData);
   }
 
-  highlightShapeData = {
-    buffer: highlightShapeBuffer,
-    shapeCount: 5, // number of shapes
-    radioMin: 50, // size
-    radioMax: 150, // size
-    radioDistortion: 120,  // misplacement
-    polygonCount: 2,  // how many overlapping polygons to drawo
-    margin: 500,  // distance from edge
-    curveTightness: 1,
-    noColorStroke: false,
-    solidstrokeWeight: 1,
-    solidColorStroke: color(230),
-    solidColorArea: highlightColor,
-    duftOrbit: true,
-    opacityFillValue: 70,
-    opacityStrokeValue: 255,
-    blur: 2  // undefined,
-  }
+  // highlightShapeData = {
+  //   buffer: highlightShapeBuffer,
+  //   shapeCount: 5, // number of shapes
+  //   radioMin: 50, // size
+  //   radioMax: 150, // size
+  //   radioDistortion: 120,  // misplacement
+  //   polygonCount: 2,  // how many overlapping polygons to drawo
+  //   margin: 500,  // distance from edge
+  //   curveTightness: 1,
+  //   noColorStroke: false,
+  //   solidstrokeWeight: 1,
+  //   solidColorStroke: color(230),
+  //   solidColorArea: highlightColor,
+  //   duftOrbit: true,
+  //   opacityFillValue: 70,
+  //   opacityStrokeValue: 255,
+  //   blur: 2  // undefined,
+  // }
   // highlightShapes = new Shapes(highlightShapeData);
 
   highlightTextureData = {
@@ -307,7 +285,6 @@ function setup() {
     gain: -90,
     colorBackground: color(0, 0),  // drawn pixels for background
     colorForeground: color(250),  // drawn pixels for noise
-    // opacityValue: 255,  // opacity of boxes
     distortion: 7,  // random misplacement of the boxes
     density: 10,
     // amountMax: 15, // how many rects per cell, max
@@ -348,7 +325,6 @@ function setup() {
     gain: -20,
     colorBackground: color(0, 0),  // drawn pixels for background
     colorForeground: color(30, 150),  // drawn pixels for noise
-    // opacityValue: 75,  // opacity of boxes
     distortion: 7,  // random misplacement of the boxes
     density: 10,
     // amountMax: 15, // how many rects per cell, max

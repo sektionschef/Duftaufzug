@@ -2,10 +2,7 @@
 class Shape {
 
     constructor(data) {
-
-        // this.buffer = data.buffer;
         this.buffer = createGraphics(rescaling_width, rescaling_height);
-        this.bufferTexture = data.bufferTexture;
         this.radioMin = data.radioMin;
         this.radioMax = data.radioMax;
         this.radioDistortion = data.radioDistortion;
@@ -18,7 +15,6 @@ class Shape {
         this.opacityStrokeValue = data.opacityStrokeValue;
         if (data.solidColorArea instanceof Array) {
             this.colorIndex = Math.round(getRandomFromList([0, (data.solidColorArea.length - 1)]));
-            // this.solidColorArea = getRandomFromList(data.solidColorArea);
             this.solidColorArea = data.solidColorArea[this.colorIndex];
             this.noiseColorArea = data.noiseColorArea[this.colorIndex];
         } else {
@@ -59,12 +55,10 @@ class Shape {
         }
 
         this.textureData = {
-            buffer: this.bufferTexture,
             inc: 0.008,  // noise increase for perlin noise
             gain: -50,  // COOL TO CHANGE
             colorBackground: undefined,// this.solidColorArea,  // drawn pixels for background
             colorForeground: this.noiseColorArea,  // drawn pixels for noise
-            // opacityValue: 10,  // opacity of boxes
             distortion: 7,  // random misplacement of the boxes
             density: 10,
             // amountMax: 15, // how many rects per cell, max
@@ -183,22 +177,14 @@ class Shapes {
                     var posX = getRandomFromList([(duftOrigin.x - duftOrbit), (duftOrigin.x + duftOrbit)])
                     var posY = getRandomFromInterval((duftOrigin.y - duftOrbit), (duftOrigin.y + duftOrbit))
                 }
-
-                // this.origin = createVector(posX, posY);
             }
 
             // place shapes in area between duft and the edge
             if (this.duftArea == true) {
 
-                // this.origin = createVector(
-                //     getRandomFromInterval(duftArea.position.x, duftArea.position.x + duftArea.width),
-                //     getRandomFromInterval(duftArea.position.y, duftArea.position.y + duftArea.height),
-                // )
-
                 var posX = getRandomFromInterval(duftArea.position.x, duftArea.position.x + duftArea.width);
                 var posY = getRandomFromInterval(duftArea.position.y, duftArea.position.y + duftArea.height);
 
-                // this.solidColorArea = distortColor(this.solidColorArea, 0.5);
             }
             if (this.duftCounty == true) {
 
@@ -224,7 +210,6 @@ class Shapes {
 
             var dataShape = {
                 buffer: this.bufferShape,
-                bufferTexture: this.bufferTexture,
                 origin: this.origin,
                 radioMin: this.radioMin,
                 radioMax: this.radioMax,
@@ -263,7 +248,7 @@ class Shapes {
                 // only texture
                 // this.buffer.image(shape.texture.buffer, 0, 0, shape.texture.buffer.width, shape.texture.buffer.height);
 
-                // masked
+                // masked - only the noise is masked, the color comes from the shape
                 this.bufferMasked = maskBuffers(shape.texture.buffer, shape.buffer);
                 this.buffer.image(this.bufferMasked, 0, 0, this.bufferMasked.width, this.bufferMasked.height);
             } else {
