@@ -58,8 +58,10 @@ function setup() {
   lightTextureBuffer = createGraphics(rescaling_width, rescaling_height);
   highlightShapeBuffer = createGraphics(rescaling_width, rescaling_height);
   highlightTextureBuffer = createGraphics(rescaling_width, rescaling_height);
-  ambientShapeBuffer = createGraphics(rescaling_width, rescaling_height);
-  ambientTextureBuffer = createGraphics(rescaling_width, rescaling_height);
+  // ambientShapeBuffer = createGraphics(rescaling_width, rescaling_height);
+  // ambientTextureBuffer = createGraphics(rescaling_width, rescaling_height);
+  ambientBuffer = createGraphics(rescaling_width, rescaling_height);
+  // ambientBuffer = createGraphics(rescaling_width, rescaling_height);
   duftTextureBuffer = createGraphics(rescaling_width, rescaling_height);
   duftShapeBuffer = createGraphics(rescaling_width, rescaling_height);
   lineBuffer = createGraphics(rescaling_width, rescaling_height);
@@ -94,9 +96,10 @@ function setup() {
     "greyscale": {
       background: color("#aaaaaa"),
       backgroundnoise: color("#bbbbbb"),
-      darkA: color("#555555"),
-      darkAnoise: color("#666666"),
-      // darkAnoise: color("#555555"),
+      // darkA: [color("#555555"), color("#444444")],
+      // darkAnoise: [color("#666666"), color("#333333")],
+      darkA: [color("#555555"), color("red")],
+      darkAnoise: [color("#666666"), color("blue")],
 
       duft: color("#222222"),
     }
@@ -202,9 +205,10 @@ function setup() {
   }
 
   ambientShapeData = {
-    shapeCount: 3, // duftArea.size / 60000, // number of shapes
-    buffer: ambientShapeBuffer,
-    bufferTexture: ambientTextureBuffer,
+    shapeCount: 5, // duftArea.size / 60000, // number of shapes
+    // buffer: ambientBuffer,
+    // bufferShape: ambientShapeBuffer,
+    // bufferTexture: ambientTextureBuffer,
     radioMin: AMBIENTRADIOMIN, // size
     radioMax: AMBIENTRADIOMAX, // size
     radioDistortion: 200,  // misplacement
@@ -411,8 +415,8 @@ function draw() {
   if (MODE == 1) {
     buffer.push();
     buffer.drawingContext.filter = 'blur(0.5px)';
-    // buffer.image(ambients.buffer, 0, 0);
     buffer.image(ambients.buffer, 0, 0);
+    // buffer.image(ambients.bufferMasked, 0, 0);
     buffer.pop();
   }
 

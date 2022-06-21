@@ -171,7 +171,8 @@ class Pixies {
         // this.amountMax = 10;
         // this.margin = BACKGROUNDMARGIN;
 
-        this.buffer = data.buffer;
+        // this.buffer = data.buffer;
+        this.buffer = createGraphics(rescaling_width, rescaling_height);
         this.inc = data.inc;
         this.gain = data.gain;
         this.gain = data.gain;
@@ -195,6 +196,8 @@ class Pixies {
         var _density_ = this.density;
         let xoff = 0;
         let yoff = 0;
+
+        console.log(this.colorBackground);
 
         this.buffer.push();
         this.buffer.loadPixels();

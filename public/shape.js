@@ -3,7 +3,8 @@ class Shape {
 
     constructor(data) {
 
-        this.buffer = data.buffer;
+        // this.buffer = data.buffer;
+        this.buffer = createGraphics(rescaling_width, rescaling_height);
         this.bufferTexture = data.bufferTexture;
         this.radioMin = data.radioMin;
         this.radioMax = data.radioMax;
@@ -16,11 +17,15 @@ class Shape {
         this.solidColorStroke = data.solidColorStroke;
         this.opacityStrokeValue = data.opacityStrokeValue;
         if (data.solidColorArea instanceof Array) {
-            this.solidColorArea = getRandomFromList(data.solidColorArea);
+            this.colorIndex = Math.round(getRandomFromList([0, (data.solidColorArea.length - 1)]));
+            // this.solidColorArea = getRandomFromList(data.solidColorArea);
+            this.solidColorArea = data.solidColorArea[this.colorIndex];
+            this.noiseColorArea = data.noiseColorArea[this.colorIndex];
         } else {
             this.solidColorArea = data.solidColorArea;
+            this.noiseColorArea = data.noiseColorArea;
         }
-        this.noiseColorArea = data.noiseColorArea;
+
         this.opacityFillValue = data.opacityFillValue;
         this.blur = data.blur;
 
@@ -67,28 +72,32 @@ class Shape {
         }
         this.buffer.curveTightness(this.curveTightness)
 
+        // temp value for opacity
+        this.solidColorStrokeOPA = this.solidColorStroke;
+        this.solidColorAreaOPA = this.solidColorArea;
+
         // STROKE
         if (this.noColorStroke == true) {
             this.buffer.noStroke();
         } else {
             if (MODE == 5) {
-                this.solidColorStroke.setAlpha(255);
+                this.solidColorStrokeOPA.setAlpha(255);
             } else {
-                this.solidColorStroke.setAlpha(this.opacityStrokeValue);
+                this.solidColorStrokeOPA.setAlpha(this.opacityStrokeValue);
             }
 
-            this.buffer.stroke(this.solidColorStroke);
+            this.buffer.stroke(this.solidColorStrokeOPA);
             this.buffer.strokeWeight(this.solidstrokeWeight / exportRatio);
         }
 
         // FILL
         if (MODE == 5) {
-            this.solidColorArea.setAlpha(255);
+            this.solidColorAreaOPA.setAlpha(255);
         } else {
-            this.solidColorArea.setAlpha(this.opacityFillValue);
+            this.solidColorAreaOPA.setAlpha(this.opacityFillValue);
         }
 
-        this.buffer.fill(this.solidColorArea);
+        this.buffer.fill(this.solidColorAreaOPA);
 
         for (var polygon of this.polygons) {
             this.buffer.beginShape();
@@ -142,8 +151,7 @@ class Shape {
 
 class Shapes {
     constructor(data) {
-        this.buffer = data.buffer;
-        this.bufferTexture = data.bufferTexture;
+        this.buffer = createGraphics(rescaling_width, rescaling_height);
         this.shapeCount = data.shapeCount;
         this.radioMin = data.radioMin;
         this.radioMax = data.radioMax;
@@ -218,10 +226,8 @@ class Shapes {
                 )
             }
 
-
-
-            var data = {
-                buffer: this.buffer,
+            var dataShape = {
+                buffer: this.bufferShape,
                 bufferTexture: this.bufferTexture,
                 origin: this.origin,
                 radioMin: this.radioMin,
@@ -240,7 +246,7 @@ class Shapes {
                 blur: this.blur,
             }
 
-            this.shapes.push(new Shape(data));
+            this.shapes.push(new Shape(dataShape));
         }
 
         this.drawAll();
@@ -253,22 +259,21 @@ class Shapes {
         this.buffer.scale(scaleRatio);
 
         for (var shape of this.shapes) {
-            shape.draw();
             if (MODE == 1) {
+                shape.draw();
+                // only shape
+                // this.buffer.image(shape.buffer, 0, 0, shape.buffer.width, shape.buffer.height);
+
+                // only texture
+                // this.buffer.image(shape.texture.buffer, 0, 0, shape.texture.buffer.width, shape.texture.buffer.height);
+
                 this.bufferMasked = maskBuffers(shape.texture.buffer, shape.buffer);
-                this.buffer.blend(
-                    this.bufferMasked,
-                    0,
-                    0,
-                    this.buffer.width,
-                    this.buffer.height,
-                    0,
-                    0,
-                    this.bufferMasked.width,
-                    this.bufferMasked.height,
-                    NORMAL
-                    // BLEND
-                )
+                // shape.buffer.clear();
+                // shape.texture.buffer.clear();
+                // this.buffer.clear();
+                this.buffer.image(this.bufferMasked, 0, 0, this.bufferMasked.width, this.bufferMasked.height);
+            } else {
+                shape.draw();
             }
         }
     }
