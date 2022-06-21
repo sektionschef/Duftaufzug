@@ -197,8 +197,6 @@ class Pixies {
         let xoff = 0;
         let yoff = 0;
 
-        console.log(this.colorBackground);
-
         this.buffer.push();
         this.buffer.loadPixels();
         for (let y = 0; y < this.buffer.height; y++) {

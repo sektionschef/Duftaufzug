@@ -53,7 +53,7 @@ function setup() {
   canvas = createCanvas(rescaling_width, rescaling_height, WEBGL);
   buffer = createGraphics(rescaling_width, rescaling_height);
 
-  wallBuffer = createGraphics(rescaling_width, rescaling_height);
+  // wallBuffer = createGraphics(rescaling_width, rescaling_height);
   lightShapeBuffer = createGraphics(rescaling_width, rescaling_height);
   lightTextureBuffer = createGraphics(rescaling_width, rescaling_height);
   highlightShapeBuffer = createGraphics(rescaling_width, rescaling_height);
@@ -95,7 +95,7 @@ function setup() {
   colors = {
     "greyscale": {
       background: color("#aaaaaa"),
-      backgroundnoise: color("#bbbbbb"),
+      backgroundnoise: color("#bbbbbb60"),
       darkA: [color("#555555"), color("#444444")],
       darkAnoise: [color("#666666"), color("#555555")],
 
@@ -185,10 +185,10 @@ function setup() {
   }
 
   wallTextureData = {
-    buffer: wallBuffer,
+    // buffer: wallBuffer,
     inc: 0.005,  // noise increase for perlin noise
     gain: -255,
-    colorBackground: colors[color_profile].background,  // drawn pixels for background
+    colorBackground: undefined, // colors[color_profile].background,  // drawn pixels for background
     colorForeground: colors[color_profile].backgroundnoise, // color(90),  // drawn pixels for noise
     // opacityValue: 255,  // opacity of boxes
     distortion: 7,  // random misplacement of the boxes
@@ -198,8 +198,7 @@ function setup() {
   }
 
   if (MODE == 1) {
-    // wallTexture = new noiseParticles(wallDataLegacy);
-    // wallTexture = new Pixies(wallTextureData);
+    wallTexture = new Pixies(wallTextureData);
   }
 
   ambientShapeData = {
@@ -402,12 +401,12 @@ function draw() {
 
   buffer.background(colors[color_profile].background);
 
-  // if (MODE == 1) {
-  //   buffer.push()
-  //   buffer.drawingContext.filter = 'blur(0.5px)';
-  //   buffer.image(wallTexture.buffer, 0, 0);
-  //   buffer.pop()
-  // }
+  if (MODE == 1) {
+    buffer.push()
+    buffer.drawingContext.filter = 'blur(0.5px)';
+    buffer.image(wallTexture.buffer, 0, 0);
+    buffer.pop()
+  }
 
   // buffer.image(ambientShape.buffer, 0, 0);
   if (MODE == 1) {
