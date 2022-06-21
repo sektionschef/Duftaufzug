@@ -16,11 +16,11 @@ logging.debug("Noise seed: " + NOISESEED);
 let BACKGROUNDMARGIN = 200;
 let MARGINDUFTORIGIN = 1500;
 let DUFTRADIOMIN = 300;
-let DUFTRADIOMAX = 600;
+let DUFTRADIOMAX = 350;
 let LIGHTRADIOMIN = 200;
-let LIGHTRADIOMAX = 300;
+let LIGHTRADIOMAX = 400;
 let AMBIENTRADIOMIN = 300;
-let AMBIENTRADIOMAX = 500;
+let AMBIENTRADIOMAX = 600;
 
 let scaleRatio;
 let exportRatio;
@@ -41,6 +41,7 @@ let duftArea = {};
 let duftCounty = {};
 
 let color_profile = getRandomFromList(["greyscale"]);
+// let color_profile = getRandomFromList(["red"]);
 
 function preload() {
 }
@@ -82,9 +83,20 @@ function setup() {
       lightAnoise: [color("#888888"), color("#999999"), color("#aaaaaa")],
       highlightA: [color("#cccccc"), color("#dddddd"), color("#eeeeee")],
       highlightAnoise: [color("#dddddd"), color("#eeeeee"), color("#ffffff")],
-
       duft: color("#222222"),
       duftNoise: color("#22222260"),
+    },
+    "red": {
+      background: color("#ba5754"),
+      backgroundnoise: color("#923734"),
+      darkA: [color("#923734"), color("#8B0000"), color("	#800000")],
+      darkAnoise: [color("#8B0000"), color("#800000"), color("#923734")],
+      lightA: [color("#a93f3b"), color("#DC143C"), color("#FF4500")],
+      lightAnoise: [color("#DC143C"), color("#FF4500"), color("#a93f3b")],
+      highlightA: [color("#FF6C5C"), color("#FA8072"), color("#F08080")],
+      highlightAnoise: [color("#F08080"), color("#FF6C5C"), color("#FA8072")],
+      duft: color("#632724"),
+      duftNoise: color("#4f262360"),
     }
   }
 
@@ -200,7 +212,7 @@ function setup() {
     solidColorArea: colors[color_profile].darkA,
     noiseColorArea: colors[color_profile].darkAnoise,
     opacityFillValue: 200,
-    opacityStrokeValue: 55,
+    opacityStrokeValue: 155,
     duftOrbit: false,
     duftArea: false,
     duftCounty: true,
@@ -232,7 +244,7 @@ function setup() {
     solidColorArea: colors[color_profile].lightA,
     noiseColorArea: colors[color_profile].lightAnoise,
     opacityFillValue: 200,
-    opacityStrokeValue: 55,
+    opacityStrokeValue: 155,
     duftOrbit: false,
     duftArea: true,
     blur: 2,
@@ -263,7 +275,7 @@ function setup() {
     noiseColorArea: colors[color_profile].highlightAnoise,
     duftOrbit: true,
     opacityFillValue: 70,
-    opacityStrokeValue: 55,
+    opacityStrokeValue: 155,
     blur: 2,  // undefined,
     textureData: {
       inc: 0.008,  // noise increase for perlin noise
@@ -295,7 +307,7 @@ function setup() {
     solidColorArea: colors[color_profile].duft,
     noiseColorArea: colors[color_profile].duftNoise,
     opacityFillValue: 170,
-    opacityStrokeValue: 55,
+    opacityStrokeValue: 155,
     origin: duftOrigin,
     duft: true,
     duftOrbit: false,
