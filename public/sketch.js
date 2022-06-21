@@ -72,24 +72,6 @@ function setup() {
 
   noiseSeed(NOISESEED);
 
-  colorPaletteDark = [
-    color("#555555"),
-    color("#444444"),
-    color("#333333"),
-  ]
-
-  colorPaletteLight = [
-    color("#777777"),
-    color("#888888"),
-    color("#bbbbbb"),
-  ]
-
-  colorPaletteGlow = [
-    color("#cccccc"),
-    color("#dddddd"),
-    color("#eeeeee"),
-  ]
-
   colors = {
     "greyscale": {
       background: color("#aaaaaa"),
@@ -98,6 +80,10 @@ function setup() {
       darkAnoise: [color("#666666"), color("#555555"), color("#777777")],
       lightA: [color("#888888"), color("#999999"), color("#aaaaaa")],
       lightAnoise: [color("#777777"), color("#888888"), color("#999999")],
+      // highlightA: [color("#bbbbbb"), color("#cccccc"), color("#dddddd")],
+      // highlightAnoise: [color("#cccccc"), color("#dddddd"), color("#eeeeee")],
+      highlightA: [color("#cccccc"), color("#dddddd"), color("#eeeeee")],
+      highlightAnoise: [color("#dddddd"), color("#eeeeee"), color("#ffffff")],
 
       duft: color("#222222"),
     }
@@ -210,7 +196,7 @@ function setup() {
     margin: 0,  // distance from edge
     curveTightness: 1,
     noColorStroke: false,
-    solidstrokeWeight: 10,
+    solidstrokeWeight: 50,
     solidColorStroke: color(40),
     solidColorArea: colors[color_profile].darkA,
     noiseColorArea: colors[color_profile].darkAnoise,
@@ -242,8 +228,8 @@ function setup() {
     margin: 500,  // distance from edge
     curveTightness: 1,
     noColorStroke: false,
-    solidstrokeWeight: 10,
-    solidColorStroke: color(40),
+    solidstrokeWeight: 50,
+    solidColorStroke: color(100),
     solidColorArea: colors[color_profile].lightA,
     noiseColorArea: colors[color_profile].lightAnoise,
     opacityFillValue: 200,
@@ -252,7 +238,6 @@ function setup() {
     duftArea: true,
     blur: 2,
     textureData: {
-      buffer: lightTextureBuffer,
       inc: 0.008,  // noise increase for perlin noise
       gain: 70,
       colorBackground: undefined,  // drawn pixels for background
@@ -264,37 +249,35 @@ function setup() {
   }
   lights = new Shapes(lightData);
 
-  // highlightShapeData = {
-  //   buffer: highlightShapeBuffer,
-  //   shapeCount: 5, // number of shapes
-  //   radioMin: 50, // size
-  //   radioMax: 150, // size
-  //   radioDistortion: 120,  // misplacement
-  //   polygonCount: 2,  // how many overlapping polygons to drawo
-  //   margin: 500,  // distance from edge
-  //   curveTightness: 1,
-  //   noColorStroke: false,
-  //   solidstrokeWeight: 1,
-  //   solidColorStroke: color(230),
-  //   solidColorArea: highlightColor,
-  //   duftOrbit: true,
-  //   opacityFillValue: 70,
-  //   opacityStrokeValue: 255,
-  //   blur: 2  // undefined,
-  // }
-  // highlightShapes = new Shapes(highlightShapeData);
-
-  highlightTextureData = {
-    buffer: highlightTextureBuffer,
-    inc: 0.008,  // noise increase for perlin noise
-    gain: -90,
-    colorBackground: color(0, 0),  // drawn pixels for background
-    colorForeground: color(250),  // drawn pixels for noise
-    distortion: 7,  // random misplacement of the boxes
-    density: 10,
-    // amountMax: 15, // how many rects per cell, max
-    margin: BACKGROUNDMARGIN, // distance to the edge
+  highlightData = {
+    buffer: highlightShapeBuffer,
+    shapeCount: 5, // number of shapes
+    radioMin: 50, // size
+    radioMax: 150, // size
+    radioDistortion: 120,  // misplacement
+    polygonCount: 2,  // how many overlapping polygons to drawo
+    margin: 500,  // distance from edge
+    curveTightness: 1,
+    noColorStroke: false,
+    solidstrokeWeight: 150,
+    solidColorStroke: color(70),
+    solidColorArea: colors[color_profile].highlightA,
+    noiseColorArea: colors[color_profile].highlightAnoise,
+    duftOrbit: true,
+    opacityFillValue: 70,
+    opacityStrokeValue: 255,
+    blur: 2,  // undefined,
+    textureData: {
+      inc: 0.008,  // noise increase for perlin noise
+      gain: -30,
+      colorBackground: undefined,  // drawn pixels for background
+      distortion: 7,  // random misplacement of the boxes
+      density: 10,
+      // amountMax: 15, // how many rects per cell, max
+      margin: BACKGROUNDMARGIN, // distance to the edge
+    }
   }
+  highlights = new Shapes(highlightData);
 
   if (MODE == 1) {
     // highlightTexture = new Pixies(highlightTextureData);
@@ -404,13 +387,12 @@ function draw() {
     buffer.pop();
   }
 
-  // buffer.image(highlightShapes.buffer, 0, 0);
-  // if (MODE == 1) {
-  //   buffer.push()
-  //   buffer.drawingContext.filter = 'blur(0.5px)';
-  //   buffer.image(highlightMasked, 0, 0);
-  //   buffer.pop();
-  // }
+  if (MODE == 1) {
+    buffer.push()
+    buffer.drawingContext.filter = 'blur(0.5px)';
+    buffer.image(highlights.buffer, 0, 0);
+    buffer.pop();
+  }
 
   // buffer.image(duftShape.buffer, 0, 0);
   // if (MODE == 1) {
