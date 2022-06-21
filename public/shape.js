@@ -25,11 +25,23 @@ class Shape {
             this.solidColorArea = data.solidColorArea;
             this.noiseColorArea = data.noiseColorArea;
         }
-
         this.opacityFillValue = data.opacityFillValue;
         this.blur = data.blur;
 
         this.origin = data.origin;
+
+        if (MODE == 5) {
+            this.solidColorStroke.setAlpha(255);
+        } else {
+            this.solidColorStroke.setAlpha(this.opacityStrokeValue);
+        }
+
+        if (MODE == 5) {
+            this.solidColorArea.setAlpha(255);
+        } else {
+            this.solidColorArea.setAlpha(this.opacityFillValue);
+        }
+
 
         this.polygons = [];
         this.rightUp = createVector(this.origin.x + getRandomFromInterval(this.radioMin, this.radioMax), this.origin.y + getRandomFromInterval(-this.radioMin, -this.radioMax));
@@ -49,8 +61,8 @@ class Shape {
         this.textureData = {
             buffer: this.bufferTexture,
             inc: 0.008,  // noise increase for perlin noise
-            gain: -100,  // COOL TO CHANGE
-            colorBackground: this.solidColorArea,  // drawn pixels for background
+            gain: -50,  // COOL TO CHANGE
+            colorBackground: undefined,// this.solidColorArea,  // drawn pixels for background
             colorForeground: this.noiseColorArea,  // drawn pixels for noise
             // opacityValue: 10,  // opacity of boxes
             distortion: 7,  // random misplacement of the boxes
@@ -72,32 +84,16 @@ class Shape {
         }
         this.buffer.curveTightness(this.curveTightness)
 
-        // temp value for opacity
-        this.solidColorStrokeOPA = this.solidColorStroke;
-        this.solidColorAreaOPA = this.solidColorArea;
-
         // STROKE
         if (this.noColorStroke == true) {
             this.buffer.noStroke();
         } else {
-            if (MODE == 5) {
-                this.solidColorStrokeOPA.setAlpha(255);
-            } else {
-                this.solidColorStrokeOPA.setAlpha(this.opacityStrokeValue);
-            }
-
-            this.buffer.stroke(this.solidColorStrokeOPA);
+            this.buffer.stroke(this.solidColorStroke);
             this.buffer.strokeWeight(this.solidstrokeWeight / exportRatio);
         }
 
         // FILL
-        if (MODE == 5) {
-            this.solidColorAreaOPA.setAlpha(255);
-        } else {
-            this.solidColorAreaOPA.setAlpha(this.opacityFillValue);
-        }
-
-        this.buffer.fill(this.solidColorAreaOPA);
+        this.buffer.fill(this.solidColorArea);
 
         for (var polygon of this.polygons) {
             this.buffer.beginShape();
@@ -262,15 +258,13 @@ class Shapes {
             if (MODE == 1) {
                 shape.draw();
                 // only shape
-                // this.buffer.image(shape.buffer, 0, 0, shape.buffer.width, shape.buffer.height);
+                this.buffer.image(shape.buffer, 0, 0, shape.buffer.width, shape.buffer.height);
 
                 // only texture
                 // this.buffer.image(shape.texture.buffer, 0, 0, shape.texture.buffer.width, shape.texture.buffer.height);
 
+                // masked
                 this.bufferMasked = maskBuffers(shape.texture.buffer, shape.buffer);
-                // shape.buffer.clear();
-                // shape.texture.buffer.clear();
-                // this.buffer.clear();
                 this.buffer.image(this.bufferMasked, 0, 0, this.bufferMasked.width, this.bufferMasked.height);
             } else {
                 shape.draw();

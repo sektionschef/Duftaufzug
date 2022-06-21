@@ -91,15 +91,13 @@ function setup() {
   ]
 
   // COLOR
-  colorMode(HSB, 100);
+  // colorMode(HSB, 100);
   colors = {
     "greyscale": {
       background: color("#aaaaaa"),
       backgroundnoise: color("#bbbbbb"),
-      // darkA: [color("#555555"), color("#444444")],
-      // darkAnoise: [color("#666666"), color("#333333")],
-      darkA: [color("#555555"), color("red")],
-      darkAnoise: [color("#666666"), color("blue")],
+      darkA: [color("#555555"), color("#444444")],
+      darkAnoise: [color("#666666"), color("#555555")],
 
       duft: color("#222222"),
     }
@@ -108,7 +106,7 @@ function setup() {
   ambientColor = colorPaletteDark;
   lightColor = colorPaletteLight;
   highlightColor = colorPaletteGlow;
-  colorMode(RGB, 255);
+  // colorMode(RGB, 255);
 
 
   duftOrigin = createVector(
@@ -201,7 +199,7 @@ function setup() {
 
   if (MODE == 1) {
     // wallTexture = new noiseParticles(wallDataLegacy);
-    wallTexture = new Pixies(wallTextureData);
+    // wallTexture = new Pixies(wallTextureData);
   }
 
   ambientShapeData = {

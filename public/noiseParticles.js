@@ -207,13 +207,15 @@ class Pixies {
                 let index = (x + y * this.buffer.width) * 4;
                 var noiseF = noise(xoff, yoff);
                 var _gain_ = noiseF * this.gain;
-                var _soft_gain_ = _gain_ / 2;
+                var _soft_gain_ = _gain_  // / 2;
 
                 // draw the background
-                this.buffer.pixels[index + 0] = red(this.colorBackground);
-                this.buffer.pixels[index + 1] = green(this.colorBackground);
-                this.buffer.pixels[index + 2] = blue(this.colorBackground);
-                this.buffer.pixels[index + 3] = alpha(this.colorBackground);  // opacity
+                if (typeof this.colorBackground != "undefined") {
+                    this.buffer.pixels[index + 0] = red(this.colorBackground);
+                    this.buffer.pixels[index + 1] = green(this.colorBackground);
+                    this.buffer.pixels[index + 2] = blue(this.colorBackground);
+                    this.buffer.pixels[index + 3] = alpha(this.colorBackground);  // opacity
+                }
 
                 // vlt. mehrere vorschläge zu _density_ in einem loop.
                 // for (var amount = 0; amount < noiseF * this.amountMax; amount++) {
