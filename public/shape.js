@@ -13,6 +13,8 @@ class Shape {
         this.solidstrokeWeight = data.solidstrokeWeight;
         this.solidColorStroke = data.solidColorStroke;
         this.opacityStrokeValue = data.opacityStrokeValue;
+        this.textureData = data.textureData;
+
         if (data.solidColorArea instanceof Array) {
             this.colorIndex = Math.round(getRandomFromList([0, (data.solidColorArea.length - 1)]));
             this.solidColorArea = data.solidColorArea[this.colorIndex];
@@ -54,16 +56,7 @@ class Shape {
             })
         }
 
-        this.textureData = {
-            inc: 0.008,  // noise increase for perlin noise
-            gain: -50,  // COOL TO CHANGE
-            colorBackground: undefined,// this.solidColorArea,  // drawn pixels for background
-            colorForeground: this.noiseColorArea,  // drawn pixels for noise
-            distortion: 7,  // random misplacement of the boxes
-            density: 10,
-            // amountMax: 15, // how many rects per cell, max
-            margin: 0, // distance to the edge
-        }
+        this.textureData.colorForeground = this.noiseColorArea;
 
         if (MODE == 1) {
             this.texture = new Pixies(this.textureData);
@@ -161,6 +154,7 @@ class Shapes {
         this.duftArea = data.duftArea;
         this.duftCounty = data.duftCounty;
         this.blur = data.blur;
+        this.textureData = data.textureData;
 
         this.shapes = []
 
@@ -225,6 +219,7 @@ class Shapes {
                 opacityFillValue: this.opacityFillValue,
                 opacityStrokeValue: this.opacityStrokeValue,
                 blur: this.blur,
+                textureData: this.textureData,
             }
 
             this.shapes.push(new Shape(dataShape));
