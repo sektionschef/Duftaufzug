@@ -205,7 +205,7 @@ class Pixies {
                 let index = (x + y * this.buffer.width) * 4;
                 var noiseF = noise(xoff, yoff);
                 var _gain_ = noiseF * this.gain;
-                var _soft_gain_ = _gain_  // / 2;
+                var _soft_gain_ = _gain_ // / 2;  // FEATURE!!
 
                 // draw the background
                 if (typeof this.colorBackground != "undefined") {

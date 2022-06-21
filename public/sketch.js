@@ -96,8 +96,8 @@ function setup() {
     "greyscale": {
       background: color("#aaaaaa"),
       backgroundnoise: color("#bbbbbb60"),
-      darkA: [color("#555555"), color("#444444")],
-      darkAnoise: [color("#666666"), color("#555555")],
+      darkA: [color("#555555"), color("#444444"), color("#666666")],
+      darkAnoise: [color("#666666"), color("#555555"), color("#777777")],
 
       duft: color("#222222"),
     }
