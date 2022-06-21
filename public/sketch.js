@@ -78,14 +78,13 @@ function setup() {
       backgroundnoise: color("#bbbbbb60"),
       darkA: [color("#555555"), color("#444444"), color("#666666")],
       darkAnoise: [color("#666666"), color("#555555"), color("#777777")],
-      lightA: [color("#888888"), color("#999999"), color("#aaaaaa")],
-      lightAnoise: [color("#777777"), color("#888888"), color("#999999")],
-      // highlightA: [color("#bbbbbb"), color("#cccccc"), color("#dddddd")],
-      // highlightAnoise: [color("#cccccc"), color("#dddddd"), color("#eeeeee")],
+      lightA: [color("#777777"), color("#888888"), color("#999999")],
+      lightAnoise: [color("#888888"), color("#999999"), color("#aaaaaa")],
       highlightA: [color("#cccccc"), color("#dddddd"), color("#eeeeee")],
       highlightAnoise: [color("#dddddd"), color("#eeeeee"), color("#ffffff")],
 
       duft: color("#222222"),
+      duftNoise: color("#22222260"),
     }
   }
 
@@ -188,7 +187,7 @@ function setup() {
   }
 
   ambientData = {
-    shapeCount: duftArea.size / 90000, // number of shapes
+    shapeCount: duftArea.size / 150000, // number of shapes
     radioMin: AMBIENTRADIOMIN, // size
     radioMax: AMBIENTRADIOMAX, // size
     radioDistortion: 200,  // misplacement
@@ -201,14 +200,14 @@ function setup() {
     solidColorArea: colors[color_profile].darkA,
     noiseColorArea: colors[color_profile].darkAnoise,
     opacityFillValue: 200,
-    opacityStrokeValue: 255,
+    opacityStrokeValue: 55,
     duftOrbit: false,
     duftArea: false,
     duftCounty: true,
     blur: 3,
     textureData: {
       inc: 0.008,  // noise increase for perlin noise
-      gain: -50,  // COOL TO CHANGE
+      gain: -60,  // COOL TO CHANGE
       colorBackground: undefined,// this.solidColorArea,  // drawn pixels for background
       distortion: 7,  // random misplacement of the boxes
       density: 10,
@@ -220,7 +219,7 @@ function setup() {
 
 
   lightData = {
-    shapeCount: duftArea.size / 100000, // number of shapes - 70
+    shapeCount: duftArea.size / 150000, // number of shapes - 70
     radioMin: LIGHTRADIOMIN, // size
     radioMax: LIGHTRADIOMAX, // size
     radioDistortion: 150,  // misplacement
@@ -233,13 +232,13 @@ function setup() {
     solidColorArea: colors[color_profile].lightA,
     noiseColorArea: colors[color_profile].lightAnoise,
     opacityFillValue: 200,
-    opacityStrokeValue: 255,
+    opacityStrokeValue: 55,
     duftOrbit: false,
     duftArea: true,
     blur: 2,
     textureData: {
       inc: 0.008,  // noise increase for perlin noise
-      gain: 70,
+      gain: -70,
       colorBackground: undefined,  // drawn pixels for background
       distortion: 7,  // random misplacement of the boxes
       density: 10,
@@ -250,7 +249,6 @@ function setup() {
   lights = new Shapes(lightData);
 
   highlightData = {
-    buffer: highlightShapeBuffer,
     shapeCount: 5, // number of shapes
     radioMin: 50, // size
     radioMax: 150, // size
@@ -265,11 +263,11 @@ function setup() {
     noiseColorArea: colors[color_profile].highlightAnoise,
     duftOrbit: true,
     opacityFillValue: 70,
-    opacityStrokeValue: 255,
+    opacityStrokeValue: 55,
     blur: 2,  // undefined,
     textureData: {
       inc: 0.008,  // noise increase for perlin noise
-      gain: -30,
+      gain: -60,
       colorBackground: undefined,  // drawn pixels for background
       distortion: 7,  // random misplacement of the boxes
       density: 10,
@@ -283,8 +281,7 @@ function setup() {
     // highlightTexture = new Pixies(highlightTextureData);
   }
 
-  duftShapeData = {
-    buffer: duftShapeBuffer,
+  duftData = {
     shapeCount: 1, // number of shapes
     radioMin: DUFTRADIOMIN, // size
     radioMax: DUFTRADIOMAX, // size
@@ -293,36 +290,28 @@ function setup() {
     margin: MARGINDUFTORIGIN,  // distance from edge
     curveTightness: 1,
     noColorStroke: true,
-    solidstrokeWeight: 50,
+    solidstrokeWeight: 190,
     solidColorStroke: color(20, 5),
     solidColorArea: colors[color_profile].duft,
-    opacityFillValue: 70,
+    noiseColorArea: colors[color_profile].duftNoise,
+    opacityFillValue: 170,
     opacityStrokeValue: 55,
     origin: duftOrigin,
     duft: true,
     duftOrbit: false,
     duftArea: false,
     blur: 2,
+    textureData: {
+      inc: 0.008,  // noise increase for perlin noise
+      gain: -60,
+      colorBackground: undefined,  // drawn pixels for background
+      distortion: 7,  // random misplacement of the boxes
+      density: 10,
+      // amountMax: 15, // how many rects per cell, max
+      margin: BACKGROUNDMARGIN, // distance to the edge
+    }
   }
-
-  // duftShape = new Shapes(duftShapeData);
-
-  duftTextureData = {
-    buffer: duftTextureBuffer,
-    inc: 0.08,  // noise increase for perlin noise
-    gain: -20,
-    colorBackground: color(0, 0),  // drawn pixels for background
-    colorForeground: color(30, 150),  // drawn pixels for noise
-    distortion: 7,  // random misplacement of the boxes
-    density: 10,
-    // amountMax: 15, // how many rects per cell, max
-    margin: BACKGROUNDMARGIN, // distance to the edge
-  }
-
-  if (MODE <= 2) {
-    // duftTexture = new noiseParticles(duftTextureDataLegacy);
-    // duftTexture = new Pixies(duftTextureData);
-  }
+  duft = new Shapes(duftData);
 
   LineData = {
     buffer: lineBuffer,
@@ -341,14 +330,6 @@ function setup() {
   }
   dummyLine = new Lines(LineData);
 
-  // // MASKS
-  if (MODE == 1) {
-    // duftMasked = maskBuffers(duftTexture.buffer, duftShape.buffer);
-    // lightMasked = maskBuffers(lightTexture.buffer, lightShape.buffer);
-    // highlightMasked = maskBuffers(highlightTexture.buffer, highlightShapes.buffer);
-
-    // ambientMasked = maskBuffers(ambientTexture.buffer, ambientShape.buffer);
-  }
 }
 
 
@@ -367,14 +348,14 @@ function draw() {
 
   if (MODE == 1) {
     buffer.push()
-    buffer.drawingContext.filter = 'blur(0.5px)';
+    buffer.drawingContext.filter = 'blur(0.2px)';
     buffer.image(wallTexture.buffer, 0, 0);
     buffer.pop()
   }
 
   if (MODE == 1) {
     buffer.push();
-    buffer.drawingContext.filter = 'blur(0.5px)';
+    buffer.drawingContext.filter = 'blur(0.2px)';
     buffer.image(ambients.buffer, 0, 0);
     // buffer.image(ambients.bufferMasked, 0, 0);
     buffer.pop();
@@ -382,27 +363,26 @@ function draw() {
 
   if (MODE == 1) {
     buffer.push()
-    buffer.drawingContext.filter = 'blur(0.5px)';
+    buffer.drawingContext.filter = 'blur(0.2px)';
     buffer.image(lights.buffer, 0, 0);
     buffer.pop();
   }
 
   if (MODE == 1) {
     buffer.push()
-    buffer.drawingContext.filter = 'blur(0.5px)';
+    buffer.drawingContext.filter = 'blur(0.2px)';
     buffer.image(highlights.buffer, 0, 0);
     buffer.pop();
   }
 
-  // buffer.image(duftShape.buffer, 0, 0);
-  // if (MODE == 1) {
-  //   buffer.push()
-  //   buffer.drawingContext.filter = 'blur(0.5px)';
-  //   buffer.image(duftMasked, 0, 0);
-  //   buffer.pop();
-  // }
+  if (MODE == 1) {
+    buffer.push()
+    buffer.drawingContext.filter = 'blur(0.2px)';
+    buffer.image(duft.buffer, 0, 0);
+    buffer.pop();
+  }
 
-  // buffer.image(dummyLine.buffer, 0, 0);
+  buffer.image(dummyLine.buffer, 0, 0);
 
   // debug duftOrbit
   if (MODE == 5) {
