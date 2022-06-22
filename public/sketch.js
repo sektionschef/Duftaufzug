@@ -78,8 +78,16 @@ function setup() {
     "greyscale": {
       background: color("#bbbbbb"),
       backgroundnoise: color("#bbbbbb40"),
-      fillAll: [color("#444444"), color("#777777"), color("#cccccc")],
-      falllAllNoise: [color("#44444440"), color("#66666640"), color("#cccccc40")],
+      fillAll: [
+        color("#444444"),
+        color("#777777"),
+        color("#cccccc")
+      ],
+      falllAllNoise: [
+        color("#44444440"),
+        color("#66666640"),
+        color("#cccccc40")
+      ],
       duft: color("#222222"),
       duftNoise: color("#22222240"),
     },
@@ -183,7 +191,7 @@ function setup() {
 
   wallTextureData = {
     // buffer: wallBuffer,
-    inc: 0.005,  // noise increase for perlin noise
+    inc: 0.004,  // noise increase for perlin noise
     gain: -255,
     colorBackground: undefined, // colors[color_profile].background,  // drawn pixels for background
     colorForeground: colors[color_profile].backgroundnoise, // color(90),  // drawn pixels for noise
@@ -217,7 +225,7 @@ function setup() {
     duftCounty: true,
     blur: 3,
     textureData: {
-      inc: 0.008,  // noise increase for perlin noise
+      inc: 0.9,  // noise increase for perlin noise
       gain: -60,  // COOL TO CHANGE
       colorBackground: undefined,// this.solidColorArea,  // drawn pixels for background
       distortion: 7,  // random misplacement of the boxes
@@ -248,7 +256,7 @@ function setup() {
     duftArea: true,
     blur: 1.5,
     textureData: {
-      inc: 0.008,  // noise increase for perlin noise
+      inc: 0.4,  // noise increase for perlin noise
       gain: -70,
       colorBackground: undefined,  // drawn pixels for background
       distortion: 7,  // random misplacement of the boxes
@@ -260,7 +268,7 @@ function setup() {
   lights = new Shapes(lightData);
 
   highlightData = {
-    shapeCount: 5, // number of shapes
+    shapeCount: 9, // number of shapes
     radioMin: 50, // size
     radioMax: 150, // size
     radioDistortion: 120,  // misplacement
@@ -269,15 +277,15 @@ function setup() {
     curveTightness: 1,
     noColorStroke: false,
     solidstrokeWeight: 2,
-    solidColorStroke: color(70),
+    solidColorStroke: color(30),
     solidColorArea: colors[color_profile].fillAll,
     noiseColorArea: colors[color_profile].falllAllNoise,
     duftOrbit: true,
     opacityFillValue: 70,
     opacityStrokeValue: 100,
-    blur: 1.5,  // undefined,
+    blur: 1,  // undefined,
     textureData: {
-      inc: 0.008,  // noise increase for perlin noise
+      inc: 0.4,  // noise increase for perlin noise
       gain: -60,
       colorBackground: undefined,  // drawn pixels for background
       distortion: 7,  // random misplacement of the boxes
@@ -311,9 +319,9 @@ function setup() {
     duft: true,
     duftOrbit: false,
     duftArea: false,
-    blur: 2,
+    blur: 1.5,
     textureData: {
-      inc: 0.008,  // noise increase for perlin noise
+      inc: 0.4,  // noise increase for perlin noise
       gain: -50,
       colorBackground: undefined,  // drawn pixels for background
       distortion: 7,  // random misplacement of the boxes
@@ -359,7 +367,7 @@ function draw() {
 
   if (MODE == 1) {
     buffer.push()
-    buffer.drawingContext.filter = 'blur(0.2px)';
+    buffer.drawingContext.filter = 'blur(0.5px)';
     buffer.image(wallTexture.buffer, 0, 0);
     buffer.pop()
   }
@@ -381,14 +389,14 @@ function draw() {
 
   if (MODE == 1) {
     buffer.push()
-    buffer.drawingContext.filter = 'blur(0.2px)';
+    // buffer.drawingContext.filter = 'blur(0.2px)';
     buffer.image(highlights.buffer, 0, 0);
     buffer.pop();
   }
 
   if (MODE == 1) {
     buffer.push()
-    buffer.drawingContext.filter = 'blur(0.2px)';
+    // buffer.drawingContext.filter = 'blur(0.2px)';
     buffer.image(duft.buffer, 0, 0);
     buffer.pop();
   }

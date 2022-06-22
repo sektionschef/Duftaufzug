@@ -16,7 +16,7 @@ class Shape {
         this.textureData = data.textureData;
 
         if (data.solidColorArea instanceof Array) {
-            this.colorIndex = Math.round(getRandomFromList([0, (data.solidColorArea.length - 1)]));
+            this.colorIndex = Math.round(getRandomFromInterval(0, (data.solidColorArea.length - 1)));
             this.solidColorArea = data.solidColorArea[this.colorIndex];
             this.noiseColorArea = data.noiseColorArea[this.colorIndex];
         } else {
