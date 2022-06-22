@@ -40,7 +40,7 @@ let fxhash_number;
 let duftArea = {};
 let duftCounty = {};
 
-let color_profile = getRandomFromList(["greyscale"]);
+let color_profile = getRandomFromList(["greyscale_mix"]);
 // let color_profile = getRandomFromList(["red"]);
 
 function preload() {
@@ -73,7 +73,22 @@ function setup() {
 
   noiseSeed(NOISESEED);
 
+  all = [color("#444444"), color("#666666"), color("#cccccc")];
+  allNoise = [color("#555555"), color("#777777"), color("#dddddd")]
+
   colors = {
+    "greyscale_mix": {
+      background: color("#aaaaaa"),
+      backgroundnoise: color("#bbbbbb60"),
+      darkA: all,
+      darkAnoise: allNoise,
+      lightA: all,
+      lightAnoise: allNoise,
+      highlightA: all,
+      highlightAnoise: allNoise,
+      duft: color("#222222"),
+      duftNoise: color("#22222260"),
+    },
     "greyscale": {
       background: color("#aaaaaa"),
       backgroundnoise: color("#bbbbbb60"),
@@ -211,7 +226,7 @@ function setup() {
     solidColorStroke: color(40),
     solidColorArea: colors[color_profile].darkA,
     noiseColorArea: colors[color_profile].darkAnoise,
-    opacityFillValue: 200,
+    opacityFillValue: 100,
     opacityStrokeValue: 155,
     duftOrbit: false,
     duftArea: false,
@@ -243,7 +258,7 @@ function setup() {
     solidColorStroke: color(100),
     solidColorArea: colors[color_profile].lightA,
     noiseColorArea: colors[color_profile].lightAnoise,
-    opacityFillValue: 200,
+    opacityFillValue: 100,
     opacityStrokeValue: 155,
     duftOrbit: false,
     duftArea: true,
