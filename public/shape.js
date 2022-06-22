@@ -58,8 +58,33 @@ class Shape {
 
         this.textureData.colorForeground = this.noiseColorArea;
 
+        this.define_shadow_orientation()
+
         if (MODE == 1) {
             this.texture = new Pixies(this.textureData);
+        }
+    }
+
+
+    define_shadow_orientation() {
+        if ((duftOrigin.x - this.origin.x) > 0) {
+            // console.log("shape is left");
+            if ((duftOrigin.y - this.origin.y) > 0) {
+                // console.log("shape is up left")
+                this.shadowOrientation = "up_left";
+            } else {
+                // console.log("shape is bottom left")
+                this.shadowOrientation = "bottom_left";
+            }
+        } else {
+            // console.log("shape is right");
+            if ((duftOrigin.y - this.origin.y) > 0) {
+                // console.log("shape is up right")
+                this.shadowOrientation = "up_right";
+            } else {
+                // console.log("shape is bottom right")
+                this.shadowOrientation = "bottom_right";
+            }
         }
     }
 
@@ -71,19 +96,10 @@ class Shape {
         }
         this.buffer.curveTightness(this.curveTightness)
 
-        // STROKE
-        if (this.noColorStroke == true) {
-            this.buffer.noStroke();
-        } else {
-            this.buffer.strokeWeight(this.solidstrokeWeight / exportRatio);
-            this.buffer.stroke(this.solidColorStroke);
-        }
-
-
-        // FILL
-        this.buffer.fill(this.solidColorArea);
-
         for (var polygon of this.polygons) {
+            this.buffer.stroke(this.solidColorStroke);
+            this.buffer.fill(this.solidColorArea);
+            this.buffer.strokeWeight(this.solidstrokeWeight / exportRatio);
             this.buffer.beginShape();
             this.buffer.curveVertex(polygon.rightUp.x / exportRatio, polygon.rightUp.y / exportRatio);
             this.buffer.curveVertex(polygon.rightDown.x / exportRatio, polygon.rightDown.y / exportRatio);
@@ -91,11 +107,45 @@ class Shape {
             this.buffer.curveVertex(polygon.leftUp.x / exportRatio, polygon.leftUp.y / exportRatio);
             this.buffer.endShape(CLOSE);
 
+            // shadow
+            this.buffer.noFill();
+            this.buffer.drawingContext.filter = 'blur(3px)';
+            this.buffer.stroke(color(0, 100));
+            this.buffer.strokeWeight(10 / exportRatio);
+            this.buffer.beginShape();
+            if (this.shadowOrientation == "bottom_left") {
+                this.buffer.curveVertex(polygon.rightDown.x / exportRatio, polygon.rightDown.y / exportRatio);
+                this.buffer.curveVertex(polygon.rightDown.x / exportRatio, polygon.rightDown.y / exportRatio);
+                this.buffer.curveVertex(polygon.leftDown.x / exportRatio, polygon.leftDown.y / exportRatio);
+                this.buffer.curveVertex(polygon.leftUp.x / exportRatio, polygon.leftUp.y / exportRatio);
+                this.buffer.curveVertex(polygon.leftUp.x / exportRatio, polygon.leftUp.y / exportRatio);
+            } else if (this.shadowOrientation == "bottom_right") {
+                this.buffer.curveVertex(polygon.rightUp.x / exportRatio, polygon.rightUp.y / exportRatio);
+                this.buffer.curveVertex(polygon.rightUp.x / exportRatio, polygon.rightUp.y / exportRatio);
+                this.buffer.curveVertex(polygon.rightDown.x / exportRatio, polygon.rightDown.y / exportRatio);
+                this.buffer.curveVertex(polygon.leftDown.x / exportRatio, polygon.leftDown.y / exportRatio);
+                this.buffer.curveVertex(polygon.leftDown.x / exportRatio, polygon.leftDown.y / exportRatio);
+            } else if (this.shadowOrientation == "up_left") {
+                this.buffer.curveVertex(polygon.rightUp.x / exportRatio, polygon.rightUp.y / exportRatio);
+                this.buffer.curveVertex(polygon.rightUp.x / exportRatio, polygon.rightUp.y / exportRatio);
+                this.buffer.curveVertex(polygon.leftUp.x / exportRatio, polygon.leftUp.y / exportRatio);
+                this.buffer.curveVertex(polygon.leftDown.x / exportRatio, polygon.leftDown.y / exportRatio);
+                this.buffer.curveVertex(polygon.leftDown.x / exportRatio, polygon.leftDown.y / exportRatio);
+            } else {
+                this.buffer.curveVertex(polygon.leftUp.x / exportRatio, polygon.leftUp.y / exportRatio);
+                this.buffer.curveVertex(polygon.leftUp.x / exportRatio, polygon.leftUp.y / exportRatio);
+                this.buffer.curveVertex(polygon.rightUp.x / exportRatio, polygon.rightUp.y / exportRatio);
+                this.buffer.curveVertex(polygon.rightDown.x / exportRatio, polygon.rightDown.y / exportRatio);
+                this.buffer.curveVertex(polygon.rightDown.x / exportRatio, polygon.rightDown.y / exportRatio);
+            }
+            this.buffer.endShape();
+
             if (MODE > 2) {
                 break
             }
         }
         this.buffer.pop();
+
 
         this.draw_debug();
     }
