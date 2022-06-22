@@ -172,7 +172,7 @@ function exportHighResolution() {
     let timestamp = new Date().getTime();
 
     // Save as PNG
-    save(buffer, str(timestamp), 'png');
+    save(buffer, fxhash + str(timestamp), 'png');
 
     // Reset scaleRation back to 1, re-create buffer, re-draw
     scaleRatio = 1;

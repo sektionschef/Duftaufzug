@@ -75,9 +75,10 @@ class Shape {
         if (this.noColorStroke == true) {
             this.buffer.noStroke();
         } else {
-            this.buffer.stroke(this.solidColorStroke);
             this.buffer.strokeWeight(this.solidstrokeWeight / exportRatio);
+            this.buffer.stroke(this.solidColorStroke);
         }
+
 
         // FILL
         this.buffer.fill(this.solidColorArea);
@@ -145,6 +146,7 @@ class Shapes {
         this.noColorStroke = data.noColorStroke;
         this.solidColorStroke = data.solidColorStroke;
         this.opacityStrokeValue = data.opacityStrokeValue;
+        this.solidstrokeWeight = data.solidstrokeWeight;
         this.solidColorArea = data.solidColorArea;
         this.noiseColorArea = data.noiseColorArea;
         this.opacityFillValue = data.opacityFillValue;
@@ -214,6 +216,7 @@ class Shapes {
                 curveTightness: this.curveTightness,
                 noColorStroke: this.noColorStroke,
                 solidColorStroke: this.solidColorStroke,
+                solidstrokeWeight: this.solidstrokeWeight,
                 solidColorArea: this.solidColorArea,
                 noiseColorArea: this.noiseColorArea,
                 opacityFillValue: this.opacityFillValue,

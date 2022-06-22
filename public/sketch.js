@@ -40,7 +40,7 @@ let fxhash_number;
 let duftArea = {};
 let duftCounty = {};
 
-let color_profile = getRandomFromList(["greyscale_mix"]);
+let color_profile = getRandomFromList(["greyscale"]);
 // let color_profile = getRandomFromList(["red"]);
 
 function preload() {
@@ -73,54 +73,38 @@ function setup() {
 
   noiseSeed(NOISESEED);
 
-  all = [color("#444444"), color("#666666"), color("#cccccc")];
-  allNoise = [color("#555555"), color("#777777"), color("#dddddd")]
-
+  // FEATURE: TRANSPARECNTY VALUE
   colors = {
-    "greyscale_mix": {
-      background: color("#aaaaaa"),
-      backgroundnoise: color("#bbbbbb60"),
-      darkA: all,
-      darkAnoise: allNoise,
-      lightA: all,
-      lightAnoise: allNoise,
-      highlightA: all,
-      highlightAnoise: allNoise,
-      duft: color("#222222"),
-      duftNoise: color("#22222260"),
-    },
     "greyscale": {
-      background: color("#aaaaaa"),
-      backgroundnoise: color("#bbbbbb60"),
-      darkA: [color("#555555"), color("#444444"), color("#666666")],
-      darkAnoise: [color("#666666"), color("#555555"), color("#777777")],
-      lightA: [color("#777777"), color("#888888"), color("#999999")],
-      lightAnoise: [color("#888888"), color("#999999"), color("#aaaaaa")],
-      highlightA: [color("#cccccc"), color("#dddddd"), color("#eeeeee")],
-      highlightAnoise: [color("#dddddd"), color("#eeeeee"), color("#ffffff")],
+      background: color("#bbbbbb"),
+      backgroundnoise: color("#bbbbbb40"),
+      fillAll: [color("#444444"), color("#777777"), color("#cccccc")],
+      falllAllNoise: [color("#44444440"), color("#66666640"), color("#cccccc40")],
       duft: color("#222222"),
-      duftNoise: color("#22222260"),
+      duftNoise: color("#22222240"),
     },
+    // "greyscale": {
+    //   background: color("#aaaaaa"),
+    //   backgroundnoise: color("#bbbbbb60"),
+    //   darkA: [color("#555555"), color("#444444"), color("#666666")],
+    //   darkAnoise: [color("#666666"), color("#555555"), color("#777777")],
+    //   lightA: [color("#777777"), color("#888888"), color("#999999")],
+    //   lightAnoise: [color("#888888"), color("#999999"), color("#aaaaaa")],
+    //   highlightA: [color("#cccccc"), color("#dddddd"), color("#eeeeee")],
+    //   highlightAnoise: [color("#dddddd"), color("#eeeeee"), color("#ffffff")],
+    //   duft: color("#222222"),
+    //   duftNoise: color("#22222260"),
+    // },
     "red": {
-      background: color("#ba5754"),
-      backgroundnoise: color("#923734"),
-      darkA: [color("#923734"), color("#8B0000"), color("	#800000")],
-      darkAnoise: [color("#8B0000"), color("#800000"), color("#923734")],
-      lightA: [color("#a93f3b"), color("#DC143C"), color("#FF4500")],
-      lightAnoise: [color("#DC143C"), color("#FF4500"), color("#a93f3b")],
-      highlightA: [color("#FF6C5C"), color("#FA8072"), color("#F08080")],
-      highlightAnoise: [color("#F08080"), color("#FF6C5C"), color("#FA8072")],
-      duft: color("#632724"),
-      duftNoise: color("#4f262360"),
+      background: color("#A31700"),
+      backgroundnoise: color("#A3170040"),
+      fillAll: [color("#FF735C"), color("#FF2400"), color("#FF9A8A")],
+      falllAllNoise: [color("#FF735C40"), color("#FF240040"), color("#FF9A8A40")],
+      duft: color("#751100"),
+      duftNoise: color("#75110040"),
     }
   }
 
-  // COLOR
-  // colorMode(HSB, 100);
-  // ambientColor = colorPaletteDark;
-  // lightColor = colorPaletteLight;
-  // highlightColor = colorPaletteGlow;
-  // colorMode(RGB, 255);
 
   duftOrigin = createVector(
     getRandomFromInterval(0 + MARGINDUFTORIGIN, exportPaper.width - MARGINDUFTORIGIN),
@@ -222,10 +206,10 @@ function setup() {
     margin: 0,  // distance from edge
     curveTightness: 1,
     noColorStroke: false,
-    solidstrokeWeight: 50,
+    solidstrokeWeight: 5,
     solidColorStroke: color(40),
-    solidColorArea: colors[color_profile].darkA,
-    noiseColorArea: colors[color_profile].darkAnoise,
+    solidColorArea: colors[color_profile].fillAll,
+    noiseColorArea: colors[color_profile].falllAllNoise,
     opacityFillValue: 100,
     opacityStrokeValue: 155,
     duftOrbit: false,
@@ -246,7 +230,7 @@ function setup() {
 
 
   lightData = {
-    shapeCount: duftArea.size / 150000, // number of shapes - 70
+    shapeCount: duftArea.size / 200000, // number of shapes - 70
     radioMin: LIGHTRADIOMIN, // size
     radioMax: LIGHTRADIOMAX, // size
     radioDistortion: 150,  // misplacement
@@ -254,15 +238,15 @@ function setup() {
     margin: 500,  // distance from edge
     curveTightness: 1,
     noColorStroke: false,
-    solidstrokeWeight: 50,
+    solidstrokeWeight: 3,
     solidColorStroke: color(100),
-    solidColorArea: colors[color_profile].lightA,
-    noiseColorArea: colors[color_profile].lightAnoise,
+    solidColorArea: colors[color_profile].fillAll,
+    noiseColorArea: colors[color_profile].falllAllNoise,
     opacityFillValue: 100,
-    opacityStrokeValue: 155,
+    opacityStrokeValue: 100,
     duftOrbit: false,
     duftArea: true,
-    blur: 2,
+    blur: 1.5,
     textureData: {
       inc: 0.008,  // noise increase for perlin noise
       gain: -70,
@@ -284,14 +268,14 @@ function setup() {
     margin: 500,  // distance from edge
     curveTightness: 1,
     noColorStroke: false,
-    solidstrokeWeight: 150,
+    solidstrokeWeight: 2,
     solidColorStroke: color(70),
-    solidColorArea: colors[color_profile].highlightA,
-    noiseColorArea: colors[color_profile].highlightAnoise,
+    solidColorArea: colors[color_profile].fillAll,
+    noiseColorArea: colors[color_profile].falllAllNoise,
     duftOrbit: true,
     opacityFillValue: 70,
-    opacityStrokeValue: 155,
-    blur: 2,  // undefined,
+    opacityStrokeValue: 100,
+    blur: 1.5,  // undefined,
     textureData: {
       inc: 0.008,  // noise increase for perlin noise
       gain: -60,
@@ -317,7 +301,7 @@ function setup() {
     margin: MARGINDUFTORIGIN,  // distance from edge
     curveTightness: 1,
     noColorStroke: true,
-    solidstrokeWeight: 190,
+    solidstrokeWeight: 4,
     solidColorStroke: color(20, 5),
     solidColorArea: colors[color_profile].duft,
     noiseColorArea: colors[color_profile].duftNoise,
@@ -330,7 +314,7 @@ function setup() {
     blur: 2,
     textureData: {
       inc: 0.008,  // noise increase for perlin noise
-      gain: -60,
+      gain: -50,
       colorBackground: undefined,  // drawn pixels for background
       distortion: 7,  // random misplacement of the boxes
       density: 10,
