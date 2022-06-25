@@ -48,6 +48,8 @@ function preload() {
 
 function setup() {
 
+  noiseSeed(NOISESEED);
+
   scaleDynamically();
   setAttributes('antialias', true);
 
@@ -70,8 +72,6 @@ function setup() {
 
   logging.debug("Pixel density: " + pixelDensity())
   exportRatio /= pixelDensity();  // FOR EACH BUFFER??
-
-  noiseSeed(NOISESEED);
 
   // FEATURE: TRANSPARECNTY VALUE
   colors = {
@@ -369,6 +369,7 @@ function draw() {
     buffer.push()
     buffer.drawingContext.filter = 'blur(0.5px)';
     buffer.image(wallTexture.buffer, 0, 0);
+    buffer.drawingContext.filter = 'none';
     buffer.pop()
   }
 
@@ -376,6 +377,7 @@ function draw() {
     buffer.push();
     buffer.drawingContext.filter = 'blur(0.2px)';
     buffer.image(ambients.buffer, 0, 0);
+    buffer.drawingContext.filter = 'none';
     // buffer.image(ambients.bufferMasked, 0, 0);
     buffer.pop();
   }
@@ -384,6 +386,7 @@ function draw() {
     buffer.push()
     buffer.drawingContext.filter = 'blur(0.2px)';
     buffer.image(lights.buffer, 0, 0);
+    buffer.drawingContext.filter = 'none';
     buffer.pop();
   }
 
@@ -391,6 +394,7 @@ function draw() {
     buffer.push()
     // buffer.drawingContext.filter = 'blur(0.2px)';
     buffer.image(highlights.buffer, 0, 0);
+    // this.buffer.drawingContext.filter = 'none';
     buffer.pop();
   }
 
@@ -398,6 +402,7 @@ function draw() {
     buffer.push()
     // buffer.drawingContext.filter = 'blur(0.2px)';
     buffer.image(duft.buffer, 0, 0);
+    // this.buffer.drawingContext.filter = 'none';
     buffer.pop();
   }
 

@@ -3,6 +3,7 @@ class Shape {
 
     constructor(data) {
         this.buffer = createGraphics(rescaling_width, rescaling_height);
+        this.shadowBuffer = createGraphics(rescaling_width, rescaling_height);
         this.radioMin = data.radioMin;
         this.radioMax = data.radioMax;
         this.radioDistortion = data.radioDistortion;
@@ -108,42 +109,45 @@ class Shape {
             this.buffer.endShape(CLOSE);
 
             // shadow
-            this.buffer.noFill();
-            this.buffer.drawingContext.filter = 'blur(3px)';
-            this.buffer.stroke(color(0, 100));
-            this.buffer.strokeWeight(10 / exportRatio);
-            this.buffer.beginShape();
+            this.shadowBuffer.push();
+            this.shadowBuffer.curveTightness(this.curveTightness)
+            this.shadowBuffer.noFill();
+            this.shadowBuffer.stroke(color(255, 150));
+            this.shadowBuffer.strokeWeight(5 / exportRatio);
+            this.shadowBuffer.beginShape();
             if (this.shadowOrientation == "bottom_left") {
-                this.buffer.curveVertex(polygon.rightDown.x / exportRatio, polygon.rightDown.y / exportRatio);
-                this.buffer.curveVertex(polygon.rightDown.x / exportRatio, polygon.rightDown.y / exportRatio);
-                this.buffer.curveVertex(polygon.leftDown.x / exportRatio, polygon.leftDown.y / exportRatio);
-                this.buffer.curveVertex(polygon.leftUp.x / exportRatio, polygon.leftUp.y / exportRatio);
-                this.buffer.curveVertex(polygon.leftUp.x / exportRatio, polygon.leftUp.y / exportRatio);
+                this.shadowBuffer.curveVertex(polygon.rightDown.x / exportRatio, polygon.rightDown.y / exportRatio);
+                this.shadowBuffer.curveVertex(polygon.rightDown.x / exportRatio, polygon.rightDown.y / exportRatio);
+                this.shadowBuffer.curveVertex(polygon.leftDown.x / exportRatio, polygon.leftDown.y / exportRatio);
+                this.shadowBuffer.curveVertex(polygon.leftUp.x / exportRatio, polygon.leftUp.y / exportRatio);
+                this.shadowBuffer.curveVertex(polygon.leftUp.x / exportRatio, polygon.leftUp.y / exportRatio);
             } else if (this.shadowOrientation == "bottom_right") {
-                this.buffer.curveVertex(polygon.rightUp.x / exportRatio, polygon.rightUp.y / exportRatio);
-                this.buffer.curveVertex(polygon.rightUp.x / exportRatio, polygon.rightUp.y / exportRatio);
-                this.buffer.curveVertex(polygon.rightDown.x / exportRatio, polygon.rightDown.y / exportRatio);
-                this.buffer.curveVertex(polygon.leftDown.x / exportRatio, polygon.leftDown.y / exportRatio);
-                this.buffer.curveVertex(polygon.leftDown.x / exportRatio, polygon.leftDown.y / exportRatio);
+                this.shadowBuffer.curveVertex(polygon.rightUp.x / exportRatio, polygon.rightUp.y / exportRatio);
+                this.shadowBuffer.curveVertex(polygon.rightUp.x / exportRatio, polygon.rightUp.y / exportRatio);
+                this.shadowBuffer.curveVertex(polygon.rightDown.x / exportRatio, polygon.rightDown.y / exportRatio);
+                this.shadowBuffer.curveVertex(polygon.leftDown.x / exportRatio, polygon.leftDown.y / exportRatio);
+                this.shadowBuffer.curveVertex(polygon.leftDown.x / exportRatio, polygon.leftDown.y / exportRatio);
             } else if (this.shadowOrientation == "up_left") {
-                this.buffer.curveVertex(polygon.rightUp.x / exportRatio, polygon.rightUp.y / exportRatio);
-                this.buffer.curveVertex(polygon.rightUp.x / exportRatio, polygon.rightUp.y / exportRatio);
-                this.buffer.curveVertex(polygon.leftUp.x / exportRatio, polygon.leftUp.y / exportRatio);
-                this.buffer.curveVertex(polygon.leftDown.x / exportRatio, polygon.leftDown.y / exportRatio);
-                this.buffer.curveVertex(polygon.leftDown.x / exportRatio, polygon.leftDown.y / exportRatio);
+                this.shadowBuffer.curveVertex(polygon.rightUp.x / exportRatio, polygon.rightUp.y / exportRatio);
+                this.shadowBuffer.curveVertex(polygon.rightUp.x / exportRatio, polygon.rightUp.y / exportRatio);
+                this.shadowBuffer.curveVertex(polygon.leftUp.x / exportRatio, polygon.leftUp.y / exportRatio);
+                this.shadowBuffer.curveVertex(polygon.leftDown.x / exportRatio, polygon.leftDown.y / exportRatio);
+                this.shadowBuffer.curveVertex(polygon.leftDown.x / exportRatio, polygon.leftDown.y / exportRatio);
             } else {
-                this.buffer.curveVertex(polygon.leftUp.x / exportRatio, polygon.leftUp.y / exportRatio);
-                this.buffer.curveVertex(polygon.leftUp.x / exportRatio, polygon.leftUp.y / exportRatio);
-                this.buffer.curveVertex(polygon.rightUp.x / exportRatio, polygon.rightUp.y / exportRatio);
-                this.buffer.curveVertex(polygon.rightDown.x / exportRatio, polygon.rightDown.y / exportRatio);
-                this.buffer.curveVertex(polygon.rightDown.x / exportRatio, polygon.rightDown.y / exportRatio);
+                this.shadowBuffer.curveVertex(polygon.leftUp.x / exportRatio, polygon.leftUp.y / exportRatio);
+                this.shadowBuffer.curveVertex(polygon.leftUp.x / exportRatio, polygon.leftUp.y / exportRatio);
+                this.shadowBuffer.curveVertex(polygon.rightUp.x / exportRatio, polygon.rightUp.y / exportRatio);
+                this.shadowBuffer.curveVertex(polygon.rightDown.x / exportRatio, polygon.rightDown.y / exportRatio);
+                this.shadowBuffer.curveVertex(polygon.rightDown.x / exportRatio, polygon.rightDown.y / exportRatio);
             }
-            this.buffer.endShape();
+            this.shadowBuffer.endShape();
+            this.shadowBuffer.pop();
 
             if (MODE > 2) {
                 break
             }
         }
+        this.buffer.drawingContext.filter = 'none';
         this.buffer.pop();
 
 
@@ -295,6 +299,13 @@ class Shapes {
 
                 // only texture
                 // this.buffer.image(shape.texture.buffer, 0, 0, shape.texture.buffer.width, shape.texture.buffer.height);
+
+                // only shadow
+                this.buffer.push();
+                this.buffer.drawingContext.filter = 'blur(2px)';
+                this.buffer.image(shape.shadowBuffer, 0, 0, shape.shadowBuffer.width, shape.shadowBuffer.height);
+                this.buffer.drawingContext.filter = 'none';
+                this.buffer.pop();
 
                 // masked - only the noise is masked, the color comes from the shape
                 this.bufferMasked = maskBuffers(shape.texture.buffer, shape.buffer);

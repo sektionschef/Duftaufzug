@@ -75,6 +75,7 @@ class Lines {
         this.buffer.curveVertex(300 / exportRatio, 1200 / exportRatio);
         this.buffer.curveVertex(300 / exportRatio, 1200 / exportRatio);
         this.buffer.endShape();
+        this.buffer.drawingContext.filter = 'none';
         this.buffer.pop();
 
         this.draw_debug();
