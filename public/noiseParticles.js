@@ -160,7 +160,6 @@ class Pixies {
 
     constructor(data) {
         this.buffer = createGraphics(rescaling_width, rescaling_height);
-        // this.buffer = createGraphics(exportPaper.width, exportPaper.height);
         this.inc = data.inc;
         this.gain = data.gain;
         this.gain = data.gain;
@@ -184,17 +183,14 @@ class Pixies {
         // var _density_ = 10;
         // grid for placing the noise particles resolution independent 500x500 grid
 
-        var resolution = 500000;
-        // var resPerWidth = 500;
-        // var resPerHeight = 500;
-        // var CellWidthPixel = Math.round(this.buffer.width * 4 / resPerWidth);
-        // var CellHeightPixel = Math.round(this.buffer.height this.buffer.width* 4 + / resPerHeight);
-        var cellSizePixel = Math.floor(this.totalPixels / resolution)
+        var resolution = 50000;
+        var cellSizePixel = Math.round(this.totalPixels / resolution)
+        // console.log(cellSizePixel);
 
         this.buffer.push();
         this.buffer.loadPixels();
         let yoff = 0;
-        let resHeightCounter = 0;
+        let cellCounter = 0;
         for (let y = 0; y < this.buffer.height; y++) {
             let xoff = 0;
             // let resWidthCounter = 0;
@@ -212,61 +208,79 @@ class Pixies {
                     this.buffer.pixels[index + 3] = alpha(this.colorBackground);  // opacity
                 }
 
+                // distribution function for dots
                 if (
-                    (index % cellSizePixel == 0) &&
-                    (index % (this.buffer.width * 4) > this.margin * 4 / exportRatio) &&  // horizontal left
-                    (index % (this.buffer.width * 4) < ((this.buffer.width - (this.margin / exportRatio)) * 4)) &&  // horizontal right
-                    (index > (this.buffer.width * (this.margin / exportRatio)) * 4) && // vertical top
-                    (index < (this.totalPixels - this.buffer.width * (this.margin / exportRatio) * 4))
+                    (index % cellSizePixel == 0)
                 ) {
+                    cellCounter += 1
+
+                    // margin
+                    // if (
+                    //     (index % (this.buffer.width * 4) > this.margin * 4 / exportRatio) &&  // horizontal left
+                    //     (index % (this.buffer.width * 4) < ((this.buffer.width - (this.margin / exportRatio)) * 4)) &&  // horizontal right
+                    //     (index > (this.buffer.width * (this.margin / exportRatio)) * 4) && // vertical top
+                    //     (index < (this.totalPixels - this.buffer.width * (this.margin / exportRatio) * 4))
+                    // ) {
                     // if (fxrand() > 0.75) {
 
-                    // this pixel
-                    this.buffer.pixels[index + 0] = red(this.colorForeground) + _soft_gain_;
-                    this.buffer.pixels[index + 1] = green(this.colorForeground) + _soft_gain_;
-                    this.buffer.pixels[index + 2] = blue(this.colorForeground) + _soft_gain_;
-                    this.buffer.pixels[index + 3] = alpha(this.colorForeground);
+                    // this.draw_big_dot(index, _soft_gain_);
 
-                    // preceding pixel, the pixel left
-                    this.buffer.pixels[index - 4] = red(this.colorForeground) + _soft_gain_;
-                    this.buffer.pixels[index - 3] = green(this.colorForeground) + _soft_gain_;
-                    this.buffer.pixels[index - 2] = blue(this.colorForeground) + _soft_gain_;
-                    this.buffer.pixels[index - 1] = alpha(this.colorForeground);
-                    // }
 
-                    // pixel above on y axis
-                    this.buffer.pixels[index - this.buffer.width * 4] = red(this.colorForeground) + _soft_gain_;
-                    this.buffer.pixels[index - this.buffer.width * 4 + 1] = green(this.colorForeground) + _soft_gain_;
-                    this.buffer.pixels[index - this.buffer.width * 4 + 2] = blue(this.colorForeground) + _soft_gain_;
-                    this.buffer.pixels[index - this.buffer.width * 4 + 3] = alpha(this.colorForeground);
-
-                    // pixel above on y axis
-                    this.buffer.pixels[index - this.buffer.width * 4 - 4] = red(this.colorForeground) + _soft_gain_;
-                    this.buffer.pixels[index - this.buffer.width * 4 - 3] = green(this.colorForeground) + _soft_gain_;
-                    this.buffer.pixels[index - this.buffer.width * 4 - 2] = blue(this.colorForeground) + _soft_gain_;
-                    this.buffer.pixels[index - this.buffer.width * 4 - 1] = alpha(this.colorForeground);
-
-                    resHeightCounter += 1
                     // _density_ = this.density + Math.round(getRandomFromInterval(-this.distortion, this.distortion))
                     // _density_ += Math.round(getRandomFromInterval(-this.distortion, this.distortion))
+
                     // } else {
-                    //     // this pixel
-                    //     this.buffer.pixels[index + 0] = red(this.colorForeground) + _gain_;
-                    //     this.buffer.pixels[index + 1] = green(this.colorForeground) + _gain_;
-                    //     this.buffer.pixels[index + 2] = blue(this.colorForeground) + _gain_;
-                    //     this.buffer.pixels[index + 3] = alpha(this.colorForeground);
+
+                    this.draw_small_dot(index, _gain_);
 
                     //     // resWidthCounter += 1;
                     //     // _density_ = this.density // + Math.round(getRandomFromInterval(-this.distortion, this.distortion))
                     //     // _density_ += Math.round(getRandomFromInterval(-this.distortion, this.distortion))
+                    // }
                     // }
                 }
                 xoff += this.inc;
             }
             yoff += this.inc;
         }
+        // console.log(cellCounter);
         this.buffer.updatePixels();
         this.buffer.pop();
 
     }
+
+    draw_small_dot(index, gain) {
+        // this pixel
+        this.buffer.pixels[index + 0] = red(this.colorForeground) + gain;
+        this.buffer.pixels[index + 1] = green(this.colorForeground) + gain;
+        this.buffer.pixels[index + 2] = blue(this.colorForeground) + gain;
+        this.buffer.pixels[index + 3] = alpha(this.colorForeground);
+    }
+
+    draw_big_dot(index, gain) {
+        // this pixel
+        this.buffer.pixels[index + 0] = red(this.colorForeground) + gain;
+        this.buffer.pixels[index + 1] = green(this.colorForeground) + gain;
+        this.buffer.pixels[index + 2] = blue(this.colorForeground) + gain;
+        this.buffer.pixels[index + 3] = alpha(this.colorForeground);
+
+        // preceding pixel, the pixel left
+        this.buffer.pixels[index - 4] = red(this.colorForeground) + gain;
+        this.buffer.pixels[index - 3] = green(this.colorForeground) + gain;
+        this.buffer.pixels[index - 2] = blue(this.colorForeground) + gain;
+        this.buffer.pixels[index - 1] = alpha(this.colorForeground);
+
+        // pixel above on y axis
+        this.buffer.pixels[index - this.buffer.width * 4] = red(this.colorForeground) + gain;
+        this.buffer.pixels[index - this.buffer.width * 4 + 1] = green(this.colorForeground) + gain;
+        this.buffer.pixels[index - this.buffer.width * 4 + 2] = blue(this.colorForeground) + gain;
+        this.buffer.pixels[index - this.buffer.width * 4 + 3] = alpha(this.colorForeground);
+
+        // pixel above on y axis
+        this.buffer.pixels[index - this.buffer.width * 4 - 4] = red(this.colorForeground) + gain;
+        this.buffer.pixels[index - this.buffer.width * 4 - 3] = green(this.colorForeground) + gain;
+        this.buffer.pixels[index - this.buffer.width * 4 - 2] = blue(this.colorForeground) + gain;
+        this.buffer.pixels[index - this.buffer.width * 4 - 1] = alpha(this.colorForeground);
+    }
 }
+
