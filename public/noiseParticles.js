@@ -173,7 +173,7 @@ class Pixies {
         this.totalDots = this.totalPixels / this.density;
 
         this.draw();
-        console.log(fxrand());
+        // console.log(fxrand());
     }
 
     draw() {
