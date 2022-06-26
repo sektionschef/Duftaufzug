@@ -183,9 +183,13 @@ class Pixies {
         // var _density_ = 10;
         // grid for placing the noise particles resolution independent 500x500 grid
 
-        var resolution = 50000;
-        var cellSizePixel = Math.round(this.totalPixels / resolution)
+        var resolution = 50;
+        // var ober = exportPaper.width * 4 * exportPaper.height;
+        // var cellSizePixel = Math.round(this.totalPixels / resolution)
+        var cellWidth = Math.round(this.buffer.width / resolution)
+        var cellHeight = Math.round(this.buffer.height / resolution)
         // console.log(cellSizePixel);
+        var randomNumb;
 
         this.buffer.push();
         this.buffer.loadPixels();
@@ -210,38 +214,39 @@ class Pixies {
 
                 // distribution function for dots
                 if (
-                    (index % cellSizePixel == 0)
+                    (x % cellWidth == 0) &&
+                    (y % cellHeight == 0)
                 ) {
                     cellCounter += 1
 
+                    // needs to be here - resolution independent
+                    randomNumb = fxrand();
+
                     // margin
-                    // if (
-                    //     (index % (this.buffer.width * 4) > this.margin * 4 / exportRatio) &&  // horizontal left
-                    //     (index % (this.buffer.width * 4) < ((this.buffer.width - (this.margin / exportRatio)) * 4)) &&  // horizontal right
-                    //     (index > (this.buffer.width * (this.margin / exportRatio)) * 4) && // vertical top
-                    //     (index < (this.totalPixels - this.buffer.width * (this.margin / exportRatio) * 4))
-                    // ) {
-                    // if (fxrand() > 0.75) {
+                    if (
+                        (index % (this.buffer.width * 4) > this.margin * 4 / exportRatio) &&  // horizontal left
+                        (index % (this.buffer.width * 4) < ((this.buffer.width - (this.margin / exportRatio)) * 4)) &&  // horizontal right
+                        (index > (this.buffer.width * (this.margin / exportRatio)) * 4) && // vertical top
+                        (index < (this.totalPixels - this.buffer.width * (this.margin / exportRatio) * 4))
+                    ) {
 
-                    // this.draw_big_dot(index, _soft_gain_);
+                        // if (randomNumb > 0.75) {
+                        this.draw_big_dot(index, _soft_gain_);
+                        // _density_ = this.density + Math.round(getRandomFromInterval(-this.distortion, this.distortion))
+                        // _density_ += Math.round(getRandomFromInterval(-this.distortion, this.distortion))
+                        // }
 
+                        // else {
+                        this.draw_small_dot(index, _gain_);
 
-                    // _density_ = this.density + Math.round(getRandomFromInterval(-this.distortion, this.distortion))
-                    // _density_ += Math.round(getRandomFromInterval(-this.distortion, this.distortion))
-
-                    // } else {
-
-                    this.draw_small_dot(index, _gain_);
-
-                    //     // resWidthCounter += 1;
-                    //     // _density_ = this.density // + Math.round(getRandomFromInterval(-this.distortion, this.distortion))
-                    //     // _density_ += Math.round(getRandomFromInterval(-this.distortion, this.distortion))
-                    // }
-                    // }
+                        //     // _density_ = this.density // + Math.round(getRandomFromInterval(-this.distortion, this.distortion))
+                        //     // _density_ += Math.round(getRandomFromInterval(-this.distortion, this.distortion))
+                        // }
+                    }
+                    xoff += this.inc;
                 }
-                xoff += this.inc;
+                yoff += this.inc;
             }
-            yoff += this.inc;
         }
         // console.log(cellCounter);
         this.buffer.updatePixels();
