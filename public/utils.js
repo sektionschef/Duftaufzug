@@ -9,6 +9,10 @@ function getRandomFromInterval(min, max) {
     return fxrand() * (max - min) + min;
 }
 
+function getRealRandomFromInterval(min, max) {
+    return random() * (max - min) + min;
+}
+
 function getRandomFromList(items) {
     return items[Math.floor(fxrand() * items.length)];
 }

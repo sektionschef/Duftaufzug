@@ -195,14 +195,10 @@ function setup() {
     gain: -255,
     colorBackground: undefined, // colors[color_profile].background,  // drawn pixels for background
     colorForeground: colors[color_profile].backgroundnoise, // color(90),  // drawn pixels for noise
-    distortion: 7,  // random misplacement of the boxes
-    density: 10,
+    distortion: 0.65, // 0.65,  // random misplacement of the boxes
+    density: 6, // 7,
     // amountMax: 15, // how many rects per cell, max
     margin: BACKGROUNDMARGIN, // distance to the edge
-  }
-
-  if (MODE == 1) {
-    wallTexture = new Pixies(wallTextureData);
   }
 
   ambientData = {
@@ -234,7 +230,6 @@ function setup() {
       margin: 0, // distance to the edge
     }
   }
-  ambients = new Shapes(ambientData);
 
 
   lightData = {
@@ -265,7 +260,6 @@ function setup() {
       margin: 0, // distance to the edge
     }
   }
-  lights = new Shapes(lightData);
 
   highlightData = {
     shapeCount: 9, // number of shapes
@@ -293,11 +287,6 @@ function setup() {
       // amountMax: 15, // how many rects per cell, max
       margin: BACKGROUNDMARGIN, // distance to the edge
     }
-  }
-  highlights = new Shapes(highlightData);
-
-  if (MODE == 1) {
-    // highlightTexture = new Pixies(highlightTextureData);
   }
 
   duftData = {
@@ -330,7 +319,6 @@ function setup() {
       margin: BACKGROUNDMARGIN, // distance to the edge
     }
   }
-  duft = new Shapes(duftData);
 
   LineData = {
     buffer: lineBuffer,
@@ -347,7 +335,17 @@ function setup() {
     solidColorArea: color(250, 5),
     duftOrbit: true,
   }
-  dummyLine = new Lines(LineData);
+
+
+  if (MODE == 1) {
+    wallTexture = new Pixies(wallTextureData);
+  }
+  // ambients = new Shapes(ambientData);
+  // lights = new Shapes(lightData);
+  // highlights = new Shapes(highlightData);
+  // duft = new Shapes(duftData);
+  // dummyLine = new Lines(LineData);
+
 
 }
 
@@ -373,84 +371,84 @@ function draw() {
     buffer.pop()
   }
 
-  if (MODE == 1) {
-    buffer.push();
-    buffer.drawingContext.filter = 'blur(0.2px)';
-    buffer.image(ambients.buffer, 0, 0);
-    buffer.drawingContext.filter = 'none';
-    // buffer.image(ambients.bufferMasked, 0, 0);
-    buffer.pop();
-  }
+  // if (MODE == 1) {
+  //   buffer.push();
+  //   buffer.drawingContext.filter = 'blur(0.2px)';
+  //   buffer.image(ambients.buffer, 0, 0);
+  //   buffer.drawingContext.filter = 'none';
+  //   // buffer.image(ambients.bufferMasked, 0, 0);
+  //   buffer.pop();
+  // }
 
-  if (MODE == 1) {
-    buffer.push()
-    buffer.drawingContext.filter = 'blur(0.2px)';
-    buffer.image(lights.buffer, 0, 0);
-    buffer.drawingContext.filter = 'none';
-    buffer.pop();
-  }
+  // if (MODE == 1) {
+  //   buffer.push()
+  //   buffer.drawingContext.filter = 'blur(0.2px)';
+  //   buffer.image(lights.buffer, 0, 0);
+  //   buffer.drawingContext.filter = 'none';
+  //   buffer.pop();
+  // }
 
-  if (MODE == 1) {
-    buffer.push()
-    // buffer.drawingContext.filter = 'blur(0.2px)';
-    buffer.image(highlights.buffer, 0, 0);
-    // this.buffer.drawingContext.filter = 'none';
-    buffer.pop();
-  }
+  // if (MODE == 1) {
+  //   buffer.push()
+  //   // buffer.drawingContext.filter = 'blur(0.2px)';
+  //   buffer.image(highlights.buffer, 0, 0);
+  //   // this.buffer.drawingContext.filter = 'none';
+  //   buffer.pop();
+  // }
 
-  if (MODE == 1) {
-    buffer.push()
-    // buffer.drawingContext.filter = 'blur(0.2px)';
-    buffer.image(duft.buffer, 0, 0);
-    // this.buffer.drawingContext.filter = 'none';
-    buffer.pop();
-  }
+  // if (MODE == 1) {
+  //   buffer.push()
+  //   // buffer.drawingContext.filter = 'blur(0.2px)';
+  //   buffer.image(duft.buffer, 0, 0);
+  //   // this.buffer.drawingContext.filter = 'none';
+  //   buffer.pop();
+  // }
 
-  buffer.image(dummyLine.buffer, 0, 0);
+  // buffer.image(dummyLine.buffer, 0, 0);
 
-  // debug duftOrbit
-  if (MODE == 5) {
-    buffer.push();
-    buffer.rectMode(CENTER);
-    buffer.stroke("red");
-    buffer.strokeWeight(3 / exportRatio);
-    buffer.noFill();
-    buffer.rect(duftOrigin.x / exportRatio, duftOrigin.y / exportRatio, duftOrbit * 2 / exportRatio, duftOrbit * 2 / exportRatio);
-    buffer.pop();
-  }
+  // // debug duftOrbit
+  // if (MODE == 5) {
+  //   buffer.push();
+  //   buffer.rectMode(CENTER);
+  //   buffer.stroke("red");
+  //   buffer.strokeWeight(3 / exportRatio);
+  //   buffer.noFill();
+  //   buffer.rect(duftOrigin.x / exportRatio, duftOrigin.y / exportRatio, duftOrbit * 2 / exportRatio, duftOrbit * 2 / exportRatio);
+  //   buffer.pop();
+  // }
 
-  // debug duftArea
-  if (MODE == 5) {
-    buffer.push();
-    buffer.rectMode(CORNER);
-    buffer.stroke("purple");
-    buffer.strokeWeight(5 / exportRatio);
-    buffer.noFill();
-    buffer.rect(duftArea.position.x / exportRatio, duftArea.position.y / exportRatio, duftArea.width / exportRatio, duftArea.height / exportRatio);
-    buffer.pop();
-  }
+  // // debug duftArea
+  // if (MODE == 5) {
+  //   buffer.push();
+  //   buffer.rectMode(CORNER);
+  //   buffer.stroke("purple");
+  //   buffer.strokeWeight(5 / exportRatio);
+  //   buffer.noFill();
+  //   buffer.rect(duftArea.position.x / exportRatio, duftArea.position.y / exportRatio, duftArea.width / exportRatio, duftArea.height / exportRatio);
+  //   buffer.pop();
+  // }
 
-  // debug duftCounty
-  if (MODE == 5) {
-    buffer.push();
-    buffer.rectMode(CORNER);
-    buffer.stroke("cyan");
-    buffer.strokeWeight(5 / exportRatio);
-    buffer.noFill();
-    buffer.rect(duftCounty.position.x / exportRatio, duftCounty.position.y / exportRatio, duftCounty.width / exportRatio, duftCounty.height / exportRatio);
-    buffer.pop();
-  }
+  // // debug duftCounty
+  // if (MODE == 5) {
+  //   buffer.push();
+  //   buffer.rectMode(CORNER);
+  //   buffer.stroke("cyan");
+  //   buffer.strokeWeight(5 / exportRatio);
+  //   buffer.noFill();
+  //   buffer.rect(duftCounty.position.x / exportRatio, duftCounty.position.y / exportRatio, duftCounty.width / exportRatio, duftCounty.height / exportRatio);
+  //   buffer.pop();
+  // }
 
-  // debug canvas margin
-  if (MODE == 5) {
-    buffer.push();
-    buffer.rectMode(CORNER);
-    buffer.stroke("black");
-    buffer.strokeWeight(15 / exportRatio);
-    buffer.noFill();
-    buffer.rect(BACKGROUNDMARGIN / exportRatio, BACKGROUNDMARGIN / exportRatio, (exportPaper.width - BACKGROUNDMARGIN * 2) / exportRatio, (exportPaper.width - BACKGROUNDMARGIN * 2) / exportRatio);
-    buffer.pop();
-  }
+  // // debug canvas margin
+  // if (MODE == 5) {
+  //   buffer.push();
+  //   buffer.rectMode(CORNER);
+  //   buffer.stroke("black");
+  //   buffer.strokeWeight(15 / exportRatio);
+  //   buffer.noFill();
+  //   buffer.rect(BACKGROUNDMARGIN / exportRatio, BACKGROUNDMARGIN / exportRatio, (exportPaper.width - BACKGROUNDMARGIN * 2) / exportRatio, (exportPaper.width - BACKGROUNDMARGIN * 2) / exportRatio);
+  //   buffer.pop();
+  // }
 
   image(buffer, - width / 2, - height / 2);
 

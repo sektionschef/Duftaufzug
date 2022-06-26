@@ -162,7 +162,6 @@ class Pixies {
         this.buffer = createGraphics(rescaling_width, rescaling_height);
         this.inc = data.inc;
         this.gain = data.gain;
-        this.gain = data.gain;
         this.colorBackground = data.colorBackground;
         this.colorForeground = data.colorForeground;
         this.distortion = data.distortion;
@@ -177,24 +176,14 @@ class Pixies {
         console.log(fxrand());
     }
 
-
     draw() {
-        var _density_ = this.density;
-        // var _density_ = 10;
-        // grid for placing the noise particles resolution independent 500x500 grid
 
-        var resolution = 50;
-        // var ober = exportPaper.width * 4 * exportPaper.height;
-        // var cellSizePixel = Math.round(this.totalPixels / resolution)
-        var cellWidth = Math.round(this.buffer.width / resolution)
-        var cellHeight = Math.round(this.buffer.height / resolution)
-        // console.log(cellSizePixel);
-        var randomNumb;
+        var _density_ = this.density;
 
         this.buffer.push();
         this.buffer.loadPixels();
         let yoff = 0;
-        let cellCounter = 0;
+        // let cellCounter = 0;
         for (let y = 0; y < this.buffer.height; y++) {
             let xoff = 0;
             // let resWidthCounter = 0;
@@ -212,43 +201,27 @@ class Pixies {
                     this.buffer.pixels[index + 3] = alpha(this.colorBackground);  // opacity
                 }
 
-                // distribution function for dots
+                // margin
                 if (
-                    (x % cellWidth == 0) &&
-                    (y % cellHeight == 0)
+                    (index % _density_ == 0) &&
+                    (index % (this.buffer.width * 4) > this.margin * 4 / exportRatio) &&  // horizontal left
+                    (index % (this.buffer.width * 4) < ((this.buffer.width - (this.margin / exportRatio)) * 4)) &&  // horizontal right
+                    (index > (this.buffer.width * (this.margin / exportRatio)) * 4) && // vertical top
+                    (index < (this.totalPixels - this.buffer.width * (this.margin / exportRatio) * 4))
                 ) {
-                    cellCounter += 1
 
-                    // needs to be here - resolution independent
-                    randomNumb = fxrand();
-
-                    // margin
-                    if (
-                        (index % (this.buffer.width * 4) > this.margin * 4 / exportRatio) &&  // horizontal left
-                        (index % (this.buffer.width * 4) < ((this.buffer.width - (this.margin / exportRatio)) * 4)) &&  // horizontal right
-                        (index > (this.buffer.width * (this.margin / exportRatio)) * 4) && // vertical top
-                        (index < (this.totalPixels - this.buffer.width * (this.margin / exportRatio) * 4))
-                    ) {
-
-                        // if (randomNumb > 0.75) {
-                        this.draw_big_dot(index, _soft_gain_);
-                        // _density_ = this.density + Math.round(getRandomFromInterval(-this.distortion, this.distortion))
-                        // _density_ += Math.round(getRandomFromInterval(-this.distortion, this.distortion))
-                        // }
-
-                        // else {
+                    if (random() > 0.75) {
+                        // this.draw_big_dot(index, _soft_gain_);
+                        this.draw_big_dot(index, _gain_);
+                    } else {
                         this.draw_small_dot(index, _gain_);
-
-                        //     // _density_ = this.density // + Math.round(getRandomFromInterval(-this.distortion, this.distortion))
-                        //     // _density_ += Math.round(getRandomFromInterval(-this.distortion, this.distortion))
-                        // }
                     }
-                    xoff += this.inc;
+                    _density_ = this.density + Math.round(this.density * getRealRandomFromInterval(-this.distortion, this.distortion));
                 }
-                yoff += this.inc;
+                xoff += this.inc;
             }
+            yoff += this.inc;
         }
-        // console.log(cellCounter);
         this.buffer.updatePixels();
         this.buffer.pop();
 
