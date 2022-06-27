@@ -92,20 +92,20 @@ function setup() {
       duftNoise: color("#22222240"),
     },
     "red": {
-      background: color("#826161"),
-      backgroundnoise: color("#82616140"),
+      background: color("#B66D6D"),
+      backgroundnoise: color("#B66D6D40"),
       fillAll: [
-        color("#9B6262"),
-        color("#C96060"),
-        color("#F19F9F")
+        color("#9C2D2D"),
+        color("#D26161"),
+        color("#D07B7B")
       ],
       falllAllNoise: [
-        color("#9B626240"),
-        color("#C9606040"),
-        color("#F19F9F40")
+        color("#9C2D2D40"),
+        color("#D2616140"),
+        color("#D07B7B40")
       ],
-      duft: color("#222222"),
-      duftNoise: color("#22222240"),
+      duft: color("#390A0A"),
+      duftNoise: color("#390A0A40"),
     }
   }
 
