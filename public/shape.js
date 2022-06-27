@@ -97,8 +97,23 @@ class Shape {
         }
         this.buffer.curveTightness(this.curveTightness)
 
+        var polygon_index = 0;
         for (var polygon of this.polygons) {
+
+            // shape
             this.buffer.stroke(this.solidColorStroke);
+            // if (polygon_index == 0) {
+
+            //     var full_color_ = color(
+            //         red(this.solidColorArea),
+            //         green(this.solidColorArea),
+            //         blue(this.solidColorArea),
+            //         // 255,
+            //         150,
+            //     )
+            //     this.buffer.fill(full_color_);
+            // } else {
+            // }
             this.buffer.fill(this.solidColorArea);
             this.buffer.strokeWeight(this.solidstrokeWeight / exportRatio);
             this.buffer.beginShape();
@@ -109,39 +124,45 @@ class Shape {
             this.buffer.endShape(CLOSE);
 
             // shadow
-            this.shadowBuffer.push();
-            this.shadowBuffer.curveTightness(this.curveTightness)
-            this.shadowBuffer.noFill();
-            this.shadowBuffer.stroke(color(255, 150));
-            this.shadowBuffer.strokeWeight(5 / exportRatio);
-            this.shadowBuffer.beginShape();
-            if (this.shadowOrientation == "bottom_left") {
-                this.shadowBuffer.curveVertex(polygon.rightDown.x / exportRatio, polygon.rightDown.y / exportRatio);
-                this.shadowBuffer.curveVertex(polygon.rightDown.x / exportRatio, polygon.rightDown.y / exportRatio);
-                this.shadowBuffer.curveVertex(polygon.leftDown.x / exportRatio, polygon.leftDown.y / exportRatio);
-                this.shadowBuffer.curveVertex(polygon.leftUp.x / exportRatio, polygon.leftUp.y / exportRatio);
-                this.shadowBuffer.curveVertex(polygon.leftUp.x / exportRatio, polygon.leftUp.y / exportRatio);
-            } else if (this.shadowOrientation == "bottom_right") {
-                this.shadowBuffer.curveVertex(polygon.rightUp.x / exportRatio, polygon.rightUp.y / exportRatio);
-                this.shadowBuffer.curveVertex(polygon.rightUp.x / exportRatio, polygon.rightUp.y / exportRatio);
-                this.shadowBuffer.curveVertex(polygon.rightDown.x / exportRatio, polygon.rightDown.y / exportRatio);
-                this.shadowBuffer.curveVertex(polygon.leftDown.x / exportRatio, polygon.leftDown.y / exportRatio);
-                this.shadowBuffer.curveVertex(polygon.leftDown.x / exportRatio, polygon.leftDown.y / exportRatio);
-            } else if (this.shadowOrientation == "up_left") {
-                this.shadowBuffer.curveVertex(polygon.rightUp.x / exportRatio, polygon.rightUp.y / exportRatio);
-                this.shadowBuffer.curveVertex(polygon.rightUp.x / exportRatio, polygon.rightUp.y / exportRatio);
-                this.shadowBuffer.curveVertex(polygon.leftUp.x / exportRatio, polygon.leftUp.y / exportRatio);
-                this.shadowBuffer.curveVertex(polygon.leftDown.x / exportRatio, polygon.leftDown.y / exportRatio);
-                this.shadowBuffer.curveVertex(polygon.leftDown.x / exportRatio, polygon.leftDown.y / exportRatio);
-            } else {
-                this.shadowBuffer.curveVertex(polygon.leftUp.x / exportRatio, polygon.leftUp.y / exportRatio);
-                this.shadowBuffer.curveVertex(polygon.leftUp.x / exportRatio, polygon.leftUp.y / exportRatio);
-                this.shadowBuffer.curveVertex(polygon.rightUp.x / exportRatio, polygon.rightUp.y / exportRatio);
-                this.shadowBuffer.curveVertex(polygon.rightDown.x / exportRatio, polygon.rightDown.y / exportRatio);
-                this.shadowBuffer.curveVertex(polygon.rightDown.x / exportRatio, polygon.rightDown.y / exportRatio);
+            if (polygon_index == (this.polygons.length - 1)) {
+                this.shadowBuffer.push();
+                this.shadowBuffer.curveTightness(this.curveTightness)
+                this.shadowBuffer.noFill();
+                // this.shadowBuffer.stroke(color(255, 150));
+                // this.shadowBuffer.stroke(color(0, 255));
+                this.shadowBuffer.stroke(this.solidColorStroke);
+                this.shadowBuffer.strokeWeight(3 / exportRatio);
+                this.shadowBuffer.beginShape();
+                if (this.shadowOrientation == "bottom_left") {
+                    this.shadowBuffer.curveVertex(polygon.rightDown.x / exportRatio, polygon.rightDown.y / exportRatio);
+                    this.shadowBuffer.curveVertex(polygon.rightDown.x / exportRatio, polygon.rightDown.y / exportRatio);
+                    this.shadowBuffer.curveVertex(polygon.leftDown.x / exportRatio, polygon.leftDown.y / exportRatio);
+                    this.shadowBuffer.curveVertex(polygon.leftUp.x / exportRatio, polygon.leftUp.y / exportRatio);
+                    this.shadowBuffer.curveVertex(polygon.leftUp.x / exportRatio, polygon.leftUp.y / exportRatio);
+                } else if (this.shadowOrientation == "bottom_right") {
+                    this.shadowBuffer.curveVertex(polygon.rightUp.x / exportRatio, polygon.rightUp.y / exportRatio);
+                    this.shadowBuffer.curveVertex(polygon.rightUp.x / exportRatio, polygon.rightUp.y / exportRatio);
+                    this.shadowBuffer.curveVertex(polygon.rightDown.x / exportRatio, polygon.rightDown.y / exportRatio);
+                    this.shadowBuffer.curveVertex(polygon.leftDown.x / exportRatio, polygon.leftDown.y / exportRatio);
+                    this.shadowBuffer.curveVertex(polygon.leftDown.x / exportRatio, polygon.leftDown.y / exportRatio);
+                } else if (this.shadowOrientation == "up_left") {
+                    this.shadowBuffer.curveVertex(polygon.rightUp.x / exportRatio, polygon.rightUp.y / exportRatio);
+                    this.shadowBuffer.curveVertex(polygon.rightUp.x / exportRatio, polygon.rightUp.y / exportRatio);
+                    this.shadowBuffer.curveVertex(polygon.leftUp.x / exportRatio, polygon.leftUp.y / exportRatio);
+                    this.shadowBuffer.curveVertex(polygon.leftDown.x / exportRatio, polygon.leftDown.y / exportRatio);
+                    this.shadowBuffer.curveVertex(polygon.leftDown.x / exportRatio, polygon.leftDown.y / exportRatio);
+                } else {
+                    this.shadowBuffer.curveVertex(polygon.leftUp.x / exportRatio, polygon.leftUp.y / exportRatio);
+                    this.shadowBuffer.curveVertex(polygon.leftUp.x / exportRatio, polygon.leftUp.y / exportRatio);
+                    this.shadowBuffer.curveVertex(polygon.rightUp.x / exportRatio, polygon.rightUp.y / exportRatio);
+                    this.shadowBuffer.curveVertex(polygon.rightDown.x / exportRatio, polygon.rightDown.y / exportRatio);
+                    this.shadowBuffer.curveVertex(polygon.rightDown.x / exportRatio, polygon.rightDown.y / exportRatio);
+                }
+                this.shadowBuffer.endShape();
+                this.shadowBuffer.pop();
             }
-            this.shadowBuffer.endShape();
-            this.shadowBuffer.pop();
+
+            polygon_index = + 1;
 
             if (MODE > 2) {
                 break
@@ -302,7 +323,7 @@ class Shapes {
 
                 // only shadow
                 this.buffer.push();
-                this.buffer.drawingContext.filter = 'blur(2px)';
+                this.buffer.drawingContext.filter = 'blur(1.5px)';
                 this.buffer.image(shape.shadowBuffer, 0, 0, shape.shadowBuffer.width, shape.shadowBuffer.height);
                 this.buffer.drawingContext.filter = 'none';
                 this.buffer.pop();

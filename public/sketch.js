@@ -195,21 +195,21 @@ function setup() {
     colorBackground: undefined, // colors[color_profile].background,  // drawn pixels for background
     colorForeground: colors[color_profile].backgroundnoise, // color(90),  // drawn pixels for noise
     distortion: 0.65, // 0.65,  // random misplacement of the boxes
-    density: 6, // 7,
+    density: 9, // 7,
     margin: BACKGROUNDMARGIN, // distance to the edge
   }
 
   ambientData = {
-    shapeCount: duftArea.size / 150000, // number of shapes
+    shapeCount: duftArea.size / 110000, // number of shapes
     radioMin: AMBIENTRADIOMIN, // size
     radioMax: AMBIENTRADIOMAX, // size
     radioDistortion: 200,  // misplacement
-    polygonCount: 3,  // how many overlapping polygons to draw
+    polygonCount: 2,  // how many overlapping polygons to draw
     margin: 0,  // distance from edge
     curveTightness: 1,
     noColorStroke: false,
-    solidstrokeWeight: 5,
-    solidColorStroke: color(40),
+    solidstrokeWeight: 3,
+    solidColorStroke: color(0),
     solidColorArea: colors[color_profile].fillAll,
     noiseColorArea: colors[color_profile].falllAllNoise,
     opacityFillValue: 100,
@@ -219,11 +219,11 @@ function setup() {
     duftCounty: true,
     blur: 3,
     textureData: {
-      inc: 0.9,  // noise increase for perlin noise
-      gain: -60,  // COOL TO CHANGE
+      inc: 0.009,  // noise increase for perlin noise
+      gain: -255,  // -160 // COOL TO CHANGE
       colorBackground: undefined,// this.solidColorArea,  // drawn pixels for background
-      distortion: 0.65,  // random misplacement of the boxes
-      density: 6,
+      distortion: 0.9,  // random misplacement of the boxes
+      density: 10,
       // amountMax: 15, // how many rects per cell, max
       margin: 0, // distance to the edge
     }
@@ -250,7 +250,7 @@ function setup() {
     blur: 1.5,
     textureData: {
       inc: 0.4,  // noise increase for perlin noise
-      gain: -70,
+      gain: -255,
       colorBackground: undefined,  // drawn pixels for background
       distortion: 0.65,  // random misplacement of the boxes
       density: 6,
@@ -267,7 +267,7 @@ function setup() {
     polygonCount: 2,  // how many overlapping polygons to drawo
     margin: 500,  // distance from edge
     curveTightness: 1,
-    noColorStroke: false,
+    noColorStroke: true,
     solidstrokeWeight: 2,
     solidColorStroke: color(30),
     solidColorArea: colors[color_profile].fillAll,
@@ -278,7 +278,7 @@ function setup() {
     blur: 1,  // undefined,
     textureData: {
       inc: 0.4,  // noise increase for perlin noise
-      gain: -60,
+      gain: -255,
       colorBackground: undefined,  // drawn pixels for background
       distortion: 0.65,  // random misplacement of the boxes
       density: 6,
@@ -452,6 +452,6 @@ function draw() {
   // fxpreview()
 
 
-  // console.info("safety check for diff resolutions same hash: " + fxrand());
+  // console.log("safety check for diff resolutions same hash: " + fxrand());
 
 }
