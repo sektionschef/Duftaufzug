@@ -212,8 +212,8 @@ function setup() {
     solidColorStroke: color(0),
     solidColorArea: colors[color_profile].fillAll,
     noiseColorArea: colors[color_profile].falllAllNoise,
-    opacityFillValue: 100,
-    opacityStrokeValue: 155,
+    opacityFillValue: 150,
+    opacityStrokeValue: 150,
     duftOrbit: false,
     duftArea: false,
     duftCounty: true,
@@ -231,7 +231,7 @@ function setup() {
 
 
   lightData = {
-    shapeCount: duftArea.size / 200000, // number of shapes - 70
+    shapeCount: duftArea.size / 100000, // number of shapes - 70
     radioMin: LIGHTRADIOMIN, // size
     radioMax: LIGHTRADIOMAX, // size
     radioDistortion: 150,  // misplacement
@@ -240,11 +240,11 @@ function setup() {
     curveTightness: 1,
     noColorStroke: false,
     solidstrokeWeight: 3,
-    solidColorStroke: color(100),
+    solidColorStroke: color(0),
     solidColorArea: colors[color_profile].fillAll,
     noiseColorArea: colors[color_profile].falllAllNoise,
-    opacityFillValue: 100,
-    opacityStrokeValue: 100,
+    opacityFillValue: 150,
+    opacityStrokeValue: 150,
     duftOrbit: false,
     duftArea: true,
     blur: 1.5,
@@ -273,8 +273,8 @@ function setup() {
     solidColorArea: colors[color_profile].fillAll,
     noiseColorArea: colors[color_profile].falllAllNoise,
     duftOrbit: true,
-    opacityFillValue: 70,
-    opacityStrokeValue: 100,
+    opacityFillValue: 150,
+    opacityStrokeValue: 150,
     blur: 1,  // undefined,
     textureData: {
       inc: 0.4,  // noise increase for perlin noise

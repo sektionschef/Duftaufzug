@@ -29,18 +29,19 @@ class Shape {
 
         this.origin = data.origin;
 
-        if (MODE == 5) {
-            this.solidColorStroke.setAlpha(255);
-        } else {
-            this.solidColorStroke.setAlpha(this.opacityStrokeValue);
-        }
+        this.solidColorStroke = color(
+            red(this.solidColorStroke),
+            green(this.solidColorStroke),
+            blue(this.solidColorStroke),
+            this.opacityStrokeValue
+        )
 
-        if (MODE == 5) {
-            this.solidColorArea.setAlpha(255);
-        } else {
-            this.solidColorArea.setAlpha(this.opacityFillValue);
-        }
-
+        this.solidColorArea = color(
+            red(this.solidColorArea),
+            green(this.solidColorArea),
+            blue(this.solidColorArea),
+            this.opacityFillValue
+        )
 
         this.polygons = [];
         this.rightUp = createVector(this.origin.x + getRandomFromInterval(this.radioMin, this.radioMax), this.origin.y + getRandomFromInterval(-this.radioMin, -this.radioMax));
@@ -62,7 +63,7 @@ class Shape {
         this.define_shadow_orientation()
 
         if (MODE == 1) {
-            this.texture = new Pixies(this.textureData);
+            // this.texture = new Pixies(this.textureData);
         }
     }
 
@@ -329,7 +330,10 @@ class Shapes {
                 this.buffer.pop();
 
                 // masked - only the noise is masked, the color comes from the shape
-                this.bufferMasked = maskBuffers(shape.texture.buffer, shape.buffer);
+                // own layer
+                // this.bufferMasked = maskBuffers(shape.texture.buffer, shape.buffer);
+                // wall layer
+                this.bufferMasked = maskBuffers(wallTexture.buffer, shape.buffer);
                 this.buffer.image(this.bufferMasked, 0, 0, this.bufferMasked.width, this.bufferMasked.height);
             } else {
                 shape.draw();
