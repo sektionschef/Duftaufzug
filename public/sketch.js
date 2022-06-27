@@ -41,7 +41,7 @@ let duftArea = {};
 let duftCounty = {};
 
 // let color_profile = getRandomFromList(["greyscale"]);
-let color_profile = getRandomFromList(["red"]);
+let color_profile = getRandomFromList(["red", "greyscale"]);
 
 function preload() {
 }
@@ -97,12 +97,12 @@ function setup() {
       fillAll: [
         color("#9C2D2D"),
         color("#D26161"),
-        color("#D07B7B")
+        color("#FFA4A4")
       ],
       falllAllNoise: [
         color("#9C2D2D40"),
         color("#D2616140"),
-        color("#D07B7B40")
+        color("#FFA4A440")
       ],
       duft: color("#390A0A"),
       duftNoise: color("#390A0A40"),
