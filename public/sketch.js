@@ -40,8 +40,8 @@ let fxhash_number;
 let duftArea = {};
 let duftCounty = {};
 
-let color_profile = getRandomFromList(["greyscale"]);
-// let color_profile = getRandomFromList(["red"]);
+// let color_profile = getRandomFromList(["greyscale"]);
+let color_profile = getRandomFromList(["red"]);
 
 function preload() {
 }
@@ -91,25 +91,21 @@ function setup() {
       duft: color("#222222"),
       duftNoise: color("#22222240"),
     },
-    // "greyscale": {
-    //   background: color("#aaaaaa"),
-    //   backgroundnoise: color("#bbbbbb60"),
-    //   darkA: [color("#555555"), color("#444444"), color("#666666")],
-    //   darkAnoise: [color("#666666"), color("#555555"), color("#777777")],
-    //   lightA: [color("#777777"), color("#888888"), color("#999999")],
-    //   lightAnoise: [color("#888888"), color("#999999"), color("#aaaaaa")],
-    //   highlightA: [color("#cccccc"), color("#dddddd"), color("#eeeeee")],
-    //   highlightAnoise: [color("#dddddd"), color("#eeeeee"), color("#ffffff")],
-    //   duft: color("#222222"),
-    //   duftNoise: color("#22222260"),
-    // },
     "red": {
-      background: color("#A31700"),
-      backgroundnoise: color("#A3170040"),
-      fillAll: [color("#FF735C"), color("#FF2400"), color("#FF9A8A")],
-      falllAllNoise: [color("#FF735C40"), color("#FF240040"), color("#FF9A8A40")],
-      duft: color("#751100"),
-      duftNoise: color("#75110040"),
+      background: color("#826161"),
+      backgroundnoise: color("#82616140"),
+      fillAll: [
+        color("#9B6262"),
+        color("#C96060"),
+        color("#F19F9F")
+      ],
+      falllAllNoise: [
+        color("#9B626240"),
+        color("#C9606040"),
+        color("#F19F9F40")
+      ],
+      duft: color("#222222"),
+      duftNoise: color("#22222240"),
     }
   }
 
