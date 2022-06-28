@@ -335,6 +335,11 @@ class Shapes {
                 // wall layer
                 this.bufferMasked = maskBuffers(wallTexture.buffer, shape.buffer);
                 this.buffer.image(this.bufferMasked, 0, 0, this.bufferMasked.width, this.bufferMasked.height);
+
+                // line
+                line = new Lines(shape.polygons[(this.polygonCount - 1)].rightUp, shape.polygons[(this.polygonCount - 1)].leftUp);
+                this.buffer.image(line.buffer, 0, 0);
+
             } else {
                 shape.draw();
             }

@@ -314,21 +314,6 @@ function setup() {
     }
   }
 
-  LineData = {
-    buffer: lineBuffer,
-    shapeCount: 10, // number of shapes
-    radioMin: 50, // size
-    radioMax: 250, // size
-    radioDistortion: 170,  // misplacement
-    polygonCount: 20,  // how many overlapping polygons to drawo
-    margin: 500,  // distance from edge
-    curveTightness: 0.5,
-    noColorStroke: false,
-    solidstrokeWeight: 50,
-    solidColorStroke: color(60, 5),
-    solidColorArea: color(250, 5),
-    duftOrbit: true,
-  }
 
 
   if (MODE == 1) {
@@ -338,7 +323,6 @@ function setup() {
   lights = new Shapes(lightData);
   highlights = new Shapes(highlightData);
   duft = new Shapes(duftData);
-  dummyLine = new Lines(LineData);
 }
 
 
@@ -395,8 +379,6 @@ function draw() {
     // this.buffer.drawingContext.filter = 'none';
     buffer.pop();
   }
-
-  buffer.image(dummyLine.buffer, 0, 0);
 
   // debug duftOrbit
   if (MODE == 5) {
