@@ -11,6 +11,13 @@ class Lines {
         this.pointA = createVector(650, 670);
         this.pointB = createVector(1500, 1730);
 
+        var b = this.pointA.x - this.pointB.x;
+        var a = this.pointA.y - this.pointB.y;
+        console.log(a);
+        console.log(b);
+        this.angle = atan(a / b);
+        console.log(this.angle);
+
 
         this.draw();
     }
@@ -49,23 +56,25 @@ class Lines {
 
         // console.log(this.pointA);
         // console.log(this.pointB);
-        this.buffer.translate(this.pointB.x / exportRatio, this.pointB.y / exportRatio);
-        this.buffer.angleMode(DEGREES);
-        console.log(this.pointA.heading());
-        let angle = this.pointA.heading();
+        this.buffer.translate(this.pointA.x / exportRatio, this.pointA.y / exportRatio);
+
+        // this.buffer.angleMode(DEGREES);
+        // console.log(this.pointA.heading());
+        // let angle = this.pointA.heading();
         // let angle = this.pointB.angleBetween(this.pointA);
         // console.log(angle);
         // var angle = radians(30);
-        let pop = p5.Vector.fromAngle(radians(angle), 2000 / exportRatio);
+        let pop = p5.Vector.fromAngle(this.angle, 4000 / exportRatio);
 
 
         // this.buffer.stroke("blue");
         // this.buffer.strokeWeight(50 / exportRatio);
         // console.log(pop.x);
         // this.buffer.point(pop.x / exportRatio, pop.y / exportRatio);
-        this.buffer.line(0, 0, this.pointA.x, this.pointA.y);
+        this.buffer.line(0, 0, pop.x, pop.y);
 
         // this.buffer.line(this.pointB.x / exportRatio, this.pointB.y / exportRatio, this.pointA.x / exportRatio, this.pointA.y / exportRatio);
+        // this.buffer.line(this.pointA.x / exportRatio, this.pointA.y / exportRatio, this.pointB.x / exportRatio, this.pointB.y / exportRatio);
 
 
         // this.buffer.drawingContext.filter = 'none';
