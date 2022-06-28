@@ -8,37 +8,30 @@ class Lines {
         this.pointA = pointA;
         this.pointB = pointB;
 
-        this.pointA = createVector(650, 670);
-        this.pointB = createVector(1500, 1730);
-
-        var b = this.pointA.x - this.pointB.x;
-        var a = this.pointA.y - this.pointB.y;
-        console.log(a);
-        console.log(b);
-        this.angle = atan(a / b);
-        console.log(this.angle);
-
+        // this.pointA = createVector(650, 670);
+        // this.pointB = createVector(1500, 1730);
 
         this.draw();
     }
 
     draw() {
+        // debug points
+        if (MODE == 5) {
+            this.buffer.push();
+            this.buffer.stroke("green");
+            this.buffer.strokeWeight(50 / exportRatio);
+            this.buffer.point(this.pointA.x / exportRatio, this.pointA.y / exportRatio);
+            this.buffer.pop();
+
+            this.buffer.push();
+            this.buffer.stroke("white");
+            this.buffer.strokeWeight(50 / exportRatio);
+            this.buffer.point(this.pointB.x / exportRatio, this.pointB.y / exportRatio);
+            this.buffer.pop();
+        }
+
         this.buffer.push();
-        this.buffer.stroke("green");
-        this.buffer.strokeWeight(50 / exportRatio);
-        this.buffer.point(this.pointA.x / exportRatio, this.pointA.y / exportRatio);
-
-        this.buffer.pop();
-
-        this.buffer.push();
-        this.buffer.stroke("white");
-        this.buffer.strokeWeight(50 / exportRatio);
-        this.buffer.point(this.pointB.x / exportRatio, this.pointB.y / exportRatio);
-
-        this.buffer.pop();
-
-        this.buffer.push();
-        // this.buffer.drawingContext.filter = 'blur(2px)';
+        this.buffer.drawingContext.filter = 'blur(3px)';
         this.buffer.stroke("black");
         this.buffer.strokeWeight(5 / exportRatio);
 
@@ -53,6 +46,12 @@ class Lines {
         // this.buffer.endShape();
 
 
+        var b = this.pointA.x - this.pointB.x;
+        var a = this.pointA.y - this.pointB.y;
+        // console.log(a);
+        // console.log(b);
+        this.angle = atan(a / b);
+        // console.log(this.angle);
 
         // console.log(this.pointA);
         // console.log(this.pointB);
