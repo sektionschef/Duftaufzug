@@ -3,33 +3,14 @@ class Lines {
 
     constructor(pointA, pointB) {
 
-        // this.buffer = data.buffer;
         this.buffer = createGraphics(rescaling_width, rescaling_height);
         this.pointA = pointA;
         this.pointB = pointB;
-
-        // this.pointA = createVector(650, 670);
-        // this.pointB = createVector(1500, 1730);
 
         this.draw();
     }
 
     draw() {
-        // debug points
-        if (MODE == 5) {
-            this.buffer.push();
-            this.buffer.stroke("green");
-            this.buffer.strokeWeight(50 / exportRatio);
-            this.buffer.point(this.pointA.x / exportRatio, this.pointA.y / exportRatio);
-            this.buffer.pop();
-
-            this.buffer.push();
-            this.buffer.stroke("white");
-            this.buffer.strokeWeight(50 / exportRatio);
-            this.buffer.point(this.pointB.x / exportRatio, this.pointB.y / exportRatio);
-            this.buffer.pop();
-        }
-
         this.buffer.push();
         this.buffer.drawingContext.filter = 'blur(3px)';
         this.buffer.stroke("black");
@@ -51,18 +32,9 @@ class Lines {
         // console.log(a);
         // console.log(b);
         this.angle = atan(a / b);
-        // console.log(this.angle);
 
-        // console.log(this.pointA);
-        // console.log(this.pointB);
         this.buffer.translate(this.pointA.x / exportRatio, this.pointA.y / exportRatio);
 
-        // this.buffer.angleMode(DEGREES);
-        // console.log(this.pointA.heading());
-        // let angle = this.pointA.heading();
-        // let angle = this.pointB.angleBetween(this.pointA);
-        // console.log(angle);
-        // var angle = radians(30);
         let pop = p5.Vector.fromAngle(this.angle, 4000 / exportRatio);
 
 
@@ -85,8 +57,18 @@ class Lines {
 
     draw_debug() {
 
-        if (logging.getLevel() <= 1) {
+        if (MODE == 1) {
+            this.buffer.push();
+            this.buffer.stroke("green");
+            this.buffer.strokeWeight(50 / exportRatio);
+            this.buffer.point(this.pointA.x / exportRatio, this.pointA.y / exportRatio);
+            this.buffer.pop();
 
+            this.buffer.push();
+            this.buffer.stroke("white");
+            this.buffer.strokeWeight(50 / exportRatio);
+            this.buffer.point(this.pointB.x / exportRatio, this.pointB.y / exportRatio);
+            this.buffer.pop();
         }
 
 
