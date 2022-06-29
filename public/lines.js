@@ -1,18 +1,19 @@
 
 class Lines {
 
-    constructor(pointA, pointB) {
+    constructor(pointA, pointB, direction) {
 
         this.buffer = createGraphics(rescaling_width, rescaling_height);
         this.pointA = pointA;
         this.pointB = pointB;
+        this.direction = direction;
 
         this.draw();
     }
 
     draw() {
         this.buffer.push();
-        this.buffer.drawingContext.filter = 'blur(3px)';
+        // this.buffer.drawingContext.filter = 'blur(3px)';
         this.buffer.stroke("black");
         this.buffer.strokeWeight(5 / exportRatio);
 
@@ -33,22 +34,33 @@ class Lines {
         // console.log(b);
         this.angle = atan(a / b);
 
-        this.buffer.translate(this.pointA.x / exportRatio, this.pointA.y / exportRatio);
+        if (this.direction == "left") {
+            this.angle = this.angle - PI;
+            this.buffer.translate(this.pointA.x / exportRatio, this.pointA.y / exportRatio);
+        } else if (this.direction == "up") {
+            // correct link - all in one direction
+            if (this.angle < 0) {
+                this.angle = this.angle - PI;
+            }
+            this.angle = this.angle - PI;
+            this.buffer.translate(this.pointA.x / exportRatio, this.pointA.y / exportRatio);
+        } else if (this.direction == "down") {
+            if (this.angle < 0) {
+                this.angle = this.angle - PI;
+            }
+            this.buffer.translate(this.pointB.x / exportRatio, this.pointB.y / exportRatio);
+        } else if (this.direction == "right") {
+            this.buffer.translate(this.pointB.x / exportRatio, this.pointB.y / exportRatio);
+        } else {
+            console.log("specify direction");
+        }
+
 
         let pop = p5.Vector.fromAngle(this.angle, 4000 / exportRatio);
 
-
-        // this.buffer.stroke("blue");
-        // this.buffer.strokeWeight(50 / exportRatio);
-        // console.log(pop.x);
-        // this.buffer.point(pop.x / exportRatio, pop.y / exportRatio);
         this.buffer.line(0, 0, pop.x, pop.y);
 
-        // this.buffer.line(this.pointB.x / exportRatio, this.pointB.y / exportRatio, this.pointA.x / exportRatio, this.pointA.y / exportRatio);
-        // this.buffer.line(this.pointA.x / exportRatio, this.pointA.y / exportRatio, this.pointB.x / exportRatio, this.pointB.y / exportRatio);
-
-
-        // this.buffer.drawingContext.filter = 'none';
+        this.buffer.drawingContext.filter = 'none';
         this.buffer.pop();
 
         this.draw_debug();
@@ -69,6 +81,7 @@ class Lines {
             this.buffer.strokeWeight(50 / exportRatio);
             this.buffer.point(this.pointB.x / exportRatio, this.pointB.y / exportRatio);
             this.buffer.pop();
+
         }
 
 

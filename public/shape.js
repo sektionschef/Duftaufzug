@@ -205,7 +205,6 @@ class Shape {
             this.buffer.pop();
         }
 
-
     }
 }
 
@@ -337,10 +336,34 @@ class Shapes {
                 this.buffer.image(this.bufferMasked, 0, 0, this.bufferMasked.width, this.bufferMasked.height);
 
                 // line
-                if (fxrand() > 0.75) {
-                    line = new Lines(shape.polygons[(this.polygonCount - 1)].rightUp, shape.polygons[(this.polygonCount - 1)].leftUp);
-                    this.buffer.image(line.buffer, 0, 0);
-                }
+                // if (fxrand() > 0.75) {
+                var last_polygon = shape.polygons[(this.polygonCount - 1)]
+                // up to the right
+                // line = new Lines(last_polygon.rightUp, last_polygon.leftUp, "right");
+                // up to the left
+                // line = new Lines(last_polygon.rightUp, last_polygon.leftUp, "left");
+                // right to up
+                // line = new Lines(last_polygon.rightDown, last_polygon.rightUp, "up");
+                // right to down
+                // line = new Lines(last_polygon.rightDown, last_polygon.rightUp, "down");
+                // down to the right
+                // line = new Lines(last_polygon.rightDown, last_polygon.leftDown, "right");
+                // up to the left
+                // line = new Lines(last_polygon.rightDown, last_polygon.leftDown, "left");
+                // left to up
+                // line = new Lines(last_polygon.leftDown, last_polygon.leftUp, "up");
+                // left to down
+                line = new Lines(last_polygon.leftDown, last_polygon.leftUp, "down");
+
+                this.buffer.image(line.buffer, 0, 0);
+
+                // this.buffer.push();
+                // this.buffer.stroke("blue");
+                // this.buffer.strokeWeight(30 / exportRatio);
+                // this.buffer.point(last_polygon.rightDown.x / exportRatio, last_polygon.rightDown.y / exportRatio);
+                // this.buffer.pop();
+
+                // }
 
             } else {
                 shape.draw();
