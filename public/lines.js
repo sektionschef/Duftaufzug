@@ -13,8 +13,8 @@ class Lines {
 
     draw() {
         this.buffer.push();
-        // this.buffer.drawingContext.filter = 'blur(3px)';
-        this.buffer.stroke("black");
+        this.buffer.drawingContext.filter = 'blur(3px)';
+        this.buffer.stroke(color("#333333"));
         this.buffer.strokeWeight(5 / exportRatio);
 
         // this.buffer.noFill();
@@ -69,7 +69,7 @@ class Lines {
 
     draw_debug() {
 
-        if (MODE == 1) {
+        if (MODE == 5) {
             this.buffer.push();
             this.buffer.stroke("green");
             this.buffer.strokeWeight(50 / exportRatio);
@@ -81,9 +81,6 @@ class Lines {
             this.buffer.strokeWeight(50 / exportRatio);
             this.buffer.point(this.pointB.x / exportRatio, this.pointB.y / exportRatio);
             this.buffer.pop();
-
         }
-
-
     }
 }
