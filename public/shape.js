@@ -337,7 +337,7 @@ class Shapes {
 
                 // line
                 // draw the line
-                if (fxrand() > 0.65) {
+                if (fxrand() > 0.75) {
                     var last_polygon = shape.polygons[(this.polygonCount - 1)]
 
                     var pick = getRandomFromList([

@@ -3,15 +3,29 @@ class Lines {
 
     constructor(pointA, pointB, direction) {
 
-        this.buffer = createGraphics(rescaling_width, rescaling_height);
         this.pointA = pointA;
         this.pointB = pointB;
         this.direction = direction;
+
+        this.buffer = createGraphics(rescaling_width, rescaling_height);
+
+        this.localMargin = BACKGROUNDMARGIN - 50;
+        this.marginBuffer = createGraphics(rescaling_width, rescaling_height);
+        this.marginBuffer.fill(color("black"));
+        this.marginBuffer.noStroke();
+        this.marginBuffer.rect(
+            this.localMargin / exportRatio,
+            this.localMargin / exportRatio,
+            (exportPaper.width - this.localMargin * 2) / exportRatio,
+            (exportPaper.height - this.localMargin * 2) / exportRatio
+        );
+
 
         this.draw();
     }
 
     draw() {
+
         this.buffer.push();
         this.buffer.drawingContext.filter = 'blur(3px)';
         this.buffer.stroke(color("#333333"));
@@ -62,6 +76,10 @@ class Lines {
 
         this.buffer.drawingContext.filter = 'none';
         this.buffer.pop();
+
+        // debug
+        // this.buffer.image(this.marginBuffer, 0, 0);
+        this.buffer = maskBuffers(this.marginBuffer, this.buffer);
 
         this.draw_debug();
     }
