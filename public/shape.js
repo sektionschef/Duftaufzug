@@ -331,8 +331,14 @@ class Shapes {
                 // masked - only the noise is masked, the color comes from the shape
                 // own layer
                 // this.bufferMasked = maskBuffers(shape.texture.buffer, shape.buffer);
-                // wall layer
-                this.bufferMasked = maskBuffers(wallTexture.buffer, shape.buffer);
+
+                // texture layers as alternative to shape specific textures
+                var chosen_texture = getRandomFromList([
+                    textureA,
+                    textureB,
+                    textureC,
+                ]);
+                this.bufferMasked = maskBuffers(chosen_texture.buffer, shape.buffer);
                 this.buffer.image(this.bufferMasked, 0, 0, this.bufferMasked.width, this.bufferMasked.height);
 
                 // line

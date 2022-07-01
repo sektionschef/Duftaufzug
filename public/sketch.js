@@ -195,6 +195,36 @@ function setup() {
     margin: BACKGROUNDMARGIN, // distance to the edge
   }
 
+  TextureAData = {
+    inc: 0.009,  // noise increase for perlin noise
+    gain: -255,
+    colorBackground: undefined, // colors[color_profile].background,  // drawn pixels for background
+    colorForeground: colors[color_profile].backgroundnoise, // color(90),  // drawn pixels for noise
+    distortion: 0.65, // 0.65,  // random misplacement of the boxes
+    density: 3, // 7,
+    margin: BACKGROUNDMARGIN, // distance to the edge
+  }
+
+  TextureBData = {
+    inc: 0.04,  // noise increase for perlin noise
+    gain: 255,
+    colorBackground: undefined, // colors[color_profile].background,  // drawn pixels for background
+    colorForeground: color("#000000"), // color(90),  // drawn pixels for noise
+    distortion: 0.1, // 0.65,  // random misplacement of the boxes
+    density: 18, // 7,
+    margin: BACKGROUNDMARGIN, // distance to the edge
+  }
+
+  TextureCData = {
+    inc: 0.05,  // noise increase for perlin noise
+    gain: -55,
+    colorBackground: undefined, // colors[color_profile].background,  // drawn pixels for background
+    colorForeground: color("#ffffff40"), // colors[color_profile].backgroundnoise, // color(90),  // drawn pixels for noise
+    distortion: 0.9, // 0.65,  // random misplacement of the boxes
+    density: 12, // 7,
+    margin: BACKGROUNDMARGIN, // distance to the edge
+  }
+
   ambientData = {
     shapeCount: duftArea.size / 110000, // number of shapes
     radioMin: AMBIENTRADIOMIN, // size
@@ -318,6 +348,9 @@ function setup() {
 
   if (MODE == 1) {
     wallTexture = new Pixies(wallTextureData);
+    textureA = new Pixies(TextureAData);
+    textureB = new Pixies(TextureBData);
+    textureC = new Pixies(TextureCData);
   }
   ambients = new Shapes(ambientData);
   lights = new Shapes(lightData);
@@ -423,6 +456,17 @@ function draw() {
     buffer.rect(BACKGROUNDMARGIN / exportRatio, BACKGROUNDMARGIN / exportRatio, (exportPaper.width - BACKGROUNDMARGIN * 2) / exportRatio, (exportPaper.width - BACKGROUNDMARGIN * 2) / exportRatio);
     buffer.pop();
   }
+
+  // DEBUG TEXTURES
+  // buffer.clear();
+  // buffer.background(colors[color_profile].background);
+  // buffer.push()
+  // // buffer.drawingContext.filter = 'blur(0.5px)';
+  // // buffer.image(textureA.buffer, 0, 0);
+  // // buffer.image(textureB.buffer, 0, 0);
+  // buffer.image(textureC.buffer, 0, 0);
+  // buffer.drawingContext.filter = 'none';
+  // buffer.pop()
 
   image(buffer, - width / 2, - height / 2);
 
