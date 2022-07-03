@@ -199,7 +199,7 @@ function setup() {
     inc: 0.009,  // noise increase for perlin noise
     gain: 255,
     colorBackground: undefined, // colors[color_profile].background,  // drawn pixels for background
-    colorForeground: color(0), // colors[color_profile].backgroundnoise, // color(90),  // drawn pixels for noise
+    colorForeground: color("blue"), // colors[color_profile].backgroundnoise, // color(90),  // drawn pixels for noise
     distortion: 0.65, // 0.65,  // random misplacement of the boxes
     density: 13, // 7,
     margin: 0, // distance to the edge
@@ -209,7 +209,7 @@ function setup() {
     inc: 0.4,  // noise increase for perlin noise
     gain: 255,
     colorBackground: undefined, // colors[color_profile].background,  // drawn pixels for background
-    colorForeground: color(0), // color(90),  // drawn pixels for noise
+    colorForeground: color("red"), // color(90),  // drawn pixels for noise
     distortion: 0.7, // 0.65,  // random misplacement of the boxes
     density: 18, // 7,
     margin: 0, // distance to the edge
@@ -344,14 +344,8 @@ function setup() {
     }
   }
 
+  wallTexture = new Pixies(wallTextureData);
 
-
-  if (MODE == 1) {
-    wallTexture = new Pixies(wallTextureData);
-    textureA = new Pixies(TextureAData);
-    textureB = new Pixies(TextureBData);
-    textureC = new Pixies(TextureCData);
-  }
   ambients = new Shapes(ambientData);
   lights = new Shapes(lightData);
   highlights = new Shapes(highlightData);

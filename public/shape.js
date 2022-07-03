@@ -15,16 +15,21 @@ class Shape {
         this.solidstrokeWeight = data.solidstrokeWeight;
         this.solidColorStroke = data.solidColorStroke;
         this.opacityStrokeValue = data.opacityStrokeValue;
-        this.textureData = data.textureData;
+        this.textureData = data.textureData;  // noch benötigt?
+
+        // console.log(data.texturePalette);
 
         if (data.solidColorArea instanceof Array) {
             this.colorIndex = Math.round(getRandomFromInterval(0, (data.solidColorArea.length - 1)));
             this.solidColorArea = data.solidColorArea[this.colorIndex];
             this.noiseColorArea = data.noiseColorArea[this.colorIndex];
+            this.texture = data.texturePalette[this.colorIndex];
         } else {
             this.solidColorArea = data.solidColorArea;
             this.noiseColorArea = data.noiseColorArea;
+            this.texture = data.texturePalette[0];
         }
+        // console.log(this.texture);
         this.opacityFillValue = data.opacityFillValue;
         this.blur = data.blur;
 
@@ -116,8 +121,7 @@ class Shape {
             //     this.buffer.fill(full_color_);
             // } else {
             // }
-            // this.buffer.fill(this.solidColorArea);
-            this.buffer.fill(color(0));
+            this.buffer.fill(this.solidColorArea);
             this.buffer.strokeWeight(this.solidstrokeWeight / exportRatio);
             this.buffer.beginShape();
             this.buffer.curveVertex(polygon.rightUp.x / exportRatio, polygon.rightUp.y / exportRatio);
@@ -237,6 +241,11 @@ class Shapes {
 
         this.shapes = []
 
+        this.textureA = new Pixies(TextureAData);
+        this.textureB = new Pixies(TextureBData);
+        this.textureC = new Pixies(TextureCData);
+        this.texturePalette = [this.textureA, this.textureB, this.textureC];
+
         for (var i = 0; i < this.shapeCount; i++) {
 
             // place randomly on the orbit
@@ -296,6 +305,7 @@ class Shapes {
                 solidstrokeWeight: this.solidstrokeWeight,
                 solidColorArea: this.solidColorArea,
                 noiseColorArea: this.noiseColorArea,
+                texturePalette: this.texturePalette,
                 opacityFillValue: this.opacityFillValue,
                 opacityStrokeValue: this.opacityStrokeValue,
                 blur: this.blur,
@@ -335,28 +345,17 @@ class Shapes {
                 // this.bufferMasked = maskBuffers(shape.texture.buffer, shape.buffer);
 
                 // texture layers as alternative to shape specific textures
-                var chosen_texture = getRandomFromList([
-                    // textureA,
-                    // textureB,
-                    textureC,
-                ]);
-                // get the shape of the noise for the shape specific noise color.
-                shape.noiseBuffer.clear();
-                shape.noiseBuffer.background(this.noiseColorArea);
-                shape.noiseBuffer = maskBuffers(shape.noiseBuffer, chosen_texture.buffer);
-                // shape.noiseBuffer = maskBuffers(chosen_texture.buffer, shape.noiseBuffer);
-                // debug
-                this.buffer.image(shape.noiseBuffer, 0, 0, shape.noiseBuffer.width, shape.noiseBuffer.height);
+                // var chosen_texture = getRandomFromList([
+                //     textureA,
+                //     textureB,
+                //     textureC,
+                // ]);
+                // this.buffer.image(shape.texture.buffer, 0, 0, shape.texture.width, shape.texture.height);
+                this.bufferMasked = maskBuffers(shape.texture.buffer, shape.buffer);
 
-                // this.buffer.image(shape.buffer, 0, 0, shape.buffer.width, shape.buffer.height);
-                // old way
-                // this.bufferMasked = maskBuffers(chosen_texture.buffer, shape.buffer);
-                // new way
-                this.bufferMasked = maskBuffers(shape.noiseBuffer, shape.buffer);
-
-                // this.buffer.drawingContext.filter = 'blur(0.5px)';
-                // this.buffer.image(this.bufferMasked, 0, 0, this.bufferMasked.width, this.bufferMasked.height);
-                // this.buffer.drawingContext.filter = 'none';
+                this.buffer.drawingContext.filter = 'blur(0.5px)';
+                this.buffer.image(this.bufferMasked, 0, 0, this.bufferMasked.width, this.bufferMasked.height);
+                this.buffer.drawingContext.filter = 'none';
 
                 // line
                 // draw the line
