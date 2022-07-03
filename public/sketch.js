@@ -1,3 +1,5 @@
+// https://www.kindacode.com/article/javascript-get-current-date-time-in-yyyy-mm-dd-hh-mm-ss-format/
+
 // trace, debug, info, warn, error
 // const SWITCH_LOGGING_LEVEL = "warn";
 const SWITCH_LOGGING_LEVEL = "info";
@@ -40,8 +42,9 @@ let fxhash_number;
 let duftArea = {};
 let duftCounty = {};
 
-// let color_profile = getRandomFromList(["greyscale"]);
-let color_profile = getRandomFromList(["red", "greyscale"]);
+let color_profile = getRandomFromList(["greyscale"]);
+// let color_profile = getRandomFromList(["red"]);
+// let color_profile = getRandomFromList(["red", "greyscale"]);
 
 function preload() {
 }
@@ -87,22 +90,22 @@ function setup() {
       falllAllNoise: [
         color("#444444"),
         color("#666666"),
-        color("#cccccc40")
+        color("#cccccc")
       ],
       duft: color("#222222"),
       duftNoise: color("#222222"),
     },
     "red": {
-      background: color("#B66D6D"),
-      backgroundnoise: color("#B66D6D40"),
+      background: color("#f88379"),
+      backgroundnoise: color("#f8837990"),
       fillAll: [
-        color("#9C2D2D"),
-        color("#D26161"),
+        color("#cf352e"),
+        color("#ff6961"),
         color("#FFA4A4")
       ],
       falllAllNoise: [
-        color("#9C2D2D"),
-        color("#D26161"),
+        color("#cf352e"),
+        color("#ff6961"),
         color("#FFA4A4")
       ],
       duft: color("#390A0A"),
@@ -208,7 +211,7 @@ function setup() {
 
   TextureBData = {
     inc: 0.0009,  // noise increase for perlin noise
-    gain: 160,
+    gain: 100,
     colorBackground: undefined, // colors[color_profile].background,  // drawn pixels for background
     colorForeground: colors[color_profile].falllAllNoise[1], // color(90),  // drawn pixels for noise
     distortion: 0.9, // 0.65,  // random misplacement of the boxes
@@ -218,11 +221,11 @@ function setup() {
 
   TextureCData = {
     inc: 0.005,  // noise increase for perlin noise
-    gain: 255,
+    gain: 100,
     colorBackground: undefined, // colors[color_profile].background,  // drawn pixels for background
     colorForeground: colors[color_profile].falllAllNoise[2], // colors[color_profile].backgroundnoise, // color(90),  // drawn pixels for noise
-    distortion: 0.2, // 0.65,  // random misplacement of the boxes
-    density: 32, // 7,
+    distortion: 0.5, // 0.65,  // random misplacement of the boxes
+    density: 12, // 7,
     margin: 0, // distance to the edge
   }
 
@@ -246,7 +249,7 @@ function setup() {
     curveTightness: 1,
     noColorStroke: false,
     solidstrokeWeight: 3,
-    solidColorStroke: color(0),
+    solidColorStroke: colors[color_profile].duft,
     solidColorArea: colors[color_profile].fillAll,
     noiseColorArea: colors[color_profile].falllAllNoise,
     opacityFillValue: 150,
@@ -277,7 +280,7 @@ function setup() {
     curveTightness: 1,
     noColorStroke: false,
     solidstrokeWeight: 3,
-    solidColorStroke: color(0),
+    solidColorStroke: colors[color_profile].duft,
     solidColorArea: colors[color_profile].fillAll,
     noiseColorArea: colors[color_profile].falllAllNoise,
     opacityFillValue: 150,
@@ -306,7 +309,7 @@ function setup() {
     curveTightness: 1,
     noColorStroke: true,
     solidstrokeWeight: 2,
-    solidColorStroke: color(30),
+    solidColorStroke: colors[color_profile].duft,
     solidColorArea: colors[color_profile].fillAll,
     noiseColorArea: colors[color_profile].falllAllNoise,
     duftOrbit: true,

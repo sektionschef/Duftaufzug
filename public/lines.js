@@ -11,7 +11,8 @@ class Lines {
 
         this.localMargin = BACKGROUNDMARGIN - 50;
         this.marginBuffer = createGraphics(rescaling_width, rescaling_height);
-        this.marginBuffer.fill(color("black"));
+        // this.marginBuffer.fill(color("black"));
+        this.marginBuffer.fill(colors[color_profile].duft);
         this.marginBuffer.noStroke();
         this.marginBuffer.rect(
             this.localMargin / exportRatio,
@@ -28,7 +29,8 @@ class Lines {
 
         this.buffer.push();
         this.buffer.drawingContext.filter = 'blur(3px)';
-        this.buffer.stroke(color("#333333"));
+        // this.buffer.stroke(color("#333333"));
+        this.buffer.stroke(colors[color_profile].duft);
         this.buffer.strokeWeight(5 / exportRatio);
 
         // this.buffer.noFill();
