@@ -197,32 +197,32 @@ function setup() {
 
   TextureAData = {
     inc: 0.009,  // noise increase for perlin noise
-    gain: -255,
+    gain: 255,
     colorBackground: undefined, // colors[color_profile].background,  // drawn pixels for background
-    colorForeground: colors[color_profile].backgroundnoise, // color(90),  // drawn pixels for noise
+    colorForeground: color(0), // colors[color_profile].backgroundnoise, // color(90),  // drawn pixels for noise
     distortion: 0.65, // 0.65,  // random misplacement of the boxes
-    density: 3, // 7,
-    margin: BACKGROUNDMARGIN, // distance to the edge
+    density: 13, // 7,
+    margin: 0, // distance to the edge
   }
 
   TextureBData = {
-    inc: 0.04,  // noise increase for perlin noise
+    inc: 0.4,  // noise increase for perlin noise
     gain: 255,
     colorBackground: undefined, // colors[color_profile].background,  // drawn pixels for background
-    colorForeground: color("#000000"), // color(90),  // drawn pixels for noise
-    distortion: 0.1, // 0.65,  // random misplacement of the boxes
+    colorForeground: color(0), // color(90),  // drawn pixels for noise
+    distortion: 0.7, // 0.65,  // random misplacement of the boxes
     density: 18, // 7,
-    margin: BACKGROUNDMARGIN, // distance to the edge
+    margin: 0, // distance to the edge
   }
 
   TextureCData = {
-    inc: 0.05,  // noise increase for perlin noise
-    gain: -55,
+    inc: 0.0005,  // noise increase for perlin noise
+    gain: -255,
     colorBackground: undefined, // colors[color_profile].background,  // drawn pixels for background
-    colorForeground: color("#ffffff40"), // colors[color_profile].backgroundnoise, // color(90),  // drawn pixels for noise
+    colorForeground: color("#ffffff"), // colors[color_profile].backgroundnoise, // color(90),  // drawn pixels for noise
     distortion: 0.9, // 0.65,  // random misplacement of the boxes
-    density: 12, // 7,
-    margin: BACKGROUNDMARGIN, // distance to the edge
+    density: 32, // 7,
+    margin: 0, // distance to the edge
   }
 
   ambientData = {
@@ -462,9 +462,9 @@ function draw() {
   // buffer.background(colors[color_profile].background);
   // buffer.push()
   // // buffer.drawingContext.filter = 'blur(0.5px)';
-  // // buffer.image(textureA.buffer, 0, 0);
+  // buffer.image(textureA.buffer, 0, 0);
   // // buffer.image(textureB.buffer, 0, 0);
-  // buffer.image(textureC.buffer, 0, 0);
+  // // buffer.image(textureC.buffer, 0, 0);
   // buffer.drawingContext.filter = 'none';
   // buffer.pop()
 
