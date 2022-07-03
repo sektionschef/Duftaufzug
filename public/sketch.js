@@ -49,6 +49,7 @@ function preload() {
 function setup() {
 
   noiseSeed(NOISESEED);
+  randomSeed(NOISESEED);
 
   scaleDynamically();
   setAttributes('antialias', true);
@@ -84,12 +85,12 @@ function setup() {
         color("#cccccc")
       ],
       falllAllNoise: [
-        color("#44444440"),
-        color("#66666640"),
+        color("#444444"),
+        color("#666666"),
         color("#cccccc40")
       ],
       duft: color("#222222"),
-      duftNoise: color("#22222240"),
+      duftNoise: color("#222222"),
     },
     "red": {
       background: color("#B66D6D"),
@@ -100,12 +101,12 @@ function setup() {
         color("#FFA4A4")
       ],
       falllAllNoise: [
-        color("#9C2D2D40"),
-        color("#D2616140"),
-        color("#FFA4A440")
+        color("#9C2D2D"),
+        color("#D26161"),
+        color("#FFA4A4")
       ],
       duft: color("#390A0A"),
-      duftNoise: color("#390A0A40"),
+      duftNoise: color("#390A0A"),
     }
   }
 
@@ -196,31 +197,31 @@ function setup() {
   }
 
   TextureAData = {
-    inc: 0.009,  // noise increase for perlin noise
-    gain: 255,
+    inc: 0.9,  // noise increase for perlin noise
+    gain: 100,
     colorBackground: undefined, // colors[color_profile].background,  // drawn pixels for background
-    colorForeground: color("blue"), // colors[color_profile].backgroundnoise, // color(90),  // drawn pixels for noise
-    distortion: 0.65, // 0.65,  // random misplacement of the boxes
-    density: 13, // 7,
+    colorForeground: colors[color_profile].falllAllNoise[0], // colors[color_profile].backgroundnoise, // color(90),  // drawn pixels for noise
+    distortion: 0.5, // 0.65,  // random misplacement of the boxes
+    density: 5, // 7,
     margin: 0, // distance to the edge
   }
 
   TextureBData = {
-    inc: 0.4,  // noise increase for perlin noise
-    gain: 255,
+    inc: 0.0009,  // noise increase for perlin noise
+    gain: 160,
     colorBackground: undefined, // colors[color_profile].background,  // drawn pixels for background
-    colorForeground: color("red"), // color(90),  // drawn pixels for noise
-    distortion: 0.7, // 0.65,  // random misplacement of the boxes
-    density: 18, // 7,
+    colorForeground: colors[color_profile].falllAllNoise[1], // color(90),  // drawn pixels for noise
+    distortion: 0.9, // 0.65,  // random misplacement of the boxes
+    density: 12, // 7,
     margin: 0, // distance to the edge
   }
 
   TextureCData = {
-    inc: 0.0005,  // noise increase for perlin noise
-    gain: -255,
+    inc: 0.005,  // noise increase for perlin noise
+    gain: 255,
     colorBackground: undefined, // colors[color_profile].background,  // drawn pixels for background
-    colorForeground: color("#ffffff"), // colors[color_profile].backgroundnoise, // color(90),  // drawn pixels for noise
-    distortion: 0.9, // 0.65,  // random misplacement of the boxes
+    colorForeground: colors[color_profile].falllAllNoise[2], // colors[color_profile].backgroundnoise, // color(90),  // drawn pixels for noise
+    distortion: 0.2, // 0.65,  // random misplacement of the boxes
     density: 32, // 7,
     margin: 0, // distance to the edge
   }
@@ -368,7 +369,7 @@ function draw() {
 
   if (MODE == 1) {
     buffer.push()
-    buffer.drawingContext.filter = 'blur(0.5px)';
+    buffer.drawingContext.filter = 'blur(0.6px)';
     buffer.image(wallTexture.buffer, 0, 0);
     buffer.drawingContext.filter = 'none';
     buffer.pop()
@@ -376,7 +377,7 @@ function draw() {
 
   if (MODE == 1) {
     buffer.push();
-    buffer.drawingContext.filter = 'blur(0.2px)';
+    buffer.drawingContext.filter = 'blur(0.1px)';
     buffer.image(ambients.buffer, 0, 0);
     buffer.drawingContext.filter = 'none';
     // buffer.image(ambients.bufferMasked, 0, 0);
@@ -385,7 +386,7 @@ function draw() {
 
   if (MODE == 1) {
     buffer.push()
-    buffer.drawingContext.filter = 'blur(0.2px)';
+    buffer.drawingContext.filter = 'blur(0.1px)';
     buffer.image(lights.buffer, 0, 0);
     buffer.drawingContext.filter = 'none';
     buffer.pop();
