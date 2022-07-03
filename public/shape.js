@@ -27,7 +27,7 @@ class Shape {
         } else {
             this.solidColorArea = data.solidColorArea;
             this.noiseColorArea = data.noiseColorArea;
-            this.texture = data.texturePalette[0];
+            this.texture = data.texturePalette[3];
         }
         // console.log(this.texture);
         this.opacityFillValue = data.opacityFillValue;
@@ -237,14 +237,15 @@ class Shapes {
         this.duftArea = data.duftArea;
         this.duftCounty = data.duftCounty;
         this.blur = data.blur;
-        this.textureData = data.textureData;
+        this.textureData = data.textureData;  // still needed?
 
         this.shapes = []
 
         this.textureA = new Pixies(TextureAData);
         this.textureB = new Pixies(TextureBData);
         this.textureC = new Pixies(TextureCData);
-        this.texturePalette = [this.textureA, this.textureB, this.textureC];
+        this.textureDuft = new Pixies(TextureDuftData);
+        this.texturePalette = [this.textureA, this.textureB, this.textureC, this.textureDuft];
 
         for (var i = 0; i < this.shapeCount; i++) {
 

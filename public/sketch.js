@@ -226,6 +226,16 @@ function setup() {
     margin: 0, // distance to the edge
   }
 
+  TextureDuftData = {
+    inc: 0.009,  // noise increase for perlin noise
+    gain: 100,
+    colorBackground: undefined, // colors[color_profile].background,  // drawn pixels for background
+    colorForeground: colors[color_profile].duftNoise, // colors[color_profile].backgroundnoise, // color(90),  // drawn pixels for noise
+    distortion: 0.5, // 0.65,  // random misplacement of the boxes
+    density: 7, // 7,
+    margin: 0, // distance to the edge
+  }
+
   ambientData = {
     shapeCount: duftArea.size / 110000, // number of shapes
     radioMin: AMBIENTRADIOMIN, // size
