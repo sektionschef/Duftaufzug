@@ -173,13 +173,45 @@ function exportHighResolution() {
     draw();
 
     // Get timestamp to name the ouput file
-    let timestamp = new Date().getTime();
+    let timestamp = getTimestamp();
 
     // Save as PNG
-    save(buffer, fxhash + str(timestamp), 'png');
+    save(buffer, fxhash + "_" + timestamp, 'png');
 
     // Reset scaleRation back to 1, re-create buffer, re-draw
     scaleRatio = 1;
     buffer = createGraphics(width, height);
     draw();
+}
+
+function getTimestamp() {
+    const dateObj = new Date;
+    console.log(dateObj);
+
+    let year = dateObj.getFullYear();
+
+    let month = dateObj.getMonth();
+    month = ('0' + month).slice(-2);
+    // To make sure the month always has 2-character-format. For example, 1 => 01, 2 => 02
+
+    let date = dateObj.getDate();
+    date = ('0' + date).slice(-2);
+    // To make sure the date always has 2-character-format
+
+    let hour = dateObj.getHours();
+    hour = ('0' + hour).slice(-2);
+    // To make sure the hour always has 2-character-format
+
+    let minute = dateObj.getMinutes();
+    minute = ('0' + minute).slice(-2);
+    // To make sure the minute always has 2-character-format
+
+    let second = dateObj.getSeconds();
+    second = ('0' + second).slice(-2);
+    // To make sure the second always has 2-character-format
+
+    // const timestamp = `${year}/${month}/${date} ${hour}:${minute}:${second}`;
+    const timestamp = `${year}${month}${date} ${hour}${minute}${second}`;
+
+    return timestamp
 }
