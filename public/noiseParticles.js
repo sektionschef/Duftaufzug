@@ -170,7 +170,8 @@ class Pixies {
         this.margin = data.margin;
 
         this.totalPixels = this.buffer.width * this.buffer.height * 4;
-        this.totalDots = this.totalPixels / this.density;
+        this.totalDots = Math.round(this.totalPixels / this.density);
+        // console.log(this.totalDots);
 
         this.draw();
         // console.log(fxrand());
@@ -184,9 +185,10 @@ class Pixies {
         this.buffer.loadPixels();
         let yoff = 0;
         // let cellCounter = 0;
+        // console.log(this.buffer.height);
+        console.log(this.buffer.width);
         for (let y = 0; y < this.buffer.height; y++) {
             let xoff = 0;
-            // let resWidthCounter = 0;
             for (let x = 0; x < this.buffer.width; x++) {
                 let index = (x + y * this.buffer.width) * 4;
                 var noiseF = noise(xoff, yoff);
