@@ -112,15 +112,12 @@ function scaleDynamically() {
 // each time window.innerWidth changes
 function windowResized() {
     logging.debug("Window is resized.");
-    scaleDynamically()
+    window.location.reload();
+    // scaleDynamically()
 
-    // redo
-    resizeCanvas(rescaling_width, rescaling_height);
-    buffer = createGraphics(rescaling_width, rescaling_height);
+    // resizeCanvas(rescaling_width, rescaling_height);
 
-    wallBuffer = createGraphics(rescaling_width, rescaling_height);
-
-    draw();
+    // draw();
 }
 
 function keyTyped() {

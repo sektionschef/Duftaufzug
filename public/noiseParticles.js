@@ -184,9 +184,6 @@ class Pixies {
         this.buffer.push();
         this.buffer.loadPixels();
         let yoff = 0;
-        // let cellCounter = 0;
-        // console.log(this.buffer.height);
-        console.log(this.buffer.width);
         for (let y = 0; y < this.buffer.height; y++) {
             let xoff = 0;
             for (let x = 0; x < this.buffer.width; x++) {

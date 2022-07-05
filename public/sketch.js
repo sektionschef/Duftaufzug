@@ -1,6 +1,5 @@
 // https://www.kindacode.com/article/javascript-get-current-date-time-in-yyyy-mm-dd-hh-mm-ss-format/
 
-// 477
 
 // trace, debug, info, warn, error
 // const SWITCH_LOGGING_LEVEL = "warn";
@@ -63,6 +62,8 @@ let color_profile = getRandomFromList([
 ]);
 console.log(color_profile);
 
+
+
 function preload() {
 }
 
@@ -70,161 +71,169 @@ function setup() {
 
   noiseSeed(NOISESEED);
   randomSeed(NOISESEED);
+  // setAttributes('antialias', true);
+
+  logging.debug("Pixel density: " + pixelDensity())
+  exportRatio /= pixelDensity();
+
 
   scaleDynamically();
-  setAttributes('antialias', true);
 
+  createLayers();
+  defineColorPalettes();
+  defineAllAreas();
+  defineAllElements();
+  createAllElements();
+}
+
+
+function draw() {
+
+  // orbitControl(1, 1, 0.1);
+
+  ambientLight(255, 255, 255);
+  ambientMaterial(255);
+
+  // IS THIS NEEDED????
+  buffer.clear();
+  buffer.scale(scaleRatio);
+
+  buffer.background(colors[color_profile].background);
+
+  if (MODE == 1) {
+    buffer.push()
+    buffer.drawingContext.filter = 'blur(0.6px)';
+    buffer.image(wallTexture.buffer, 0, 0);
+    buffer.drawingContext.filter = 'none';
+    buffer.pop()
+  }
+
+  if (MODE == 1) {
+    buffer.push();
+    buffer.drawingContext.filter = 'blur(0.1px)';
+    buffer.image(ambients.buffer, 0, 0);
+    buffer.drawingContext.filter = 'none';
+    // buffer.image(ambients.bufferMasked, 0, 0);
+    buffer.pop();
+  }
+
+  if (MODE == 1) {
+    buffer.push()
+    buffer.drawingContext.filter = 'blur(0.1px)';
+    buffer.image(lights.buffer, 0, 0);
+    buffer.drawingContext.filter = 'none';
+    buffer.pop();
+  }
+
+  if (MODE == 1) {
+    buffer.push()
+    // buffer.drawingContext.filter = 'blur(0.2px)';
+    buffer.image(highlights.buffer, 0, 0);
+    // this.buffer.drawingContext.filter = 'none';
+    buffer.pop();
+  }
+
+  if (MODE == 1) {
+    buffer.push()
+    // buffer.drawingContext.filter = 'blur(0.2px)';
+    buffer.image(duft.buffer, 0, 0);
+    // this.buffer.drawingContext.filter = 'none';
+    buffer.pop();
+  }
+
+  // debug duftOrbit
+  if (MODE == 5) {
+    buffer.push();
+    buffer.rectMode(CENTER);
+    buffer.stroke("red");
+    buffer.strokeWeight(3 / exportRatio);
+    buffer.noFill();
+    buffer.rect(duftOrigin.x / exportRatio, duftOrigin.y / exportRatio, duftOrbit * 2 / exportRatio, duftOrbit * 2 / exportRatio);
+    buffer.pop();
+  }
+
+  // debug duftArea
+  if (MODE == 5) {
+    buffer.push();
+    buffer.rectMode(CORNER);
+    buffer.stroke("purple");
+    buffer.strokeWeight(5 / exportRatio);
+    buffer.noFill();
+    buffer.rect(duftArea.position.x / exportRatio, duftArea.position.y / exportRatio, duftArea.width / exportRatio, duftArea.height / exportRatio);
+    buffer.pop();
+  }
+
+  // debug duftCounty
+  if (MODE == 5) {
+    buffer.push();
+    buffer.rectMode(CORNER);
+    buffer.stroke("cyan");
+    buffer.strokeWeight(5 / exportRatio);
+    buffer.noFill();
+    buffer.rect(duftCounty.position.x / exportRatio, duftCounty.position.y / exportRatio, duftCounty.width / exportRatio, duftCounty.height / exportRatio);
+    buffer.pop();
+  }
+
+  // debug canvas margin
+  if (MODE == 5) {
+    buffer.push();
+    buffer.rectMode(CORNER);
+    buffer.stroke("black");
+    buffer.strokeWeight(15 / exportRatio);
+    buffer.noFill();
+    buffer.rect(BACKGROUNDMARGIN / exportRatio, BACKGROUNDMARGIN / exportRatio, (exportPaper.width - BACKGROUNDMARGIN * 2) / exportRatio, (exportPaper.width - BACKGROUNDMARGIN * 2) / exportRatio);
+    buffer.pop();
+  }
+
+  // DEBUG TEXTURES
+  // buffer.clear();
+  // buffer.background(colors[color_profile].background);
+  // buffer.push()
+  // // buffer.drawingContext.filter = 'blur(0.5px)';
+  // buffer.image(textureA.buffer, 0, 0);
+  // // buffer.image(textureB.buffer, 0, 0);
+  // // buffer.image(textureC.buffer, 0, 0);
+  // buffer.drawingContext.filter = 'none';
+  // buffer.pop()
+
+  image(buffer, - width / 2, - height / 2);
+
+  noLoop();
+  // fxpreview()
+
+
+  // console.log("safety check for diff resolutions same hash: " + fxrand());
+
+}
+
+
+function createLayers() {
   canvas = createCanvas(rescaling_width, rescaling_height, WEBGL);
   buffer = createGraphics(rescaling_width, rescaling_height);
 
-  // wallBuffer = createGraphics(rescaling_width, rescaling_height);
   lightShapeBuffer = createGraphics(rescaling_width, rescaling_height);
   lightTextureBuffer = createGraphics(rescaling_width, rescaling_height);
   highlightShapeBuffer = createGraphics(rescaling_width, rescaling_height);
   highlightTextureBuffer = createGraphics(rescaling_width, rescaling_height);
-  // ambientShapeBuffer = createGraphics(rescaling_width, rescaling_height);
-  // ambientTextureBuffer = createGraphics(rescaling_width, rescaling_height);
-  // ambientBuffer = createGraphics(rescaling_width, rescaling_height);
-  // ambientBuffer = createGraphics(rescaling_width, rescaling_height);
   duftTextureBuffer = createGraphics(rescaling_width, rescaling_height);
   duftShapeBuffer = createGraphics(rescaling_width, rescaling_height);
   lineBuffer = createGraphics(rescaling_width, rescaling_height);
+}
 
-
-  logging.debug("Pixel density: " + pixelDensity())
-  exportRatio /= pixelDensity();  // FOR EACH BUFFER??
-
-  // FEATURE: TRANSPARECNTY VALUE
-  colors = {
-    "greyscale": {
-      // background: color("#bbbbbb"),
-      // backgroundnoise: color("#bbbbbb30"),
-      background: color("#ffffff"),
-      backgroundnoise: color("#ffffff60"),
-      fillAll: [
-        color("#444444"),
-        color("#777777"),
-        color("#cccccc")
-      ],
-      falllAllNoise: [
-        color("#444444"),
-        color("#666666"),
-        color("#cccccc")
-      ],
-      duft: color("#222222"),
-      duftNoise: color("#222222"),
-    },
-    "red": {
-      // background: color("#ffb3b0"),
-      // backgroundnoise: color("#ffb3b030"),
-      background: color("#ffffff"),
-      backgroundnoise: color("#ffffff70"),
-      fillAll: [
-        color("#a6433f"),
-        color("#ff6961"),
-        color("#ffd9d8")
-      ],
-      falllAllNoise: [
-        color("#a6433f"),
-        color("#ff6961"),
-        color("#ffd9d8")
-      ],
-      duft: color("#5c2523"),
-      duftNoise: color("#5c2523"),
-    },
-    "blue": {
-      background: color("#ffffff"),
-      backgroundnoise: color("#ffffff70"),
-      fillAll: [
-        color("#0000b3"),
-        color("#809fff"),
-        color("#bfcfff")
-      ],
-      falllAllNoise: [
-        color("#0000b3"),
-        color("#809fff"),
-        color("#bfcfff")
-      ],
-      duft: color("#001f7d"),
-      duftNoise: color("#001f7d"),
-    },
-    "blueey": {
-      background: color("#B0C4DE"),
-      backgroundnoise: color("#B0C4DE30"),
-      fillAll: [
-        color("#034694"),
-        color("#318CE7"),
-        color("#7CB9E8")
-      ],
-      falllAllNoise: [
-        color("#034694"),
-        color("#318CE7"),
-        color("#7CB9E8")
-      ],
-      duft: color("#041E42"),
-      duftNoise: color("#041E42"),
-    },
-    "paradise": {
-      background: color("#dee0e6"),
-      backgroundnoise: color("#dee0e630"),
-      fillAll: [
-        color("#1ac0c6"),
-        color("#ff6150"),
-        color("#ffa822")
-      ],
-      falllAllNoise: [
-        color("#1ac0c6"),
-        color("#ff6150"),
-        color("#ffa822")
-      ],
-      duft: color("#134e6f"),
-      duftNoise: color("#134e6f"),
-    },
-    "hund": {
-      background: color("#dee0e6"),
-      backgroundnoise: color("#dee0e630"),
-      fillAll: [
-        color("#e74645"),
-        color("#fb7756"),
-        color("#fdfa66")
-      ],
-      falllAllNoise: [
-        color("#e74645"),
-        color("#fb7756"),
-        color("#fdfa66")
-      ],
-      duft: color("#1ac0c6"),
-      duftNoise: color("#1ac0c6"),
-    },
-    "marienkäfer": {
-      background: color("#ffffff"),
-      backgroundnoise: color("#ffffff30"),
-      fillAll: [
-        color("#2c698d"),
-        color("#bae8e8"),
-        color("#e3f6f5")
-      ],
-      falllAllNoise: [
-        color("#2c698d"),
-        color("#bae8e8"),
-        color("#e3f6f5")
-      ],
-      duft: color("#272643"),
-      duftNoise: color("#272643"),
-    }
-  }
-
-
+function defineDuftOrigin() {
   duftOrigin = createVector(
     getRandomFromInterval(0 + MARGINDUFTORIGIN, exportPaper.width - MARGINDUFTORIGIN),
     getRandomFromInterval(0 + MARGINDUFTORIGIN, exportPaper.height - MARGINDUFTORIGIN)
   );
+}
 
-  // DUFT AREA
-  duftArea.orientation = getRandomFromList(["down", "left", "up", "right"]);
-  // duftArea.orientation = getRandomFromList(["down"]);
-
+function defineDuftOrbit() {
   duftOrbit = (DUFTRADIOMAX - DUFTRADIOMIN) / 2 + DUFTRADIOMIN;
+}
+
+function defineDuftArea() {
+  duftArea.orientation = getRandomFromList(["down", "left", "up", "right"]);
+
   if (duftArea.orientation == "down") {
     duftArea.position = createVector(
       duftOrigin.x - duftOrbit,
@@ -256,7 +265,9 @@ function setup() {
   }
 
   duftArea.size = duftArea.width * duftArea.height;
+}
 
+function defineDuftCounty() {
   // DUFTCOUNTY
   duftExpander = duftOrbit * 2  // distance for DuftCounty
 
@@ -289,7 +300,25 @@ function setup() {
     duftCounty.width = duftArea.width;
     duftCounty.height = duftArea.height + duftExpander * 2;
   }
+}
 
+function defineAllAreas() {
+  defineDuftOrigin();
+  defineDuftOrbit();
+  defineDuftArea();
+  defineDuftCounty();
+}
+
+function createAllElements() {
+  wallTexture = new Pixies(wallTextureData);
+
+  ambients = new Shapes(ambientData);
+  lights = new Shapes(lightData);
+  highlights = new Shapes(highlightData);
+  duft = new Shapes(duftData);
+}
+
+function defineAllElements() {
   wallTextureData = {
     inc: 0.004,  // noise increase for perlin noise
     gain: -255,
@@ -458,131 +487,126 @@ function setup() {
       margin: BACKGROUNDMARGIN, // distance to the edge
     }
   }
-
-  wallTexture = new Pixies(wallTextureData);
-
-  ambients = new Shapes(ambientData);
-  lights = new Shapes(lightData);
-  highlights = new Shapes(highlightData);
-  duft = new Shapes(duftData);
 }
 
 
-function draw() {
-
-  // orbitControl(1, 1, 0.1);
-
-  ambientLight(255, 255, 255);
-  ambientMaterial(255);
-
-  // IS THIS NEEDED????
-  buffer.clear();
-  buffer.scale(scaleRatio);
-
-  buffer.background(colors[color_profile].background);
-
-  if (MODE == 1) {
-    buffer.push()
-    buffer.drawingContext.filter = 'blur(0.6px)';
-    buffer.image(wallTexture.buffer, 0, 0);
-    buffer.drawingContext.filter = 'none';
-    buffer.pop()
+function defineColorPalettes() {
+  colors = {
+    "greyscale": {
+      // background: color("#bbbbbb"),
+      // backgroundnoise: color("#bbbbbb30"),
+      background: color("#ffffff"),
+      backgroundnoise: color("#ffffff60"),
+      fillAll: [
+        color("#444444"),
+        color("#777777"),
+        color("#cccccc")
+      ],
+      falllAllNoise: [
+        color("#444444"),
+        color("#666666"),
+        color("#cccccc")
+      ],
+      duft: color("#222222"),
+      duftNoise: color("#222222"),
+    },
+    "red": {
+      // background: color("#ffb3b0"),
+      // backgroundnoise: color("#ffb3b030"),
+      background: color("#ffffff"),
+      backgroundnoise: color("#ffffff70"),
+      fillAll: [
+        color("#a6433f"),
+        color("#ff6961"),
+        color("#ffd9d8")
+      ],
+      falllAllNoise: [
+        color("#a6433f"),
+        color("#ff6961"),
+        color("#ffd9d8")
+      ],
+      duft: color("#5c2523"),
+      duftNoise: color("#5c2523"),
+    },
+    "blue": {
+      background: color("#ffffff"),
+      backgroundnoise: color("#ffffff70"),
+      fillAll: [
+        color("#0000b3"),
+        color("#809fff"),
+        color("#bfcfff")
+      ],
+      falllAllNoise: [
+        color("#0000b3"),
+        color("#809fff"),
+        color("#bfcfff")
+      ],
+      duft: color("#001f7d"),
+      duftNoise: color("#001f7d"),
+    },
+    "blueey": {
+      background: color("#B0C4DE"),
+      backgroundnoise: color("#B0C4DE30"),
+      fillAll: [
+        color("#034694"),
+        color("#318CE7"),
+        color("#7CB9E8")
+      ],
+      falllAllNoise: [
+        color("#034694"),
+        color("#318CE7"),
+        color("#7CB9E8")
+      ],
+      duft: color("#041E42"),
+      duftNoise: color("#041E42"),
+    },
+    "paradise": {
+      background: color("#dee0e6"),
+      backgroundnoise: color("#dee0e630"),
+      fillAll: [
+        color("#1ac0c6"),
+        color("#ff6150"),
+        color("#ffa822")
+      ],
+      falllAllNoise: [
+        color("#1ac0c6"),
+        color("#ff6150"),
+        color("#ffa822")
+      ],
+      duft: color("#134e6f"),
+      duftNoise: color("#134e6f"),
+    },
+    "hund": {
+      background: color("#dee0e6"),
+      backgroundnoise: color("#dee0e630"),
+      fillAll: [
+        color("#e74645"),
+        color("#fb7756"),
+        color("#fdfa66")
+      ],
+      falllAllNoise: [
+        color("#e74645"),
+        color("#fb7756"),
+        color("#fdfa66")
+      ],
+      duft: color("#1ac0c6"),
+      duftNoise: color("#1ac0c6"),
+    },
+    "marienkäfer": {
+      background: color("#ffffff"),
+      backgroundnoise: color("#ffffff30"),
+      fillAll: [
+        color("#2c698d"),
+        color("#bae8e8"),
+        color("#e3f6f5")
+      ],
+      falllAllNoise: [
+        color("#2c698d"),
+        color("#bae8e8"),
+        color("#e3f6f5")
+      ],
+      duft: color("#272643"),
+      duftNoise: color("#272643"),
+    }
   }
-
-  if (MODE == 1) {
-    buffer.push();
-    buffer.drawingContext.filter = 'blur(0.1px)';
-    buffer.image(ambients.buffer, 0, 0);
-    buffer.drawingContext.filter = 'none';
-    // buffer.image(ambients.bufferMasked, 0, 0);
-    buffer.pop();
-  }
-
-  if (MODE == 1) {
-    buffer.push()
-    buffer.drawingContext.filter = 'blur(0.1px)';
-    buffer.image(lights.buffer, 0, 0);
-    buffer.drawingContext.filter = 'none';
-    buffer.pop();
-  }
-
-  if (MODE == 1) {
-    buffer.push()
-    // buffer.drawingContext.filter = 'blur(0.2px)';
-    buffer.image(highlights.buffer, 0, 0);
-    // this.buffer.drawingContext.filter = 'none';
-    buffer.pop();
-  }
-
-  if (MODE == 1) {
-    buffer.push()
-    // buffer.drawingContext.filter = 'blur(0.2px)';
-    buffer.image(duft.buffer, 0, 0);
-    // this.buffer.drawingContext.filter = 'none';
-    buffer.pop();
-  }
-
-  // debug duftOrbit
-  if (MODE == 5) {
-    buffer.push();
-    buffer.rectMode(CENTER);
-    buffer.stroke("red");
-    buffer.strokeWeight(3 / exportRatio);
-    buffer.noFill();
-    buffer.rect(duftOrigin.x / exportRatio, duftOrigin.y / exportRatio, duftOrbit * 2 / exportRatio, duftOrbit * 2 / exportRatio);
-    buffer.pop();
-  }
-
-  // debug duftArea
-  if (MODE == 5) {
-    buffer.push();
-    buffer.rectMode(CORNER);
-    buffer.stroke("purple");
-    buffer.strokeWeight(5 / exportRatio);
-    buffer.noFill();
-    buffer.rect(duftArea.position.x / exportRatio, duftArea.position.y / exportRatio, duftArea.width / exportRatio, duftArea.height / exportRatio);
-    buffer.pop();
-  }
-
-  // debug duftCounty
-  if (MODE == 5) {
-    buffer.push();
-    buffer.rectMode(CORNER);
-    buffer.stroke("cyan");
-    buffer.strokeWeight(5 / exportRatio);
-    buffer.noFill();
-    buffer.rect(duftCounty.position.x / exportRatio, duftCounty.position.y / exportRatio, duftCounty.width / exportRatio, duftCounty.height / exportRatio);
-    buffer.pop();
-  }
-
-  // debug canvas margin
-  if (MODE == 5) {
-    buffer.push();
-    buffer.rectMode(CORNER);
-    buffer.stroke("black");
-    buffer.strokeWeight(15 / exportRatio);
-    buffer.noFill();
-    buffer.rect(BACKGROUNDMARGIN / exportRatio, BACKGROUNDMARGIN / exportRatio, (exportPaper.width - BACKGROUNDMARGIN * 2) / exportRatio, (exportPaper.width - BACKGROUNDMARGIN * 2) / exportRatio);
-    buffer.pop();
-  }
-
-  // DEBUG TEXTURES
-  // buffer.clear();
-  // buffer.background(colors[color_profile].background);
-  // buffer.push()
-  // // buffer.drawingContext.filter = 'blur(0.5px)';
-  // buffer.image(textureA.buffer, 0, 0);
-  // // buffer.image(textureB.buffer, 0, 0);
-  // // buffer.image(textureC.buffer, 0, 0);
-  // buffer.drawingContext.filter = 'none';
-  // buffer.pop()
-
-  image(buffer, - width / 2, - height / 2);
-
-  noLoop();
-  // fxpreview()
-
-
-  // console.log("safety check for diff resolutions same hash: " + fxrand());
-
 }
