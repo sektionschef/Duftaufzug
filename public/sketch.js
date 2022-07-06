@@ -41,6 +41,17 @@ let PALETTE = getRandomFromList([
   "Marienkäfer",
 ]);
 
+let CountFeatureMin = 0.7;
+let CountFeatureMax = 1.3;
+let CountFeature = Math.round(getRandomFromInterval(CountFeatureMin, CountFeatureMax) * 100) / 100;
+let CountFeatureLabel = label_feature(CountFeature, CountFeatureMin, CountFeatureMax);
+
+let grainFeatureMin = 0.8;
+let grainFeatureMax = 1.3;
+let grainFeature = Math.round(getRandomFromInterval(grainFeatureMin, grainFeatureMax) * 100) / 100;
+let grainFeatureLabel = label_feature(grainFeature, grainFeatureMin, grainFeatureMax);
+
+
 function preload() {
 }
 
@@ -309,54 +320,54 @@ function defineAllElements() {
     gain: -255,
     colorBackground: undefined, // color(colors[PALETTE].background),  // drawn pixels for background
     colorForeground: color(colors[PALETTE].backgroundnoise), // color(90),  // drawn pixels for noise
-    distortion: 0.65, // 0.65,  // random misplacement of the boxes
-    density: 9, // 7,
+    distortion: 0.2,  // random misplacement of the boxes
+    density: 7,
     margin: BACKGROUNDMARGIN, // distance to the edge
   }
 
 
   TextureAData = {
     inc: 0.9,  // noise increase for perlin noise
-    gain: 100,
+    gain: 100 * grainFeature,
     colorBackground: undefined, // color(colors[PALETTE].background),  // drawn pixels for background
     colorForeground: color(colors[PALETTE].falllAllNoise[0]), // color(colors[PALETTE].backgroundnoise), // color(90),  // drawn pixels for noise
-    distortion: 0.5, // 0.65,  // random misplacement of the boxes
+    distortion: 0.9, // 0.65,  // random misplacement of the boxes
     density: 5, // 7,
     margin: 0, // distance to the edge
   }
 
   TextureBData = {
     inc: 0.0009,  // noise increase for perlin noise
-    gain: 100,
+    gain: 100 * grainFeature,
     colorBackground: undefined, // color(colors[PALETTE].background),  // drawn pixels for background
     colorForeground: color(colors[PALETTE].falllAllNoise[1]), // color(90),  // drawn pixels for noise
     distortion: 0.9, // 0.65,  // random misplacement of the boxes
-    density: 12, // 7,
+    density: 5, // 7,
     margin: 0, // distance to the edge
   }
 
   TextureCData = {
     inc: 0.005,  // noise increase for perlin noise
-    gain: 100,
+    gain: 100 * grainFeature,
     colorBackground: undefined, // color(colors[PALETTE].background),  // drawn pixels for background
     colorForeground: color(colors[PALETTE].falllAllNoise[2]), // color(colors[PALETTE].backgroundnoise), // color(90),  // drawn pixels for noise
-    distortion: 0.5, // 0.65,  // random misplacement of the boxes
-    density: 12, // 7,
+    distortion: 0.9, // 0.65,  // random misplacement of the boxes
+    density: 5, // 7,
     margin: 0, // distance to the edge
   }
 
   TextureDuftData = {
     inc: 0.009,  // noise increase for perlin noise
-    gain: 100,
+    gain: 100 * grainFeature,
     colorBackground: undefined, // color(colors[PALETTE].background),  // drawn pixels for background
     colorForeground: color(colors[PALETTE].duftNoise), // color(colors[PALETTE].backgroundnoise), // color(90),  // drawn pixels for noise
-    distortion: 0.5, // 0.65,  // random misplacement of the boxes
-    density: 7, // 7,
+    distortion: 0.9, // 0.65,  // random misplacement of the boxes
+    density: 5, // 7,
     margin: 0, // distance to the edge
   }
 
   ambientData = {
-    shapeCount: duftArea.size / 110000, // number of shapes
+    shapeCount: duftArea.size / 110000 * CountFeature, // number of shapes
     radioMin: AMBIENTRADIOMIN, // size
     radioMax: AMBIENTRADIOMAX, // size
     radioDistortion: 200,  // misplacement
@@ -378,7 +389,7 @@ function defineAllElements() {
 
 
   lightData = {
-    shapeCount: duftArea.size / 100000, // number of shapes - 70
+    shapeCount: duftArea.size / 100000 * CountFeature, // number of shapes - 70
     radioMin: LIGHTRADIOMIN, // size
     radioMax: LIGHTRADIOMAX, // size
     radioDistortion: 150,  // misplacement
@@ -395,19 +406,10 @@ function defineAllElements() {
     duftOrbit: false,
     duftArea: true,
     blur: 1.5,
-    textureData: {
-      inc: 0.4,  // noise increase for perlin noise
-      gain: -255,
-      colorBackground: undefined,  // drawn pixels for background
-      distortion: 0.65,  // random misplacement of the boxes
-      density: 6,
-      // amountMax: 15, // how many rects per cell, max
-      margin: 0, // distance to the edge
-    }
   }
 
   highlightData = {
-    shapeCount: 9, // number of shapes
+    shapeCount: 9 * CountFeature, // number of shapes
     radioMin: 50, // size
     radioMax: 150, // size
     radioDistortion: 120,  // misplacement
@@ -423,15 +425,6 @@ function defineAllElements() {
     opacityFillValue: 150,
     opacityStrokeValue: 150,
     blur: 1,  // undefined,
-    textureData: {
-      inc: 0.4,  // noise increase for perlin noise
-      gain: -255,
-      colorBackground: undefined,  // drawn pixels for background
-      distortion: 0.65,  // random misplacement of the boxes
-      density: 6,
-      // amountMax: 15, // how many rects per cell, max
-      margin: BACKGROUNDMARGIN, // distance to the edge
-    }
   }
 
   duftData = {
@@ -454,15 +447,6 @@ function defineAllElements() {
     duftOrbit: false,
     duftArea: false,
     blur: 1.5,
-    textureData: {
-      inc: 0.4,  // noise increase for perlin noise
-      gain: -50,
-      colorBackground: undefined,  // drawn pixels for background
-      distortion: 0.65,  // random misplacement of the boxes
-      density: 7,
-      // amountMax: 15, // how many rects per cell, max
-      margin: BACKGROUNDMARGIN, // distance to the edge
-    }
   }
 }
 
@@ -470,10 +454,10 @@ function defineAllElements() {
 function defineColorPalettes() {
   colors = {
     "Greyscale": {
-      // background: "#bbbbbb",
-      // backgroundnoise: "#bbbbbb30",
-      background: "#ffffff",
-      backgroundnoise: "#ffffff60",
+      background: "#bbbbbb",
+      backgroundnoise: "#bbbbbb30",
+      // background: "#ffffff",
+      // backgroundnoise: "#ffffff60",
       fillAll: [
         "#444444",
         "#777777",
@@ -488,10 +472,10 @@ function defineColorPalettes() {
       duftNoise: "#222222",
     },
     "Red": {
-      // background: "#ffb3b0",
-      // backgroundnoise: "#ffb3b030",
-      background: "#ffffff",
-      backgroundnoise: "#ffffff70",
+      background: "#ffb3b0",
+      backgroundnoise: "#ffb3b030",
+      // background: "#ffffff",
+      // backgroundnoise: "#ffffff70",
       fillAll: [
         "#a6433f",
         "#ff6961",

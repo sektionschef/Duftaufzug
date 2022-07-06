@@ -16,12 +16,8 @@
 //
 window.$fxhashFeatures = {
     "Palette": PALETTE,
-    // "Number of elements": NUMBEROFELEMENTS_LABEL,
-    // "Brush size": BRUSHLENGTHANDBREADTH_LABEL,
-    // "Stroke size": BRUSHSTROKESIZE_LABEL,
-    // "Brush angle noise": BRUSHANGLENOISE_LABEL,
-    // "Brush fibre sparseness": BRUSHFIBRESPARSENESS_LABEL,
-    // "Fibre rotation noise": FIBREROTATIONNOISE_LABEL,
+    "Number of elements": CountFeatureLabel,
+    "Graininess": grainFeatureLabel,
 }
 
 console.info(`fxhash: %c${fxhash}`, 'font-weight: bold');
@@ -35,6 +31,8 @@ console.log("Light: " + "%c   ", `background:${colors[PALETTE].fillAll[2]};`);
 console.log("Duft: " + "%c   ", `background:${colors[PALETTE].duft};`);
 console.groupEnd();
 
+console.log(`Count of shapes: %c${CountFeatureLabel} (${CountFeature})`, 'font-weight: bold');
+console.log(`Graininess: %c${grainFeatureLabel} (${grainFeature})`, 'font-weight: bold');
 
 // this code writes the values to the DOM as an example
 // const containero = document.createElement("div")
