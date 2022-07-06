@@ -184,10 +184,11 @@ class Pixies {
         for (let y = 0; y < this.buffer.height; y++) {
             let xoff = 0;
             for (let x = 0; x < this.buffer.width; x++) {
+
                 let index = (x + y * this.buffer.width) * 4;
                 var noiseF = noise(xoff, yoff);
                 var _gain_ = noiseF * this.gain;
-                var _soft_gain_ = _gain_ // / 2;  // FEATURE!!
+                var _soft_gain_ = _gain_ // / 2;  // FEATURE?
 
                 // draw the background
                 if (typeof this.colorBackground != "undefined") {
@@ -203,12 +204,11 @@ class Pixies {
                     (index % (this.buffer.width * 4) > this.margin * 4 / exportRatio) &&  // horizontal left
                     (index % (this.buffer.width * 4) < ((this.buffer.width - (this.margin / exportRatio)) * 4)) &&  // horizontal right
                     (index > (this.buffer.width * (this.margin / exportRatio)) * 4) && // vertical top
-                    (index < (this.totalPixels - this.buffer.width * (this.margin / exportRatio) * 4))
+                    (index < (this.totalPixels - this.buffer.width * (this.margin / exportRatio) * 4))  // vertical bottom
                 ) {
 
                     if (random() > 0.75) {
-                        // this.draw_big_dot(index, _soft_gain_);
-                        this.draw_big_dot(index, _gain_);
+                        this.draw_big_dot(index, _soft_gain_);
                     } else {
                         this.draw_small_dot(index, _gain_);
                     }

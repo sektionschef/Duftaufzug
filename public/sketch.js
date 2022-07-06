@@ -563,8 +563,10 @@ function defineColorPalettes() {
       duftNoise: "#134e6f",
     },
     "Hund": {
-      background: "#dee0e6",
-      backgroundnoise: "#dee0e630",
+      // background: "#dee0e6",
+      // backgroundnoise: "#dee0e630",
+      background: "#daf1f2",
+      backgroundnoise: "#daf1f230",
       fillAll: [
         "#e74645",
         "#fb7756",
