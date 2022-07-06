@@ -374,15 +374,6 @@ function defineAllElements() {
     duftArea: false,
     duftCounty: true,
     blur: 3,
-    textureData: {
-      inc: 0.009,  // noise increase for perlin noise
-      gain: -255,  // -160 // COOL TO CHANGE
-      colorBackground: undefined,// this.solidColorArea,  // drawn pixels for background
-      distortion: 0.9,  // random misplacement of the boxes
-      density: 10,
-      // amountMax: 15, // how many rects per cell, max
-      margin: 0, // distance to the edge
-    }
   }
 
 
@@ -565,8 +556,8 @@ function defineColorPalettes() {
     "Hund": {
       // background: "#dee0e6",
       // backgroundnoise: "#dee0e630",
-      background: "#daf1f2",
-      backgroundnoise: "#daf1f230",
+      background: "#e1f6f7",
+      backgroundnoise: "#e1f6f730",
       fillAll: [
         "#e74645",
         "#fb7756",

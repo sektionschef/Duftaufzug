@@ -2,23 +2,24 @@
 class Shape {
 
     constructor(data) {
-        this.buffer = createGraphics(rescaling_width, rescaling_height);
-        this.shadowBuffer = createGraphics(rescaling_width, rescaling_height);
-        this.noiseBuffer = createGraphics(rescaling_width, rescaling_height);
+        this.origin = data.origin;
         this.radioMin = data.radioMin;
         this.radioMax = data.radioMax;
         this.radioDistortion = data.radioDistortion;
         this.polygonCount = data.polygonCount;
         this.margin = data.margin;
         this.curveTightness = data.curveTightness;
-        this.noColorStroke = data.noColorStroke;
         this.solidstrokeWeight = data.solidstrokeWeight;
         this.solidColorStroke = data.solidColorStroke;
+        this.opacityFillValue = data.opacityFillValue;
         this.opacityStrokeValue = data.opacityStrokeValue;
-        this.textureData = data.textureData;  // noch benötigt?
+        this.blur = data.blur;
 
-        // console.log(data.texturePalette);
+        this.buffer = createGraphics(rescaling_width, rescaling_height);
+        this.shadowBuffer = createGraphics(rescaling_width, rescaling_height);
+        this.noiseBuffer = createGraphics(rescaling_width, rescaling_height);
 
+        // get colors from palette and texture layer
         if (data.solidColorArea instanceof Array) {
             this.colorIndex = Math.round(getRandomFromInterval(0, (data.solidColorArea.length - 1)));
             this.solidColorArea = color(data.solidColorArea[this.colorIndex]);
@@ -29,11 +30,6 @@ class Shape {
             this.noiseColorArea = data.noiseColorArea;
             this.texture = data.texturePalette[3];
         }
-        // console.log(this.texture);
-        this.opacityFillValue = data.opacityFillValue;
-        this.blur = data.blur;
-
-        this.origin = data.origin;
 
         this.solidColorStroke = color(
             red(this.solidColorStroke),
@@ -49,12 +45,14 @@ class Shape {
             this.opacityFillValue
         )
 
+        // create corners
         this.polygons = [];
         this.rightUp = createVector(this.origin.x + getRandomFromInterval(this.radioMin, this.radioMax), this.origin.y + getRandomFromInterval(-this.radioMin, -this.radioMax));
         this.rightDown = createVector(this.origin.x + getRandomFromInterval(this.radioMin, this.radioMax), this.origin.y + getRandomFromInterval(this.radioMin, this.radioMax));
         this.leftDown = createVector(this.origin.x + getRandomFromInterval(-this.radioMin, -this.radioMax), this.origin.y + getRandomFromInterval(this.radioMin, this.radioMax));
         this.leftUp = createVector(this.origin.x + getRandomFromInterval(-this.radioMin, -this.radioMax), this.origin.y + getRandomFromInterval(-this.radioMin, -this.radioMax));
 
+        // create corners for each polygon layer
         for (var i = 0; i < this.polygonCount; i++) {
             this.polygons.push({
                 rightUp: createVector(this.rightUp.x + getRandomFromInterval(0, this.radioDistortion), this.rightUp.y + getRandomFromInterval(0, this.radioDistortion)),
@@ -64,16 +62,11 @@ class Shape {
             })
         }
 
-        this.textureData.colorForeground = this.noiseColorArea;
-
         this.define_shadow_orientation()
 
-        if (MODE == 1) {
-            // this.texture = new Pixies(this.textureData);
-        }
     }
 
-
+    // put shadow on the corner on the opposite of duftOrigin
     define_shadow_orientation() {
         if ((duftOrigin.x - this.origin.x) > 0) {
             // console.log("shape is left");
@@ -109,18 +102,6 @@ class Shape {
 
             // shape
             this.buffer.stroke(this.solidColorStroke);
-            // if (polygon_index == 0) {
-
-            //     var full_color_ = color(
-            //         red(this.solidColorArea),
-            //         green(this.solidColorArea),
-            //         blue(this.solidColorArea),
-            //         // 255,
-            //         150,
-            //     )
-            //     this.buffer.fill(full_color_);
-            // } else {
-            // }
             this.buffer.fill(this.solidColorArea);
             this.buffer.strokeWeight(this.solidstrokeWeight / exportRatio);
             this.buffer.beginShape();
@@ -135,8 +116,6 @@ class Shape {
                 this.shadowBuffer.push();
                 this.shadowBuffer.curveTightness(this.curveTightness)
                 this.shadowBuffer.noFill();
-                // this.shadowBuffer.stroke(color(255, 150));
-                // this.shadowBuffer.stroke(color(0, 255));
                 this.shadowBuffer.stroke(this.solidColorStroke);
                 this.shadowBuffer.strokeWeight(3 / exportRatio);
                 this.shadowBuffer.beginShape();
@@ -170,10 +149,6 @@ class Shape {
             }
 
             polygon_index = + 1;
-
-            if (MODE > 2) {
-                break
-            }
         }
         this.buffer.drawingContext.filter = 'none';
         this.buffer.pop();
@@ -223,24 +198,22 @@ class Shapes {
         this.polygonCount = data.polygonCount;  // how many overlapping polygons to draw
         this.margin = data.margin;  // distance from edge
         this.curveTightness = data.curveTightness;
-        this.noColorStroke = data.noColorStroke;
-        this.solidColorStroke = data.solidColorStroke;
-        this.opacityStrokeValue = data.opacityStrokeValue;
         this.solidstrokeWeight = data.solidstrokeWeight;
+        this.solidColorStroke = data.solidColorStroke;
         this.solidColorArea = data.solidColorArea;
         this.noiseColorArea = data.noiseColorArea;
         this.opacityFillValue = data.opacityFillValue;
+        this.opacityStrokeValue = data.opacityStrokeValue;
         this.origin = data.origin;
         this.duft = data.duft;
         this.duftOrbit = data.duftOrbit;
         this.duftArea = data.duftArea;
         this.duftCounty = data.duftCounty;
         this.blur = data.blur;
-        this.textureData = data.textureData;  // still needed?
 
         this.buffer = createGraphics(rescaling_width, rescaling_height);
-        this.shapes = []
         this.texturePalette = [textureA, textureB, textureC, textureDuft];
+        this.shapes = [];
 
         for (var i = 0; i < this.shapeCount; i++) {
 
@@ -287,25 +260,21 @@ class Shapes {
             }
 
             var dataShape = {
-                buffer: this.bufferShape,
                 origin: this.origin,
                 radioMin: this.radioMin,
                 radioMax: this.radioMax,
                 radioDistortion: this.radioDistortion,
                 polygonCount: this.polygonCount,
-                opacityValue: this.opacityValue,
                 margin: this.margin,
                 curveTightness: this.curveTightness,
-                noColorStroke: this.noColorStroke,
-                solidColorStroke: this.solidColorStroke,
                 solidstrokeWeight: this.solidstrokeWeight,
+                solidColorStroke: this.solidColorStroke,
                 solidColorArea: this.solidColorArea,
                 noiseColorArea: this.noiseColorArea,
                 texturePalette: this.texturePalette,
                 opacityFillValue: this.opacityFillValue,
                 opacityStrokeValue: this.opacityStrokeValue,
                 blur: this.blur,
-                textureData: this.textureData,
             }
 
             this.shapes.push(new Shape(dataShape));
@@ -322,6 +291,7 @@ class Shapes {
 
         for (var shape of this.shapes) {
             if (MODE == 1) {
+
                 shape.draw();
                 // only shape
                 this.buffer.image(shape.buffer, 0, 0, shape.buffer.width, shape.buffer.height);
@@ -337,23 +307,12 @@ class Shapes {
                 this.buffer.pop();
 
                 // masked - only the noise is masked, the color comes from the shape
-                // own layer
-                // this.bufferMasked = maskBuffers(shape.texture.buffer, shape.buffer);
-
-                // texture layers as alternative to shape specific textures
-                // var chosen_texture = getRandomFromList([
-                //     textureA,
-                //     textureB,
-                //     textureC,
-                // ]);
-                // this.buffer.image(shape.texture.buffer, 0, 0, shape.texture.width, shape.texture.height);
                 this.bufferMasked = maskBuffers(shape.texture.buffer, shape.buffer);
 
                 this.buffer.drawingContext.filter = 'blur(0.5px)';
                 this.buffer.image(this.bufferMasked, 0, 0, this.bufferMasked.width, this.bufferMasked.height);
                 this.buffer.drawingContext.filter = 'none';
 
-                // line
                 // draw the line
                 if (fxrand() > 0.75) {
                     var last_polygon = shape.polygons[(this.polygonCount - 1)]
