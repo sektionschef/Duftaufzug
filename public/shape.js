@@ -93,7 +93,7 @@ class Shape {
         this.buffer.push();
 
         if (typeof this.blur != "undefined" && MODE < 5) {
-            this.buffer.drawingContext.filter = 'blur(' + this.blur + 'px)';
+            this.buffer.drawingContext.filter = `blur(${this.blur}px)`;
         }
         this.buffer.curveTightness(this.curveTightness)
 
