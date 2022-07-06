@@ -1,6 +1,3 @@
-// https://www.kindacode.com/article/javascript-get-current-date-time-in-yyyy-mm-dd-hh-mm-ss-format/
-
-
 const MODE = 1  // "FINE ART";
 // const MODE = 2  // basic image
 // const MODE = 5 // all debug messages
@@ -70,16 +67,16 @@ function setup() {
 function draw() {
 
   // orbitControl(1, 1, 0.1);
-
-  ambientLight(255, 255, 255);
-  ambientMaterial(255);
+  // ambientLight(255, 255, 255);
+  // ambientMaterial(255);
 
   // IS THIS NEEDED????
   buffer.clear();
   buffer.scale(scaleRatio);
 
-  buffer.background(colors[PALETTE].background);
+  buffer.background(color(colors[PALETTE].background));
 
+  // WallTexture
   if (MODE == 1) {
     buffer.push()
     buffer.drawingContext.filter = 'blur(0.6px)';
@@ -88,6 +85,7 @@ function draw() {
     buffer.pop()
   }
 
+  // Ambients
   if (MODE == 1) {
     buffer.push();
     buffer.drawingContext.filter = 'blur(0.1px)';
@@ -97,6 +95,7 @@ function draw() {
     buffer.pop();
   }
 
+  // Lights
   if (MODE == 1) {
     buffer.push()
     buffer.drawingContext.filter = 'blur(0.1px)';
@@ -105,14 +104,16 @@ function draw() {
     buffer.pop();
   }
 
+  // Highlights
   if (MODE == 1) {
     buffer.push()
-    // buffer.drawingContext.filter = 'blur(0.2px)';
+    // buffer.drawingContext.filter = 'blur(0.1px)';
     buffer.image(highlights.buffer, 0, 0);
     // this.buffer.drawingContext.filter = 'none';
     buffer.pop();
   }
 
+  // Duft
   if (MODE == 1) {
     buffer.push()
     // buffer.drawingContext.filter = 'blur(0.2px)';
@@ -165,22 +166,21 @@ function draw() {
     buffer.pop();
   }
 
-  // DEBUG TEXTURES
+  // DEBUG TEXTURES - REMOVE
   // buffer.clear();
-  // buffer.background(colors[PALETTE].background);
+  // buffer.background(color(colors[PALETTE].background));
   // buffer.push()
   // // buffer.drawingContext.filter = 'blur(0.5px)';
-  // buffer.image(textureA.buffer, 0, 0);
+  // // buffer.image(textureA.buffer, 0, 0);
   // // buffer.image(textureB.buffer, 0, 0);
-  // // buffer.image(textureC.buffer, 0, 0);
+  // buffer.image(textureC.buffer, 0, 0);
   // buffer.drawingContext.filter = 'none';
   // buffer.pop()
 
   image(buffer, - width / 2, - height / 2);
 
   noLoop();
-  // fxpreview()
-
+  fxpreview()
 
   // console.log("safety check for diff resolutions same hash: " + fxrand());
 
@@ -292,6 +292,11 @@ function defineAllAreas() {
 function createAllElements() {
   wallTexture = new Pixies(wallTextureData);
 
+  textureA = new Pixies(TextureAData);
+  textureB = new Pixies(TextureBData);
+  textureC = new Pixies(TextureCData);
+  textureDuft = new Pixies(TextureDuftData);
+
   ambients = new Shapes(ambientData);
   lights = new Shapes(lightData);
   highlights = new Shapes(highlightData);
@@ -302,18 +307,19 @@ function defineAllElements() {
   wallTextureData = {
     inc: 0.004,  // noise increase for perlin noise
     gain: -255,
-    colorBackground: undefined, // colors[PALETTE].background,  // drawn pixels for background
-    colorForeground: colors[PALETTE].backgroundnoise, // color(90),  // drawn pixels for noise
+    colorBackground: undefined, // color(colors[PALETTE].background),  // drawn pixels for background
+    colorForeground: color(colors[PALETTE].backgroundnoise), // color(90),  // drawn pixels for noise
     distortion: 0.65, // 0.65,  // random misplacement of the boxes
     density: 9, // 7,
     margin: BACKGROUNDMARGIN, // distance to the edge
   }
 
+
   TextureAData = {
     inc: 0.9,  // noise increase for perlin noise
     gain: 100,
-    colorBackground: undefined, // colors[PALETTE].background,  // drawn pixels for background
-    colorForeground: colors[PALETTE].falllAllNoise[0], // colors[PALETTE].backgroundnoise, // color(90),  // drawn pixels for noise
+    colorBackground: undefined, // color(colors[PALETTE].background),  // drawn pixels for background
+    colorForeground: color(colors[PALETTE].falllAllNoise[0]), // color(colors[PALETTE].backgroundnoise), // color(90),  // drawn pixels for noise
     distortion: 0.5, // 0.65,  // random misplacement of the boxes
     density: 5, // 7,
     margin: 0, // distance to the edge
@@ -322,8 +328,8 @@ function defineAllElements() {
   TextureBData = {
     inc: 0.0009,  // noise increase for perlin noise
     gain: 100,
-    colorBackground: undefined, // colors[PALETTE].background,  // drawn pixels for background
-    colorForeground: colors[PALETTE].falllAllNoise[1], // color(90),  // drawn pixels for noise
+    colorBackground: undefined, // color(colors[PALETTE].background),  // drawn pixels for background
+    colorForeground: color(colors[PALETTE].falllAllNoise[1]), // color(90),  // drawn pixels for noise
     distortion: 0.9, // 0.65,  // random misplacement of the boxes
     density: 12, // 7,
     margin: 0, // distance to the edge
@@ -332,8 +338,8 @@ function defineAllElements() {
   TextureCData = {
     inc: 0.005,  // noise increase for perlin noise
     gain: 100,
-    colorBackground: undefined, // colors[PALETTE].background,  // drawn pixels for background
-    colorForeground: colors[PALETTE].falllAllNoise[2], // colors[PALETTE].backgroundnoise, // color(90),  // drawn pixels for noise
+    colorBackground: undefined, // color(colors[PALETTE].background),  // drawn pixels for background
+    colorForeground: color(colors[PALETTE].falllAllNoise[2]), // color(colors[PALETTE].backgroundnoise), // color(90),  // drawn pixels for noise
     distortion: 0.5, // 0.65,  // random misplacement of the boxes
     density: 12, // 7,
     margin: 0, // distance to the edge
@@ -342,8 +348,8 @@ function defineAllElements() {
   TextureDuftData = {
     inc: 0.009,  // noise increase for perlin noise
     gain: 100,
-    colorBackground: undefined, // colors[PALETTE].background,  // drawn pixels for background
-    colorForeground: colors[PALETTE].duftNoise, // colors[PALETTE].backgroundnoise, // color(90),  // drawn pixels for noise
+    colorBackground: undefined, // color(colors[PALETTE].background),  // drawn pixels for background
+    colorForeground: color(colors[PALETTE].duftNoise), // color(colors[PALETTE].backgroundnoise), // color(90),  // drawn pixels for noise
     distortion: 0.5, // 0.65,  // random misplacement of the boxes
     density: 7, // 7,
     margin: 0, // distance to the edge
@@ -359,7 +365,7 @@ function defineAllElements() {
     curveTightness: 1,
     noColorStroke: false,
     solidstrokeWeight: 3,
-    solidColorStroke: colors[PALETTE].duft,
+    solidColorStroke: color(colors[PALETTE].duft),
     solidColorArea: colors[PALETTE].fillAll,
     noiseColorArea: colors[PALETTE].falllAllNoise,
     opacityFillValue: 150,
@@ -390,7 +396,7 @@ function defineAllElements() {
     curveTightness: 1,
     noColorStroke: false,
     solidstrokeWeight: 3,
-    solidColorStroke: colors[PALETTE].duft,
+    solidColorStroke: color(colors[PALETTE].duft),
     solidColorArea: colors[PALETTE].fillAll,
     noiseColorArea: colors[PALETTE].falllAllNoise,
     opacityFillValue: 150,
@@ -419,7 +425,7 @@ function defineAllElements() {
     curveTightness: 1,
     noColorStroke: true,
     solidstrokeWeight: 2,
-    solidColorStroke: colors[PALETTE].duft,
+    solidColorStroke: color(colors[PALETTE].duft),
     solidColorArea: colors[PALETTE].fillAll,
     noiseColorArea: colors[PALETTE].falllAllNoise,
     duftOrbit: true,
@@ -448,8 +454,8 @@ function defineAllElements() {
     noColorStroke: true,
     solidstrokeWeight: 4,
     solidColorStroke: color(20, 5),
-    solidColorArea: colors[PALETTE].duft,
-    noiseColorArea: colors[PALETTE].duftNoise,
+    solidColorArea: color(colors[PALETTE].duft),
+    noiseColorArea: color(colors[PALETTE].duftNoise),
     opacityFillValue: 170,
     opacityStrokeValue: 155,
     origin: duftOrigin,

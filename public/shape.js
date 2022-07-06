@@ -21,8 +21,8 @@ class Shape {
 
         if (data.solidColorArea instanceof Array) {
             this.colorIndex = Math.round(getRandomFromInterval(0, (data.solidColorArea.length - 1)));
-            this.solidColorArea = data.solidColorArea[this.colorIndex];
-            this.noiseColorArea = data.noiseColorArea[this.colorIndex];
+            this.solidColorArea = color(data.solidColorArea[this.colorIndex]);
+            this.noiseColorArea = color(data.noiseColorArea[this.colorIndex]);
             this.texture = data.texturePalette[this.colorIndex];
         } else {
             this.solidColorArea = data.solidColorArea;
@@ -216,7 +216,6 @@ class Shape {
 
 class Shapes {
     constructor(data) {
-        this.buffer = createGraphics(rescaling_width, rescaling_height);
         this.shapeCount = data.shapeCount;
         this.radioMin = data.radioMin;
         this.radioMax = data.radioMax;
@@ -239,13 +238,9 @@ class Shapes {
         this.blur = data.blur;
         this.textureData = data.textureData;  // still needed?
 
+        this.buffer = createGraphics(rescaling_width, rescaling_height);
         this.shapes = []
-
-        this.textureA = new Pixies(TextureAData);
-        this.textureB = new Pixies(TextureBData);
-        this.textureC = new Pixies(TextureCData);
-        this.textureDuft = new Pixies(TextureDuftData);
-        this.texturePalette = [this.textureA, this.textureB, this.textureC, this.textureDuft];
+        this.texturePalette = [textureA, textureB, textureC, textureDuft];
 
         for (var i = 0; i < this.shapeCount; i++) {
 
