@@ -16,6 +16,13 @@ console.info("fxhash: " + fxhash);
 NOISESEED = hashFnv32a(fxhash);
 logging.debug("Noise seed: " + NOISESEED);
 
+let exportPaper = {
+  width: 4000,
+  height: 4000
+  // width: 3840,  // STAMMERSDORF
+  // height: 2160  // STAMMERSDORF
+}
+
 let BACKGROUNDMARGIN = 200;
 let MARGINDUFTORIGIN = 1500;
 let DUFTRADIOMIN = 300;
@@ -24,34 +31,27 @@ let LIGHTRADIOMIN = 200;
 let LIGHTRADIOMAX = 400;
 let AMBIENTRADIOMIN = 300;
 let AMBIENTRADIOMAX = 600;
+defineColorPalettes();
 
 let scaleRatio;
 let exportRatio;
 let buffer;
 let canvas;
-let exportPaper = {
-  width: 4000,
-  height: 4000
-  // width: 3840,  // STAMMERSDORF
-  // height: 2160  // STAMMERSDORF
-}
 let rescaling_width;
 let rescaling_height;
-
-let fxhash_number;
-
+// let fxhash_number;  // remove
 let duftArea = {};
 let duftCounty = {};
 
-// let color_profile = getRandomFromList(["greyscale"]);
-// let color_profile = getRandomFromList(["red"]);
-// let color_profile = getRandomFromList(["blue"]);
-// let color_profile = getRandomFromList(["blueey"]);
-// let color_profile = getRandomFromList(["paradise"]);
-// let color_profile = getRandomFromList(["hund"]);
-// let color_profile = getRandomFromList(["marienkäfer"]);
+// let PALETTE = getRandomFromList(["greyscale"]);
+// let PALETTE = getRandomFromList(["red"]);
+// let PALETTE = getRandomFromList(["blue"]);
+// let PALETTE = getRandomFromList(["blueey"]);
+// let PALETTE = getRandomFromList(["paradise"]);
+// let PALETTE = getRandomFromList(["hund"]);
+// let PALETTE = getRandomFromList(["marienkäfer"]);
 
-let color_profile = getRandomFromList([
+let PALETTE = getRandomFromList([
   "red",
   "greyscale",
   "blue",
@@ -60,9 +60,6 @@ let color_profile = getRandomFromList([
   "hund",
   "marienkäfer",
 ]);
-console.log(color_profile);
-
-
 
 function preload() {
 }
@@ -98,7 +95,7 @@ function draw() {
   buffer.clear();
   buffer.scale(scaleRatio);
 
-  buffer.background(colors[color_profile].background);
+  buffer.background(colors[PALETTE].background);
 
   if (MODE == 1) {
     buffer.push()
@@ -187,7 +184,7 @@ function draw() {
 
   // DEBUG TEXTURES
   // buffer.clear();
-  // buffer.background(colors[color_profile].background);
+  // buffer.background(colors[PALETTE].background);
   // buffer.push()
   // // buffer.drawingContext.filter = 'blur(0.5px)';
   // buffer.image(textureA.buffer, 0, 0);
@@ -322,8 +319,8 @@ function defineAllElements() {
   wallTextureData = {
     inc: 0.004,  // noise increase for perlin noise
     gain: -255,
-    colorBackground: undefined, // colors[color_profile].background,  // drawn pixels for background
-    colorForeground: colors[color_profile].backgroundnoise, // color(90),  // drawn pixels for noise
+    colorBackground: undefined, // colors[PALETTE].background,  // drawn pixels for background
+    colorForeground: colors[PALETTE].backgroundnoise, // color(90),  // drawn pixels for noise
     distortion: 0.65, // 0.65,  // random misplacement of the boxes
     density: 9, // 7,
     margin: BACKGROUNDMARGIN, // distance to the edge
@@ -332,8 +329,8 @@ function defineAllElements() {
   TextureAData = {
     inc: 0.9,  // noise increase for perlin noise
     gain: 100,
-    colorBackground: undefined, // colors[color_profile].background,  // drawn pixels for background
-    colorForeground: colors[color_profile].falllAllNoise[0], // colors[color_profile].backgroundnoise, // color(90),  // drawn pixels for noise
+    colorBackground: undefined, // colors[PALETTE].background,  // drawn pixels for background
+    colorForeground: colors[PALETTE].falllAllNoise[0], // colors[PALETTE].backgroundnoise, // color(90),  // drawn pixels for noise
     distortion: 0.5, // 0.65,  // random misplacement of the boxes
     density: 5, // 7,
     margin: 0, // distance to the edge
@@ -342,8 +339,8 @@ function defineAllElements() {
   TextureBData = {
     inc: 0.0009,  // noise increase for perlin noise
     gain: 100,
-    colorBackground: undefined, // colors[color_profile].background,  // drawn pixels for background
-    colorForeground: colors[color_profile].falllAllNoise[1], // color(90),  // drawn pixels for noise
+    colorBackground: undefined, // colors[PALETTE].background,  // drawn pixels for background
+    colorForeground: colors[PALETTE].falllAllNoise[1], // color(90),  // drawn pixels for noise
     distortion: 0.9, // 0.65,  // random misplacement of the boxes
     density: 12, // 7,
     margin: 0, // distance to the edge
@@ -352,8 +349,8 @@ function defineAllElements() {
   TextureCData = {
     inc: 0.005,  // noise increase for perlin noise
     gain: 100,
-    colorBackground: undefined, // colors[color_profile].background,  // drawn pixels for background
-    colorForeground: colors[color_profile].falllAllNoise[2], // colors[color_profile].backgroundnoise, // color(90),  // drawn pixels for noise
+    colorBackground: undefined, // colors[PALETTE].background,  // drawn pixels for background
+    colorForeground: colors[PALETTE].falllAllNoise[2], // colors[PALETTE].backgroundnoise, // color(90),  // drawn pixels for noise
     distortion: 0.5, // 0.65,  // random misplacement of the boxes
     density: 12, // 7,
     margin: 0, // distance to the edge
@@ -362,8 +359,8 @@ function defineAllElements() {
   TextureDuftData = {
     inc: 0.009,  // noise increase for perlin noise
     gain: 100,
-    colorBackground: undefined, // colors[color_profile].background,  // drawn pixels for background
-    colorForeground: colors[color_profile].duftNoise, // colors[color_profile].backgroundnoise, // color(90),  // drawn pixels for noise
+    colorBackground: undefined, // colors[PALETTE].background,  // drawn pixels for background
+    colorForeground: colors[PALETTE].duftNoise, // colors[PALETTE].backgroundnoise, // color(90),  // drawn pixels for noise
     distortion: 0.5, // 0.65,  // random misplacement of the boxes
     density: 7, // 7,
     margin: 0, // distance to the edge
@@ -379,9 +376,9 @@ function defineAllElements() {
     curveTightness: 1,
     noColorStroke: false,
     solidstrokeWeight: 3,
-    solidColorStroke: colors[color_profile].duft,
-    solidColorArea: colors[color_profile].fillAll,
-    noiseColorArea: colors[color_profile].falllAllNoise,
+    solidColorStroke: colors[PALETTE].duft,
+    solidColorArea: colors[PALETTE].fillAll,
+    noiseColorArea: colors[PALETTE].falllAllNoise,
     opacityFillValue: 150,
     opacityStrokeValue: 150,
     duftOrbit: false,
@@ -410,9 +407,9 @@ function defineAllElements() {
     curveTightness: 1,
     noColorStroke: false,
     solidstrokeWeight: 3,
-    solidColorStroke: colors[color_profile].duft,
-    solidColorArea: colors[color_profile].fillAll,
-    noiseColorArea: colors[color_profile].falllAllNoise,
+    solidColorStroke: colors[PALETTE].duft,
+    solidColorArea: colors[PALETTE].fillAll,
+    noiseColorArea: colors[PALETTE].falllAllNoise,
     opacityFillValue: 150,
     opacityStrokeValue: 150,
     duftOrbit: false,
@@ -439,9 +436,9 @@ function defineAllElements() {
     curveTightness: 1,
     noColorStroke: true,
     solidstrokeWeight: 2,
-    solidColorStroke: colors[color_profile].duft,
-    solidColorArea: colors[color_profile].fillAll,
-    noiseColorArea: colors[color_profile].falllAllNoise,
+    solidColorStroke: colors[PALETTE].duft,
+    solidColorArea: colors[PALETTE].fillAll,
+    noiseColorArea: colors[PALETTE].falllAllNoise,
     duftOrbit: true,
     opacityFillValue: 150,
     opacityStrokeValue: 150,
@@ -468,8 +465,8 @@ function defineAllElements() {
     noColorStroke: true,
     solidstrokeWeight: 4,
     solidColorStroke: color(20, 5),
-    solidColorArea: colors[color_profile].duft,
-    noiseColorArea: colors[color_profile].duftNoise,
+    solidColorArea: colors[PALETTE].duft,
+    noiseColorArea: colors[PALETTE].duftNoise,
     opacityFillValue: 170,
     opacityStrokeValue: 155,
     origin: duftOrigin,
@@ -493,120 +490,120 @@ function defineAllElements() {
 function defineColorPalettes() {
   colors = {
     "greyscale": {
-      // background: color("#bbbbbb"),
-      // backgroundnoise: color("#bbbbbb30"),
-      background: color("#ffffff"),
-      backgroundnoise: color("#ffffff60"),
+      // background: "#bbbbbb",
+      // backgroundnoise: "#bbbbbb30",
+      background: "#ffffff",
+      backgroundnoise: "#ffffff60",
       fillAll: [
-        color("#444444"),
-        color("#777777"),
-        color("#cccccc")
+        "#444444",
+        "#777777",
+        "#cccccc"
       ],
       falllAllNoise: [
-        color("#444444"),
-        color("#666666"),
-        color("#cccccc")
+        "#444444",
+        "#666666",
+        "#cccccc"
       ],
-      duft: color("#222222"),
-      duftNoise: color("#222222"),
+      duft: "#222222",
+      duftNoise: "#222222",
     },
     "red": {
-      // background: color("#ffb3b0"),
-      // backgroundnoise: color("#ffb3b030"),
-      background: color("#ffffff"),
-      backgroundnoise: color("#ffffff70"),
+      // background: "#ffb3b0",
+      // backgroundnoise: "#ffb3b030",
+      background: "#ffffff",
+      backgroundnoise: "#ffffff70",
       fillAll: [
-        color("#a6433f"),
-        color("#ff6961"),
-        color("#ffd9d8")
+        "#a6433f",
+        "#ff6961",
+        "#ffd9d8"
       ],
       falllAllNoise: [
-        color("#a6433f"),
-        color("#ff6961"),
-        color("#ffd9d8")
+        "#a6433f",
+        "#ff6961",
+        "#ffd9d8"
       ],
-      duft: color("#5c2523"),
-      duftNoise: color("#5c2523"),
+      duft: "#5c2523",
+      duftNoise: "#5c2523",
     },
     "blue": {
-      background: color("#ffffff"),
-      backgroundnoise: color("#ffffff70"),
+      background: "#ffffff",
+      backgroundnoise: "#ffffff70",
       fillAll: [
-        color("#0000b3"),
-        color("#809fff"),
-        color("#bfcfff")
+        "#0000b3",
+        "#809fff",
+        "#bfcfff"
       ],
       falllAllNoise: [
-        color("#0000b3"),
-        color("#809fff"),
-        color("#bfcfff")
+        "#0000b3",
+        "#809fff",
+        "#bfcfff"
       ],
-      duft: color("#001f7d"),
-      duftNoise: color("#001f7d"),
+      duft: "#001f7d",
+      duftNoise: "#001f7d",
     },
     "blueey": {
-      background: color("#B0C4DE"),
-      backgroundnoise: color("#B0C4DE30"),
+      background: "#B0C4DE",
+      backgroundnoise: "#B0C4DE30",
       fillAll: [
-        color("#034694"),
-        color("#318CE7"),
-        color("#7CB9E8")
+        "#034694",
+        "#318CE7",
+        "#7CB9E8"
       ],
       falllAllNoise: [
-        color("#034694"),
-        color("#318CE7"),
-        color("#7CB9E8")
+        "#034694",
+        "#318CE7",
+        "#7CB9E8"
       ],
-      duft: color("#041E42"),
-      duftNoise: color("#041E42"),
+      duft: "#041E42",
+      duftNoise: "#041E42",
     },
     "paradise": {
-      background: color("#dee0e6"),
-      backgroundnoise: color("#dee0e630"),
+      background: "#dee0e6",
+      backgroundnoise: "#dee0e630",
       fillAll: [
-        color("#1ac0c6"),
-        color("#ff6150"),
-        color("#ffa822")
+        "#1ac0c6",
+        "#ff6150",
+        "#ffa822"
       ],
       falllAllNoise: [
-        color("#1ac0c6"),
-        color("#ff6150"),
-        color("#ffa822")
+        "#1ac0c6",
+        "#ff6150",
+        "#ffa822"
       ],
-      duft: color("#134e6f"),
-      duftNoise: color("#134e6f"),
+      duft: "#134e6f",
+      duftNoise: "#134e6f",
     },
     "hund": {
-      background: color("#dee0e6"),
-      backgroundnoise: color("#dee0e630"),
+      background: "#dee0e6",
+      backgroundnoise: "#dee0e630",
       fillAll: [
-        color("#e74645"),
-        color("#fb7756"),
-        color("#fdfa66")
+        "#e74645",
+        "#fb7756",
+        "#fdfa66"
       ],
       falllAllNoise: [
-        color("#e74645"),
-        color("#fb7756"),
-        color("#fdfa66")
+        "#e74645",
+        "#fb7756",
+        "#fdfa66"
       ],
-      duft: color("#1ac0c6"),
-      duftNoise: color("#1ac0c6"),
+      duft: "#1ac0c6",
+      duftNoise: "#1ac0c6",
     },
     "marienkäfer": {
-      background: color("#ffffff"),
-      backgroundnoise: color("#ffffff30"),
+      background: "#ffffff",
+      backgroundnoise: "#ffffff30",
       fillAll: [
-        color("#2c698d"),
-        color("#bae8e8"),
-        color("#e3f6f5")
+        "#2c698d",
+        "#bae8e8",
+        "#e3f6f5"
       ],
       falllAllNoise: [
-        color("#2c698d"),
-        color("#bae8e8"),
-        color("#e3f6f5")
+        "#2c698d",
+        "#bae8e8",
+        "#e3f6f5"
       ],
-      duft: color("#272643"),
-      duftNoise: color("#272643"),
+      duft: "#272643",
+      duftNoise: "#272643",
     }
   }
 }

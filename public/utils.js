@@ -113,11 +113,6 @@ function scaleDynamically() {
 function windowResized() {
     logging.debug("Window is resized.");
     window.location.reload();
-    // scaleDynamically()
-
-    // resizeCanvas(rescaling_width, rescaling_height);
-
-    // draw();
 }
 
 function keyTyped() {

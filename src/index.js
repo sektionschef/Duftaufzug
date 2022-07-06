@@ -15,7 +15,7 @@
 // [https://fxhash.xyz/articles/guide-mint-generative-token#features]
 //
 window.$fxhashFeatures = {
-    // "Palette": PALETTE,
+    "Palette": PALETTE,
     // "Number of elements": NUMBEROFELEMENTS_LABEL,
     // "Brush size": BRUSHLENGTHANDBREADTH_LABEL,
     // "Stroke size": BRUSHSTROKESIZE_LABEL,
@@ -23,6 +23,13 @@ window.$fxhashFeatures = {
     // "Brush fibre sparseness": BRUSHFIBRESPARSENESS_LABEL,
     // "Fibre rotation noise": FIBREROTATIONNOISE_LABEL,
 }
+
+console.log(`Name of the palette: ${PALETTE}`);
+console.log("Background: " + "%c   ", `background:${colors[PALETTE].background};`);
+console.log("Dark: " + "%c   ", `background:${colors[PALETTE].fillAll[0]};`);
+console.log("Mid: " + "%c   ", `background:${colors[PALETTE].fillAll[1]};`);
+console.log("Light: " + "%c   ", `background:${colors[PALETTE].fillAll[2]};`);
+console.log("Duft: " + "%c   ", `background:${colors[PALETTE].duft};`);
 
 
 // this code writes the values to the DOM as an example
