@@ -1,20 +1,12 @@
 // https://www.kindacode.com/article/javascript-get-current-date-time-in-yyyy-mm-dd-hh-mm-ss-format/
 
 
-// trace, debug, info, warn, error
-// const SWITCH_LOGGING_LEVEL = "warn";
-const SWITCH_LOGGING_LEVEL = "info";
-// const SWITCH_LOGGING_LEVEL = "debug";
-
-logging.setLevel(SWITCH_LOGGING_LEVEL);
-
 const MODE = 1  // "FINE ART";
 // const MODE = 2  // basic image
 // const MODE = 5 // all debug messages
 
-console.info("fxhash: " + fxhash);
 NOISESEED = hashFnv32a(fxhash);
-logging.debug("Noise seed: " + NOISESEED);
+// console.log("Noise seed: " + NOISESEED);
 
 let exportPaper = {
   width: 4000,
@@ -39,26 +31,17 @@ let buffer;
 let canvas;
 let rescaling_width;
 let rescaling_height;
-// let fxhash_number;  // remove
 let duftArea = {};
 let duftCounty = {};
 
-// let PALETTE = getRandomFromList(["greyscale"]);
-// let PALETTE = getRandomFromList(["red"]);
-// let PALETTE = getRandomFromList(["blue"]);
-// let PALETTE = getRandomFromList(["blueey"]);
-// let PALETTE = getRandomFromList(["paradise"]);
-// let PALETTE = getRandomFromList(["hund"]);
-// let PALETTE = getRandomFromList(["marienkäfer"]);
-
 let PALETTE = getRandomFromList([
-  "red",
-  "greyscale",
-  "blue",
-  "blueey",
-  "paradise",
-  "hund",
-  "marienkäfer",
+  "Red",
+  "Greyscale",
+  "Blue",
+  "Blueey",
+  "Paradise",
+  "Hund",
+  "Marienkäfer",
 ]);
 
 function preload() {
@@ -70,7 +53,7 @@ function setup() {
   randomSeed(NOISESEED);
   // setAttributes('antialias', true);
 
-  logging.debug("Pixel density: " + pixelDensity())
+  // console.log("Pixel density: " + pixelDensity())
   exportRatio /= pixelDensity();
 
 
@@ -489,7 +472,7 @@ function defineAllElements() {
 
 function defineColorPalettes() {
   colors = {
-    "greyscale": {
+    "Greyscale": {
       // background: "#bbbbbb",
       // backgroundnoise: "#bbbbbb30",
       background: "#ffffff",
@@ -507,7 +490,7 @@ function defineColorPalettes() {
       duft: "#222222",
       duftNoise: "#222222",
     },
-    "red": {
+    "Red": {
       // background: "#ffb3b0",
       // backgroundnoise: "#ffb3b030",
       background: "#ffffff",
@@ -525,7 +508,7 @@ function defineColorPalettes() {
       duft: "#5c2523",
       duftNoise: "#5c2523",
     },
-    "blue": {
+    "Blue": {
       background: "#ffffff",
       backgroundnoise: "#ffffff70",
       fillAll: [
@@ -541,7 +524,7 @@ function defineColorPalettes() {
       duft: "#001f7d",
       duftNoise: "#001f7d",
     },
-    "blueey": {
+    "Blueey": {
       background: "#B0C4DE",
       backgroundnoise: "#B0C4DE30",
       fillAll: [
@@ -557,7 +540,7 @@ function defineColorPalettes() {
       duft: "#041E42",
       duftNoise: "#041E42",
     },
-    "paradise": {
+    "Paradise": {
       background: "#dee0e6",
       backgroundnoise: "#dee0e630",
       fillAll: [
@@ -573,7 +556,7 @@ function defineColorPalettes() {
       duft: "#134e6f",
       duftNoise: "#134e6f",
     },
-    "hund": {
+    "Hund": {
       background: "#dee0e6",
       backgroundnoise: "#dee0e630",
       fillAll: [
@@ -589,7 +572,7 @@ function defineColorPalettes() {
       duft: "#1ac0c6",
       duftNoise: "#1ac0c6",
     },
-    "marienkäfer": {
+    "Marienkäfer": {
       background: "#ffffff",
       backgroundnoise: "#ffffff30",
       fillAll: [

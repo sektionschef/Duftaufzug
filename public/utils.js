@@ -98,10 +98,10 @@ function scaleDynamically() {
     dynamicHeightRatio = exportPaper.height / windowHeight;
 
     if (dynamicWidthRatio > dynamicHeightRatio) {
-        logging.debug("Width is smaller than height. Width dominates")
+        // console.log("Width is smaller than height. Width dominates")
         exportRatio = dynamicWidthRatio;
     } else {
-        logging.debug("width is larger than height. Height dominates.")
+        // console.log("width is larger than height. Height dominates.")
         exportRatio = dynamicHeightRatio;
     }
 
@@ -111,7 +111,7 @@ function scaleDynamically() {
 
 // each time window.innerWidth changes
 function windowResized() {
-    logging.debug("Window is resized.");
+    // console.log("Window is resized.");
     window.location.reload();
 }
 

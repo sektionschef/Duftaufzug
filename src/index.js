@@ -24,12 +24,16 @@ window.$fxhashFeatures = {
     // "Fibre rotation noise": FIBREROTATIONNOISE_LABEL,
 }
 
-console.log(`Name of the palette: ${PALETTE}`);
+console.info(`fxhash: %c${fxhash}`, 'font-weight: bold');
+
+console.log(`Palette: %c${PALETTE}`, 'font-weight: bold');
+console.group();
 console.log("Background: " + "%c   ", `background:${colors[PALETTE].background};`);
 console.log("Dark: " + "%c   ", `background:${colors[PALETTE].fillAll[0]};`);
 console.log("Mid: " + "%c   ", `background:${colors[PALETTE].fillAll[1]};`);
 console.log("Light: " + "%c   ", `background:${colors[PALETTE].fillAll[2]};`);
 console.log("Duft: " + "%c   ", `background:${colors[PALETTE].duft};`);
+console.groupEnd();
 
 
 // this code writes the values to the DOM as an example
