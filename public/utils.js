@@ -113,6 +113,14 @@ function scaleDynamically() {
 function windowResized() {
     // console.log("Window is resized.");
     window.location.reload();
+
+    // var url = window.location.href;
+    // if (url.indexOf('?') > -1) {
+    //     url += '&fxhash=ooWCvcfdxaRxiYE8ncJ2DLcp7kuoLQixDfu9GR6BRcVEKAFtbaf'
+    // } else {
+    //     url += '?fxhash=ooWCvcfdxaRxiYE8ncJ2DLcp7kuoLQixDfu9GR6BRcVEKAFtbaf'
+    // }
+    // window.location.href = url;
 }
 
 function keyTyped() {
