@@ -46,15 +46,21 @@ let CountFeatureMax = 2;
 let CountFeature = Math.round(getRandomFromInterval(CountFeatureMin, CountFeatureMax) * 100) / 100;
 let CountFeatureLabel = label_feature(CountFeature, CountFeatureMin, CountFeatureMax);
 
-let grainFeatureMin = 0.8;
-let grainFeatureMax = 1.3;
+let grainFeatureMin = 0.1;
+let grainFeatureMax = 1.4;
 let grainFeature = Math.round(getRandomFromInterval(grainFeatureMin, grainFeatureMax) * 100) / 100;
 let grainFeatureLabel = label_feature(grainFeature, grainFeatureMin, grainFeatureMax);
 
-let blurFeatureMin = 0.8;
+let blurFeatureMin = 0.3;
 let blurFeatureMax = 1.3;
 let blurFeature = Math.round(getRandomFromInterval(blurFeatureMin, blurFeatureMax) * 100) / 100;
 let blurFeatureLabel = label_feature(blurFeature, blurFeatureMin, blurFeatureMax);
+
+
+let opacityFeatureMin = 0.5;
+let opacityFeatureMax = 1.5;
+let opacityFeature = Math.round(getRandomFromInterval(opacityFeatureMin, opacityFeatureMax) * 100) / 100;
+let opacityFeatureLabel = label_feature(opacityFeature, opacityFeatureMin, opacityFeatureMax);
 
 
 function preload() {
@@ -384,8 +390,8 @@ function defineAllElements() {
     solidColorStroke: color(colors[PALETTE].duft),
     solidColorArea: colors[PALETTE].fillAll,
     noiseColorArea: colors[PALETTE].falllAllNoise,
-    opacityFillValue: 150,
-    opacityStrokeValue: 150,
+    opacityFillValue: 150 * opacityFeature,
+    opacityStrokeValue: 150 * opacityFeature,
     duftOrbit: false,
     duftArea: false,
     duftCounty: true,
@@ -406,8 +412,8 @@ function defineAllElements() {
     solidColorStroke: color(colors[PALETTE].duft),
     solidColorArea: colors[PALETTE].fillAll,
     noiseColorArea: colors[PALETTE].falllAllNoise,
-    opacityFillValue: 150,
-    opacityStrokeValue: 150,
+    opacityFillValue: 150 * opacityFeature,
+    opacityStrokeValue: 150 * opacityFeature,
     duftOrbit: false,
     duftArea: true,
     blur: 1.5,
@@ -427,8 +433,8 @@ function defineAllElements() {
     solidColorArea: colors[PALETTE].fillAll,
     noiseColorArea: colors[PALETTE].falllAllNoise,
     duftOrbit: true,
-    opacityFillValue: 150,
-    opacityStrokeValue: 150,
+    opacityFillValue: 150 * opacityFeature,
+    opacityStrokeValue: 150 * opacityFeature,
     blur: 1,  // undefined,
   }
 
@@ -445,8 +451,8 @@ function defineAllElements() {
     solidColorStroke: color(20, 5),
     solidColorArea: color(colors[PALETTE].duft),
     noiseColorArea: color(colors[PALETTE].duftNoise),
-    opacityFillValue: 170,
-    opacityStrokeValue: 155,
+    opacityFillValue: 170 * opacityFeature,
+    opacityStrokeValue: 155 * opacityFeature,
     origin: duftOrigin,
     duft: true,
     duftOrbit: false,
