@@ -8,8 +8,8 @@ NOISESEED = hashFnv32a(fxhash);
 let exportPaper = {
   width: 4000,
   height: 4000
-  // width: 3840,  // STAMMERSDORF
-  // height: 2160  // STAMMERSDORF
+  // width: 3840,
+  // height: 2160
 }
 
 let BACKGROUNDMARGIN = 200;
@@ -543,10 +543,8 @@ function defineColorPalettes() {
       duftNoise: "#134e6f",
     },
     "Hund": {
-      // background: "#dee0e6",
-      // backgroundnoise: "#dee0e630",
-      background: "#e1f6f7",
-      backgroundnoise: "#e1f6f730",
+      background: "#ebedf2",
+      backgroundnoise: "#ebedf230",
       fillAll: [
         "#e74645",
         "#fb7756",
