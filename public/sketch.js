@@ -41,8 +41,8 @@ let PALETTE = getRandomFromList([
   "Marienkäfer",
 ]);
 
-let CountFeatureMin = 0.7;
-let CountFeatureMax = 1.3;
+let CountFeatureMin = 0.3;
+let CountFeatureMax = 2;
 let CountFeature = Math.round(getRandomFromInterval(CountFeatureMin, CountFeatureMax) * 100) / 100;
 let CountFeatureLabel = label_feature(CountFeature, CountFeatureMin, CountFeatureMax);
 
