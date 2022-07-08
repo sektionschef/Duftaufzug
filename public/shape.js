@@ -93,7 +93,7 @@ class Shape {
         this.buffer.push();
 
         if (typeof this.blur != "undefined" && MODE < 5) {
-            this.buffer.drawingContext.filter = `blur(${this.blur}px)`;
+            this.buffer.drawingContext.filter = `blur(${this.blur * blurFeature}px)`;
         }
         this.buffer.curveTightness(this.curveTightness)
 
@@ -117,7 +117,7 @@ class Shape {
                 this.shadowBuffer.curveTightness(this.curveTightness)
                 this.shadowBuffer.noFill();
                 this.shadowBuffer.stroke(this.solidColorStroke);
-                this.shadowBuffer.strokeWeight(3 / exportRatio);
+                this.shadowBuffer.strokeWeight(this.solidstrokeWeight * 1 / exportRatio);
                 this.shadowBuffer.beginShape();
                 if (this.shadowOrientation == "bottom_left") {
                     this.shadowBuffer.curveVertex(polygon.rightDown.x / exportRatio, polygon.rightDown.y / exportRatio);
@@ -301,7 +301,7 @@ class Shapes {
 
                 // only shadow
                 this.buffer.push();
-                this.buffer.drawingContext.filter = 'blur(1.5px)';
+                this.buffer.drawingContext.filter = `blur(${1.5 * blurFeature}px)`;
                 this.buffer.image(shape.shadowBuffer, 0, 0, shape.shadowBuffer.width, shape.shadowBuffer.height);
                 this.buffer.drawingContext.filter = 'none';
                 this.buffer.pop();
@@ -309,7 +309,7 @@ class Shapes {
                 // masked - only the noise is masked, the color comes from the shape
                 this.bufferMasked = maskBuffers(shape.texture.buffer, shape.buffer);
 
-                this.buffer.drawingContext.filter = 'blur(0.5px)';
+                this.buffer.drawingContext.filter = `blur(${0.5 * blurFeature}px)`;
                 this.buffer.image(this.bufferMasked, 0, 0, this.bufferMasked.width, this.bufferMasked.height);
                 this.buffer.drawingContext.filter = 'none';
 

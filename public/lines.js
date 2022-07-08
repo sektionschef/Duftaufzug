@@ -32,7 +32,7 @@ class Lines {
     draw() {
 
         this.buffer.push();
-        this.buffer.drawingContext.filter = `blur(${this.blur}px)`;
+        this.buffer.drawingContext.filter = `blur(${this.blur * blurFeature}px)`;
         this.buffer.stroke(color(colors[PALETTE].duft));
         this.buffer.strokeWeight(this.strokeWeight / exportRatio);
 

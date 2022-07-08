@@ -51,6 +51,11 @@ let grainFeatureMax = 1.3;
 let grainFeature = Math.round(getRandomFromInterval(grainFeatureMin, grainFeatureMax) * 100) / 100;
 let grainFeatureLabel = label_feature(grainFeature, grainFeatureMin, grainFeatureMax);
 
+let blurFeatureMin = 0.8;
+let blurFeatureMax = 1.3;
+let blurFeature = Math.round(getRandomFromInterval(blurFeatureMin, blurFeatureMax) * 100) / 100;
+let blurFeatureLabel = label_feature(blurFeature, blurFeatureMin, blurFeatureMax);
+
 
 function preload() {
 }
@@ -90,7 +95,7 @@ function draw() {
   // WallTexture
   if (MODE == 1) {
     buffer.push()
-    buffer.drawingContext.filter = 'blur(0.6px)';
+    buffer.drawingContext.filter = `blur(${0.6 * blurFeature}px)`;
     buffer.image(wallTexture.buffer, 0, 0);
     buffer.drawingContext.filter = 'none';
     buffer.pop()
@@ -99,7 +104,7 @@ function draw() {
   // Ambients
   if (MODE == 1) {
     buffer.push();
-    buffer.drawingContext.filter = 'blur(0.1px)';
+    buffer.drawingContext.filter = `blur(${0.1 * blurFeature}px)`;
     buffer.image(ambients.buffer, 0, 0);
     buffer.drawingContext.filter = 'none';
     // buffer.image(ambients.bufferMasked, 0, 0);
@@ -109,7 +114,7 @@ function draw() {
   // Lights
   if (MODE == 1) {
     buffer.push()
-    buffer.drawingContext.filter = 'blur(0.1px)';
+    buffer.drawingContext.filter = `blur(${0.1 * blurFeature}px)`;
     buffer.image(lights.buffer, 0, 0);
     buffer.drawingContext.filter = 'none';
     buffer.pop();
@@ -118,7 +123,7 @@ function draw() {
   // Highlights
   if (MODE == 1) {
     buffer.push()
-    // buffer.drawingContext.filter = 'blur(0.1px)';
+    // buffer.drawingContext.filter = `blur(${0.1 * blurFeature}px)`;
     buffer.image(highlights.buffer, 0, 0);
     // this.buffer.drawingContext.filter = 'none';
     buffer.pop();
@@ -127,7 +132,7 @@ function draw() {
   // Duft
   if (MODE == 1) {
     buffer.push()
-    // buffer.drawingContext.filter = 'blur(0.2px)';
+    // buffer.drawingContext.filter = `blur(${0.2 * blurFeature}px)`;
     buffer.image(duft.buffer, 0, 0);
     // this.buffer.drawingContext.filter = 'none';
     buffer.pop();
@@ -181,7 +186,7 @@ function draw() {
   // buffer.clear();
   // buffer.background(color(colors[PALETTE].background));
   // buffer.push()
-  // // buffer.drawingContext.filter = 'blur(0.5px)';
+  // // buffer.drawingContext.filter = `blur(${0.1 * blurFeature}px)`;
   // // buffer.image(textureA.buffer, 0, 0);
   // // buffer.image(textureB.buffer, 0, 0);
   // buffer.image(textureC.buffer, 0, 0);
@@ -375,7 +380,7 @@ function defineAllElements() {
     margin: 0,  // distance from edge
     curveTightness: 1,
     noColorStroke: false,
-    solidstrokeWeight: 3,
+    solidstrokeWeight: 5,
     solidColorStroke: color(colors[PALETTE].duft),
     solidColorArea: colors[PALETTE].fillAll,
     noiseColorArea: colors[PALETTE].falllAllNoise,
