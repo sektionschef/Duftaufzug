@@ -561,8 +561,10 @@ function defineColorPalettes() {
       duftNoise: "#576658",
     },
     "Marienkäfer": {
-      background: "#ffffff",
-      backgroundnoise: "#ffffff30",
+      // background: "#ffffff",
+      // backgroundnoise: "#ffffff30",
+      background: "#ebedf2",
+      backgroundnoise: "#ebedf230",
       fillAll: [
         "#2c698d",
         "#bae8e8",
