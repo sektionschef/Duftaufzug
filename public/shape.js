@@ -92,7 +92,7 @@ class Shape {
     draw() {
         this.buffer.push();
 
-        if (typeof this.blur != "undefined" && MODE < 5) {
+        if (typeof this.blur != "undefined") {
             this.buffer.drawingContext.filter = `blur(${this.blur * blurFeature}px)`;
         }
         this.buffer.curveTightness(this.curveTightness)
@@ -185,8 +185,8 @@ class Shape {
             this.buffer.point(this.origin.x / exportRatio, this.origin.y / exportRatio);
             this.buffer.pop();
         }
-
     }
+
 }
 
 class Shapes {
@@ -290,68 +290,63 @@ class Shapes {
         this.buffer.scale(scaleRatio);
 
         for (var shape of this.shapes) {
-            if (MODE == 1) {
 
-                shape.draw();
-                // only shape
-                this.buffer.image(shape.buffer, 0, 0, shape.buffer.width, shape.buffer.height);
+            shape.draw();
+            // only shape
+            this.buffer.image(shape.buffer, 0, 0, shape.buffer.width, shape.buffer.height);
 
-                // only texture
-                // this.buffer.image(shape.texture.buffer, 0, 0, shape.texture.buffer.width, shape.texture.buffer.height);
+            // only texture
+            // this.buffer.image(shape.texture.buffer, 0, 0, shape.texture.buffer.width, shape.texture.buffer.height);
 
-                // only shadow
-                this.buffer.push();
-                this.buffer.drawingContext.filter = `blur(${1.5 * blurFeature}px)`;
-                this.buffer.image(shape.shadowBuffer, 0, 0, shape.shadowBuffer.width, shape.shadowBuffer.height);
-                this.buffer.drawingContext.filter = 'none';
-                this.buffer.pop();
+            // only shadow
+            this.buffer.push();
+            this.buffer.drawingContext.filter = `blur(${1.5 * blurFeature}px)`;
+            this.buffer.image(shape.shadowBuffer, 0, 0, shape.shadowBuffer.width, shape.shadowBuffer.height);
+            this.buffer.drawingContext.filter = 'none';
+            this.buffer.pop();
 
-                // masked - only the noise is masked, the color comes from the shape
-                this.bufferMasked = maskBuffers(shape.texture.buffer, shape.buffer);
+            // masked - only the noise is masked, the color comes from the shape
+            this.bufferMasked = maskBuffers(shape.texture.buffer, shape.buffer);
 
-                this.buffer.drawingContext.filter = `blur(${0.5 * blurFeature}px)`;
-                this.buffer.image(this.bufferMasked, 0, 0, this.bufferMasked.width, this.bufferMasked.height);
-                this.buffer.drawingContext.filter = 'none';
+            this.buffer.drawingContext.filter = `blur(${0.5 * blurFeature}px)`;
+            this.buffer.image(this.bufferMasked, 0, 0, this.bufferMasked.width, this.bufferMasked.height);
+            this.buffer.drawingContext.filter = 'none';
 
-                // draw the line
-                if (fxrand() > 0.75) {
-                    var last_polygon = shape.polygons[(this.polygonCount - 1)]
+            // draw the line
+            if (fxrand() > 0.75) {
+                var last_polygon = shape.polygons[(this.polygonCount - 1)]
 
-                    var pick = getRandomFromList([
-                        "up to the right",
-                        "up to the left",
-                        "right to up",
-                        "right to down",
-                        "down to the right",
-                        "up to the left",
-                        "left to up",
-                        "left to down"
-                    ])
+                var pick = getRandomFromList([
+                    "up to the right",
+                    "up to the left",
+                    "right to up",
+                    "right to down",
+                    "down to the right",
+                    "up to the left",
+                    "left to up",
+                    "left to down"
+                ])
 
-                    if (pick == "up to the right") {
-                        line = new Lines(last_polygon.rightUp, last_polygon.leftUp, "right");
-                    } else if (pick == "up to the left") {
-                        line = new Lines(last_polygon.rightUp, last_polygon.leftUp, "left");
-                    } else if (pick == "right to up") {
-                        line = new Lines(last_polygon.rightDown, last_polygon.rightUp, "up");
-                    } else if (pick == "right to down") {
-                        line = new Lines(last_polygon.rightDown, last_polygon.rightUp, "down");
-                    } else if (pick == "down to the right") {
-                        line = new Lines(last_polygon.rightDown, last_polygon.leftDown, "right");
-                    } else if (pick == "up to the left") {
-                        line = new Lines(last_polygon.rightDown, last_polygon.leftDown, "left");
-                    } else if (pick == "left to up") {
-                        line = new Lines(last_polygon.leftDown, last_polygon.leftUp, "up");
-                    } else if (pick == "left to down") {
-                        line = new Lines(last_polygon.leftDown, last_polygon.leftUp, "down");
-                    }
-
-                    this.buffer.image(line.buffer, 0, 0);
-
+                if (pick == "up to the right") {
+                    line = new Lines(last_polygon.rightUp, last_polygon.leftUp, "right");
+                } else if (pick == "up to the left") {
+                    line = new Lines(last_polygon.rightUp, last_polygon.leftUp, "left");
+                } else if (pick == "right to up") {
+                    line = new Lines(last_polygon.rightDown, last_polygon.rightUp, "up");
+                } else if (pick == "right to down") {
+                    line = new Lines(last_polygon.rightDown, last_polygon.rightUp, "down");
+                } else if (pick == "down to the right") {
+                    line = new Lines(last_polygon.rightDown, last_polygon.leftDown, "right");
+                } else if (pick == "up to the left") {
+                    line = new Lines(last_polygon.rightDown, last_polygon.leftDown, "left");
+                } else if (pick == "left to up") {
+                    line = new Lines(last_polygon.leftDown, last_polygon.leftUp, "up");
+                } else if (pick == "left to down") {
+                    line = new Lines(last_polygon.leftDown, last_polygon.leftUp, "down");
                 }
 
-            } else {
-                shape.draw();
+                this.buffer.image(line.buffer, 0, 0);
+
             }
         }
     }

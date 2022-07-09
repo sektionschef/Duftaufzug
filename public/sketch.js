@@ -1,5 +1,4 @@
 const MODE = 1  // "FINE ART";
-// const MODE = 2  // basic image
 // const MODE = 5 // all debug messages
 
 NOISESEED = hashFnv32a(fxhash);
@@ -10,6 +9,8 @@ let exportPaper = {
   height: 4000
   // width: 3840,
   // height: 2160
+  // width: 4000,
+  // height: 2250
 }
 
 let BACKGROUNDMARGIN = 200;
@@ -98,56 +99,47 @@ function draw() {
   buffer.background(color(colors[PALETTE].background));
 
   // WallTexture
-  if (MODE == 1) {
-    buffer.push()
-    buffer.drawingContext.filter = `blur(${0.6 * blurFeature}px)`;
-    buffer.image(wallTexture.buffer, 0, 0);
-    buffer.drawingContext.filter = 'none';
-    buffer.pop()
-  }
+  buffer.push()
+  buffer.drawingContext.filter = `blur(${0.6 * blurFeature}px)`;
+  buffer.image(wallTexture.buffer, 0, 0);
+  buffer.drawingContext.filter = 'none';
+  buffer.pop()
 
   // Ambients
-  if (MODE == 1) {
-    buffer.push();
-    buffer.drawingContext.filter = `blur(${0.1 * blurFeature}px)`;
-    buffer.image(ambients.buffer, 0, 0);
-    buffer.drawingContext.filter = 'none';
-    // buffer.image(ambients.bufferMasked, 0, 0);
-    buffer.pop();
-  }
+  buffer.push();
+  buffer.drawingContext.filter = `blur(${0.1 * blurFeature}px)`;
+  buffer.image(ambients.buffer, 0, 0);
+  buffer.drawingContext.filter = 'none';
+  // buffer.image(ambients.bufferMasked, 0, 0);
+  buffer.pop();
 
   // Lights
-  if (MODE == 1) {
-    buffer.push()
-    buffer.drawingContext.filter = `blur(${0.1 * blurFeature}px)`;
-    buffer.image(lights.buffer, 0, 0);
-    buffer.drawingContext.filter = 'none';
-    buffer.pop();
-  }
+  buffer.push()
+  buffer.drawingContext.filter = `blur(${0.1 * blurFeature}px)`;
+  buffer.image(lights.buffer, 0, 0);
+  buffer.drawingContext.filter = 'none';
+  buffer.pop();
 
   // Highlights
-  if (MODE == 1) {
-    buffer.push()
-    // buffer.drawingContext.filter = `blur(${0.1 * blurFeature}px)`;
-    buffer.image(highlights.buffer, 0, 0);
-    // this.buffer.drawingContext.filter = 'none';
-    buffer.pop();
-  }
+  buffer.push()
+  // buffer.drawingContext.filter = `blur(${0.1 * blurFeature}px)`;
+  buffer.image(highlights.buffer, 0, 0);
+  // this.buffer.drawingContext.filter = 'none';
+  buffer.pop();
 
   // Duft
-  if (MODE == 1) {
-    buffer.push()
-    // buffer.drawingContext.filter = `blur(${0.2 * blurFeature}px)`;
-    buffer.image(duft.buffer, 0, 0);
-    // this.buffer.drawingContext.filter = 'none';
-    buffer.pop();
-  }
+  buffer.push()
+  // buffer.drawingContext.filter = `blur(${0.2 * blurFeature}px)`;
+  buffer.image(duft.buffer, 0, 0);
+  // this.buffer.drawingContext.filter = 'none';
+  buffer.pop();
 
   // debug duftOrbit
   if (MODE == 5) {
     buffer.push();
     buffer.rectMode(CENTER);
     buffer.stroke("red");
+    console.log("duftOrbit in red");
     buffer.strokeWeight(3 / exportRatio);
     buffer.noFill();
     buffer.rect(duftOrigin.x / exportRatio, duftOrigin.y / exportRatio, duftOrbit * 2 / exportRatio, duftOrbit * 2 / exportRatio);
@@ -159,6 +151,7 @@ function draw() {
     buffer.push();
     buffer.rectMode(CORNER);
     buffer.stroke("purple");
+    console.log("duftArea in purple");
     buffer.strokeWeight(5 / exportRatio);
     buffer.noFill();
     buffer.rect(duftArea.position.x / exportRatio, duftArea.position.y / exportRatio, duftArea.width / exportRatio, duftArea.height / exportRatio);
@@ -170,6 +163,7 @@ function draw() {
     buffer.push();
     buffer.rectMode(CORNER);
     buffer.stroke("cyan");
+    console.log("duftCounty in cyan");
     buffer.strokeWeight(5 / exportRatio);
     buffer.noFill();
     buffer.rect(duftCounty.position.x / exportRatio, duftCounty.position.y / exportRatio, duftCounty.width / exportRatio, duftCounty.height / exportRatio);
@@ -181,7 +175,8 @@ function draw() {
     buffer.push();
     buffer.rectMode(CORNER);
     buffer.stroke("black");
-    buffer.strokeWeight(15 / exportRatio);
+    console.log("Canvas margin in black");
+    buffer.strokeWeight(1 / exportRatio);
     buffer.noFill();
     buffer.rect(BACKGROUNDMARGIN / exportRatio, BACKGROUNDMARGIN / exportRatio, (exportPaper.width - BACKGROUNDMARGIN * 2) / exportRatio, (exportPaper.width - BACKGROUNDMARGIN * 2) / exportRatio);
     buffer.pop();

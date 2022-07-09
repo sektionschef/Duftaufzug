@@ -71,9 +71,10 @@ class Lines {
         // debug
         // this.buffer.image(this.marginBuffer, 0, 0);
 
+        this.draw_debug();
+
         this.buffer = maskBuffers(this.marginBuffer, this.buffer);
 
-        this.draw_debug();
     }
 
 
