@@ -52,10 +52,9 @@ let grainFeature = Math.round(getRandomFromInterval(grainFeatureMin, grainFeatur
 let grainFeatureLabel = label_feature(grainFeature, grainFeatureMin, grainFeatureMax);
 
 let blurFeatureMin = 0.3;
-let blurFeatureMax = 1.3;
-let blurFeature = Math.round(getRandomFromInterval(blurFeatureMin, blurFeatureMax) * 100) / 100;
+let blurFeatureMax = 0.7;
+let blurFeature = 0.7; Math.round(getRandomFromInterval(blurFeatureMin, blurFeatureMax) * 100) / 100;
 let blurFeatureLabel = label_feature(blurFeature, blurFeatureMin, blurFeatureMax);
-
 
 let opacityFeatureMin = 0.5;
 let opacityFeatureMax = 1.5;
@@ -451,8 +450,8 @@ function defineAllElements() {
     solidColorStroke: color(20, 5),
     solidColorArea: color(colors[PALETTE].duft),
     noiseColorArea: color(colors[PALETTE].duftNoise),
-    opacityFillValue: 170 * opacityFeature,
-    opacityStrokeValue: 155 * opacityFeature,
+    opacityFillValue: 255 * opacityFeature,
+    opacityStrokeValue: 255 * opacityFeature,
     origin: duftOrigin,
     duft: true,
     duftOrbit: false,
@@ -552,17 +551,19 @@ function defineColorPalettes() {
       background: "#ebedf2",
       backgroundnoise: "#ebedf230",
       fillAll: [
-        "#e74645",
+        "#1ac0c6",
         "#fb7756",
         "#fdfa66"
       ],
       falllAllNoise: [
-        "#e74645",
+        "#1ac0c6",
         "#fb7756",
         "#fdfa66"
       ],
-      duft: "#1ac0c6",
-      duftNoise: "#1ac0c6",
+      // duft: "#e74645",
+      // duftNoise: "#e74645",
+      duft: "#576658",
+      duftNoise: "#576658",
     },
     "Marienkäfer": {
       background: "#ffffff",

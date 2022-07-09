@@ -19,6 +19,7 @@ window.$fxhashFeatures = {
     "Number of elements": CountFeatureLabel,
     "Graininess": grainFeatureLabel,
     "Blurriness": blurFeatureLabel,
+    "Opacity": opacityFeatureLabel,
 }
 
 console.info(`fxhash: %c${fxhash}`, 'font-weight: bold');
@@ -35,6 +36,7 @@ console.groupEnd();
 console.log(`Count of shapes: %c${CountFeatureLabel} (${CountFeature})`, 'font-weight: bold');
 console.log(`Graininess: %c${grainFeatureLabel} (${grainFeature})`, 'font-weight: bold');
 console.log(`Blurriness: %c${blurFeatureLabel} (${blurFeature})`, 'font-weight: bold');
+console.log(`Opacity: %c${opacityFeatureLabel} (${opacityFeature})`, 'font-weight: bold');
 console.log('');
 
 // this code writes the values to the DOM as an example

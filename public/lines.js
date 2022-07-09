@@ -7,7 +7,7 @@ class Lines {
         this.pointB = pointB;
         this.direction = direction;
 
-        this.blur = 3;
+        this.blur = 2;
         this.strokeWeight = 5;
 
         // a little offset ot default margin
