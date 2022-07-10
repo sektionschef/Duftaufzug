@@ -62,6 +62,8 @@ let opacityFeatureMax = 1.5;
 let opacityFeature = Math.round(getRandomFromInterval(opacityFeatureMin, opacityFeatureMax) * 100) / 100;
 let opacityFeatureLabel = label_feature(opacityFeature, opacityFeatureMin, opacityFeatureMax);
 
+let softNoiseFeature = getRandomFromList([true, false]);
+let softNoiseFeatureLabel = softNoiseFeature;
 
 function preload() {
 }

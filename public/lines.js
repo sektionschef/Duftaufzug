@@ -9,7 +9,8 @@ class Lines {
 
         this.blur = 2;
         this.strokeWeight = 5;
-
+        // make the lines go beyond the egdes of the canvas
+        this.distanceToInfinity = 4000;
         // a little offset ot default margin
         this.localMargin = BACKGROUNDMARGIN - 50;
 
@@ -62,7 +63,7 @@ class Lines {
         }
 
 
-        let goal = p5.Vector.fromAngle(this.angle, 4000 / exportRatio);
+        let goal = p5.Vector.fromAngle(this.angle, this.distanceToInfinity / exportRatio);
         this.buffer.line(0, 0, goal.x, goal.y);
 
         this.buffer.drawingContext.filter = 'none';
